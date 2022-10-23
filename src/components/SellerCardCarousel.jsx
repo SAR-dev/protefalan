@@ -1,15 +1,7 @@
-import React from 'react';
-import {
-  Flex,
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-} from '@chakra-ui/react';
+import { Flex, Box, Text, SimpleGrid } from '@chakra-ui/react';
 import SellerCard from './SellerCard';
+import { useQuery } from '@tanstack/react-query';
+import { getGigs } from '../api';
 
 const SellerCardCarousel = ({
   header1,
@@ -18,6 +10,8 @@ const SellerCardCarousel = ({
   details,
   rows,
 }) => {
+  const { status, data, error, isFetching, isLoading } = useQuery(["gigs"], () => getGigs())
+
   return (
     <Box>
       <Flex fontSize="2xl" fontWeight="bold">

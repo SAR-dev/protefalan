@@ -1,140 +1,35 @@
-import React, { useState } from 'react';
 import {
   Flex,
   Box,
-  Button,
-  Icon,
-  IconButton,
-  Image,
   Text,
-  SimpleGrid,
-  Grid,
-  GridItem,
-  Avatar,
-  Heading,
-  HStack,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Textarea,
-  Select,
   Input,
   InputGroup,
   InputLeftElement,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
-  Td,
   TableCaption,
-  Badge,
 } from '@chakra-ui/react';
 import NavLayout from '../layouts/NavLayout';
 import { FiSearch } from 'react-icons/fi';
-import { CgExtensionAdd } from 'react-icons/cg';
-import { FaRegStar } from 'react-icons/fa';
 import { useParams, Link } from 'react-router-dom';
 import { Link as ChakraLink } from '@chakra-ui/react';
 import OrderRow from '../components/OrderRow';
+import { getOrders } from '../api';
+import { useQuery } from '@tanstack/react-query';
 
 const Orders = () => {
   const { type } = useParams();
+  const { status, data, error, isFetching, isLoading } = useQuery(["orders"], () => getOrders())
+
   const types = [
     { name: 'ACTIVE', url: 'active' },
     { name: 'LATE', url: 'late' },
     { name: 'COMPLETED', url: 'completed' },
     { name: 'CANCELLED', url: 'cancelled' },
     { name: 'STARRED', url: 'starred' },
-  ];
-
-  const data = [
-    {
-      id: 1,
-      starred: false,
-      buyer: {
-        name: 'Sayed Rafi',
-        username: 'sar-dev',
-        avatar: 'https://i.imgur.com/auy4jaR.jpeg',
-      },
-      gig: {
-        name: 'Bizzard',
-        desc: 'Do CSS or SVG animations for your website',
-      },
-      due_on: 'Dec 2021',
-      total: '305',
-      status: 'completed',
-    },
-    {
-      id: 2,
-      starred: true,
-      buyer: {
-        name: 'Sayed Rafi',
-        username: 'sar-dev',
-        avatar: 'https://i.imgur.com/auy4jaR.jpeg',
-      },
-      gig: {
-        name: 'Bizzard',
-        desc: 'Do CSS or SVG animations for your website',
-      },
-      due_on: 'Dec 2021',
-      total: '305',
-      status: 'active',
-    },
-    {
-      id: 3,
-      starred: false,
-      buyer: {
-        name: 'Sayed Rafi',
-        username: 'sar-dev',
-        avatar: 'https://i.imgur.com/auy4jaR.jpeg',
-      },
-      gig: {
-        name: 'Bizzard',
-        desc: 'Do CSS or SVG animations for your website',
-      },
-      due_on: 'Dec 2021',
-      total: '305',
-      status: 'late',
-    },
-    {
-      id: 4,
-      starred: false,
-      buyer: {
-        name: 'Sayed Rafi',
-        username: 'sar-dev',
-        avatar: 'https://i.imgur.com/auy4jaR.jpeg',
-      },
-      gig: {
-        name: 'Bizzard',
-        desc: 'Do CSS or SVG animations for your website',
-      },
-      due_on: 'Dec 2021',
-      total: '305',
-      status: 'cancelled',
-    },
-    {
-      id: 5,
-      starred: true,
-      buyer: {
-        name: 'Sayed Rafi',
-        username: 'sar-dev',
-        avatar: 'https://i.imgur.com/auy4jaR.jpeg',
-      },
-      gig: {
-        name: 'Bizzard',
-        desc: 'Do CSS or SVG animations for your website',
-      },
-      due_on: 'Dec 2021',
-      total: '305',
-      status: 'completed',
-    },
   ];
 
   return (
@@ -228,3 +123,86 @@ const Orders = () => {
 };
 
 export default Orders;
+
+const data = [
+  {
+    id: 1,
+    starred: false,
+    buyer: {
+      name: 'Sayed Rafi',
+      username: 'sar-dev',
+      avatar: 'https://i.imgur.com/auy4jaR.jpeg',
+    },
+    gig: {
+      name: 'Bizzard',
+      desc: 'Do CSS or SVG animations for your website',
+    },
+    due_on: 'Dec 2021',
+    total: '305',
+    status: 'completed',
+  },
+  {
+    id: 2,
+    starred: true,
+    buyer: {
+      name: 'Sayed Rafi',
+      username: 'sar-dev',
+      avatar: 'https://i.imgur.com/auy4jaR.jpeg',
+    },
+    gig: {
+      name: 'Bizzard',
+      desc: 'Do CSS or SVG animations for your website',
+    },
+    due_on: 'Dec 2021',
+    total: '305',
+    status: 'active',
+  },
+  {
+    id: 3,
+    starred: false,
+    buyer: {
+      name: 'Sayed Rafi',
+      username: 'sar-dev',
+      avatar: 'https://i.imgur.com/auy4jaR.jpeg',
+    },
+    gig: {
+      name: 'Bizzard',
+      desc: 'Do CSS or SVG animations for your website',
+    },
+    due_on: 'Dec 2021',
+    total: '305',
+    status: 'late',
+  },
+  {
+    id: 4,
+    starred: false,
+    buyer: {
+      name: 'Sayed Rafi',
+      username: 'sar-dev',
+      avatar: 'https://i.imgur.com/auy4jaR.jpeg',
+    },
+    gig: {
+      name: 'Bizzard',
+      desc: 'Do CSS or SVG animations for your website',
+    },
+    due_on: 'Dec 2021',
+    total: '305',
+    status: 'cancelled',
+  },
+  {
+    id: 5,
+    starred: true,
+    buyer: {
+      name: 'Sayed Rafi',
+      username: 'sar-dev',
+      avatar: 'https://i.imgur.com/auy4jaR.jpeg',
+    },
+    gig: {
+      name: 'Bizzard',
+      desc: 'Do CSS or SVG animations for your website',
+    },
+    due_on: 'Dec 2021',
+    total: '305',
+    status: 'completed',
+  },
+];

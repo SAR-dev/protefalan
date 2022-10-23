@@ -1,34 +1,20 @@
-import React, { useState } from 'react';
-import {
-  Flex,
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-  Grid,
-  GridItem,
-  Avatar,
-  Heading,
-  HStack,
-  Divider,
-  StackDivider,
-  List,
-  ListItem,
-  ListIcon,
-} from '@chakra-ui/react';
+import { useState } from 'react';
+import { Flex, Box, Button, Icon, Text, SimpleGrid, Grid, GridItem } from '@chakra-ui/react';
 import NavLayout from '../../layouts/NavLayout';
-import { FaSlideshare, FaStar, FaShare, FaFacebook, FaWhatsapp } from 'react-icons/fa';
-import { MdCheckCircle, MdDateRange } from 'react-icons/md';
-import { AiOutlineFieldTime } from 'react-icons/ai';
-import { BiReset } from 'react-icons/bi';
+import { FaSlideshare, FaShare, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 import GigRightPanel from '../../components/GirRightPanel';
 import GigLeftPanel from '../../components/GigLeftPanel';
 import SellerCardCarousel from '../../components/SellerCardCarousel';
+import { useQuery } from '@tanstack/react-query';
+import { getGigDetails } from '../../api';
+import { useParams } from 'react-router-dom';
 
 const Gig = () => {
+  const { id } = useParams();
+  const { status, data, error, isFetching, isLoading } = useQuery(["gigs", id], () => getGigDetails(id), {
+    enabled: id !== undefined
+  })
+
   const [active, setActive] = useState(1);
   return (
     <NavLayout>
@@ -52,7 +38,7 @@ const Gig = () => {
             </Text>
           </SimpleGrid>
           <Flex ml="auto">
-          <Button
+            <Button
               colorScheme="whatsapp"
               size="sm"
               leftIcon={<Icon as={FaWhatsapp} />}

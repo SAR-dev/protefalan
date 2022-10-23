@@ -1,12 +1,5 @@
-import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import UServices from './pages/bef/UServices';
 import UAbout from './pages/bef/UAbout';
@@ -39,7 +32,7 @@ const App = () => {
           <Route path="/signup" exact component={Signup} />
           <Route path="/signin" exact component={Signin} />
           <Route path="/gig/create" exact component={GigCreate} />
-          <Route path="/gig" exact component={Gig} />
+          <Route path="/gig/:id" exact component={Gig} />
           <Route path="/messages" exact component={ChatMessages} />
           <Route path="/orders/:type" exact component={Orders} />
           <Route path="/u" exact component={UHome} />

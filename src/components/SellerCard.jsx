@@ -55,7 +55,7 @@ const SellerCard = () => {
             <Text color="gray.400" fontSize="sm">Level 1 Seller</Text>
           </SimpleGrid>
         </Flex>
-        <Text noOfLines={2} color="gray.700" as={Link} to="/gig" _hover={{color: "teal.500"}}>
+        <Text noOfLines={2} color="gray.700" as={Link} to="/gig/1" _hover={{color: "teal.500"}}>
           {data.desc}
         </Text>
         <Flex alignItems="center">
