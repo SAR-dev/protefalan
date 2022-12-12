@@ -1,0 +1,34 @@
+export const setLocalAccessToken = (token) => {
+  localStorage.setItem("prf_act", token);
+};
+
+export const removeLocalAccessToken = (token) => {
+  localStorage.removeItem("prf_act");
+};
+
+export const getLocalAccessToken = () => {
+  return localStorage.getItem("prf_act");
+};
+
+export const setLocalRefreshToken = (token) => {
+  localStorage.setItem("prf_rft", token);
+};
+
+export const removeLocalRefreshToken = (token) => {
+  localStorage.removeItem("prf_rft");
+};
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export const parseError = (err) => {
+  if(err.detail){
+    return err.detail
+  }
+  let message = []
+  Object.keys(err).forEach(e => {
+    message = [...message, ...err[e]]
+  })
+  return capitalizeFirstLetter(message.join(""))
+}

@@ -1,44 +1,82 @@
-import axios from 'axios';
+import axios from "axios";
 
 const defaultConfig = () => {
   const unAuthConfig = {
-    baseURL: 'https://gamersknowhow.com/protefalan/public/api',
+    baseURL: "http://127.0.0.1:8000/api",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-  }
-  return unAuthConfig
+  };
+  return unAuthConfig;
+};
+
+export const signIn = ({ email, password }) => {
+  const data = { email, password };
+  return axios
+    .post(`/token/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+};
+
+export const signUp = ({ username, first_name, last_name, email, password, password2 }) => {
+  const data = { username, first_name, last_name, email, password, password2 };
+  return axios
+    .post(`/account/create/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+};
+
+export const getHomeFeed = () => {
+  return axios
+    .get(`/category/feed/list/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return err.response.data;
+    });
+};
+
+export function getGigs() {
+  return axios
+    .get(`/gigs`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
 }
 
-export function getGigs(){
-  return axios.get(`/gigs`, defaultConfig())
+export function getGigDetails(id) {
+  return axios
+    .get(`/gig/${id}`, defaultConfig())
     .then((res) => {
-      return res.data
+      return res.data;
     })
     .catch((err) => {
-      return { error: err.response.data }
-    })
-};
+      return { error: err.response.data };
+    });
+}
 
-export function getGigDetails(id){
-  return axios.get(`/gig/${id}`, defaultConfig())
+export function getOrders() {
+  return axios
+    .get(`/orders`, defaultConfig())
     .then((res) => {
-      return res.data
+      console.log(res);
+      return res.data;
     })
     .catch((err) => {
-      return { error: err.response.data }
-    })
-};
-
-export function getOrders(){
-  return axios.get(`/orders`, defaultConfig())
-    .then((res) => {
-      console.log(res)
-      return res.data
-    })
-    .catch((err) => {
-      return { error: err.response.data }
-    })
+      return { error: err.response.data };
+    });
 }
 
 // # https://gamersknowhow.com/protefalan/public/api/admins

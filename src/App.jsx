@@ -1,6 +1,4 @@
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import UServices from './pages/bef/UServices';
 import UAbout from './pages/bef/UAbout';
 import UHome from './pages/bef/UHome';
@@ -19,12 +17,17 @@ import UContact from './pages/bef/UContact';
 import USingleProject from './pages/bef/USingleProject';
 import UAffiliates from './pages/bef/UAffiliates';
 import ChatMessages from './pages/ChatMessages';
-
-const queryClient = new QueryClient();
+import { useEffect } from 'react';
+import { getLocalAccessToken } from './helpers';
+import useAuthStore from './store';
 
 const App = () => {
+  const {setAccessToken} = useAuthStore()
+  useEffect(() => {
+    setAccessToken(getLocalAccessToken())
+  }, [])
+  
   return (
-    <QueryClientProvider client={queryClient}>
       <Router>
         <Switch>
           <Route path="/" exact component={Home} />
@@ -47,8 +50,6 @@ const App = () => {
           <Route path="*" component={NotFound} />
         </Switch>
       </Router>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
   );
 };
 

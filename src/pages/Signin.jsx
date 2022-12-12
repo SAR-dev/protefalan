@@ -11,66 +11,102 @@ import {
   Avatar,
   AvatarGroup,
   Icon,
-} from '@chakra-ui/react';
-import { FaGoogle, FaFacebook, FaTwitter } from 'react-icons/fa';
+  useToast,
+} from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
+import { useState } from "react";
+import { signIn } from "../api";
+import { setLocalAccessToken } from "../helpers";
+import useAuthStore from "../store";
+import UnAuthLayout from "../layouts/UnAuthLayout";
 
 const avatars = [
   {
-    name: 'Ryan Florence',
-    url: 'https://bit.ly/ryan-florence',
+    name: "Ryan Florence",
+    url: "https://bit.ly/ryan-florence",
   },
   {
-    name: 'Segun Adebayo',
-    url: 'https://bit.ly/sage-adebayo',
+    name: "Segun Adebayo",
+    url: "https://bit.ly/sage-adebayo",
   },
   {
-    name: 'Kent Dodds',
-    url: 'https://bit.ly/kent-c-dodds',
+    name: "Kent Dodds",
+    url: "https://bit.ly/kent-c-dodds",
   },
   {
-    name: 'Prosper Otemuyiwa',
-    url: 'https://bit.ly/prosper-baba',
+    name: "Prosper Otemuyiwa",
+    url: "https://bit.ly/prosper-baba",
   },
   {
-    name: 'Christian Nwamba',
-    url: 'https://bit.ly/code-beast',
+    name: "Christian Nwamba",
+    url: "https://bit.ly/code-beast",
   },
 ];
 
 function Signin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { setAccessToken } = useAuthStore();
+  const history = useHistory();
+  const toast = useToast();
+
+  const submit = () => {
+    setLoading(true);
+    signIn({ email, password }).then((res) => {
+      if (res.error) {
+        setLoading(false);
+        toast({
+          title: "Signin failed.",
+          description: res.error.detail,
+          status: "error",
+          position: "bottom-left",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        setLoading(false);
+        setLocalAccessToken(res.access);
+        setAccessToken(res.access);
+        history.push("/profile");
+      }
+    });
+  };
+
   return (
-    <Box position={'relative'}>
+    <UnAuthLayout>
+    <Box position={"relative"}>
       <Container as={SimpleGrid} maxW="7xl" columns={2} spacing={32} py={32}>
         <Stack spacing={20}>
           <Heading lineHeight={1.1} fontSize="6xl">
-            Senior web designers{' '}
+            Senior web designers{" "}
             <Text
-              as={'span'}
+              as={"span"}
               bgGradient="linear(to-r, red.400,pink.400)"
               bgClip="text"
             >
               &
-            </Text>{' '}
+            </Text>{" "}
             Full-Stack Developers
           </Heading>
-          <Stack direction={'row'} spacing={4} align={'center'}>
+          <Stack direction={"row"} spacing={4} align={"center"}>
             <AvatarGroup>
-              {avatars.map(avatar => (
+              {avatars.map((avatar) => (
                 <Avatar
                   key={avatar.name}
                   name={avatar.name}
                   src={avatar.url}
                   size="lg"
-                  position={'relative'}
+                  position={"relative"}
                   zIndex={2}
                   _before={{
                     content: '""',
-                    width: 'full',
-                    height: 'full',
-                    rounded: 'full',
-                    transform: 'scale(1.125)',
-                    bgGradient: 'linear(to-bl, red.400,pink.400)',
-                    position: 'absolute',
+                    width: "full",
+                    height: "full",
+                    rounded: "full",
+                    transform: "scale(1.125)",
+                    bgGradient: "linear(to-bl, red.400,pink.400)",
+                    position: "absolute",
                     zIndex: -1,
                     top: 0,
                     left: 0,
@@ -78,28 +114,28 @@ function Signin() {
                 />
               ))}
             </AvatarGroup>
-            <Text fontFamily={'heading'} fontSize={{ base: '4xl', md: '6xl' }}>
+            <Text fontFamily={"heading"} fontSize={{ base: "4xl", md: "6xl" }}>
               +
             </Text>
             <Flex
-              align={'center'}
-              justify={'center'}
-              fontFamily={'heading'}
-              fontSize={{ base: 'sm', md: 'lg' }}
-              bg={'gray.800'}
-              color={'white'}
-              rounded={'full'}
+              align={"center"}
+              justify={"center"}
+              fontFamily={"heading"}
+              fontSize={{ base: "sm", md: "lg" }}
+              bg={"gray.800"}
+              color={"white"}
+              rounded={"full"}
               width="60px"
               height="60px"
-              position={'relative'}
+              position={"relative"}
               _before={{
                 content: '""',
-                width: 'full',
-                height: 'full',
-                rounded: 'full',
-                transform: 'scale(1.125)',
-                bgGradient: 'linear(to-bl, orange.400,yellow.400)',
-                position: 'absolute',
+                width: "full",
+                height: "full",
+                rounded: "full",
+                transform: "scale(1.125)",
+                bgGradient: "linear(to-bl, orange.400,yellow.400)",
+                position: "absolute",
                 zIndex: -1,
                 top: 0,
                 left: 0,
@@ -110,79 +146,74 @@ function Signin() {
           </Stack>
         </Stack>
         <Stack
-          bg={'gray.50'}
-          rounded={'xl'}
+          bg={"gray.50"}
+          rounded={"xl"}
           p={{ base: 4, sm: 6, md: 8 }}
           spacing={{ base: 8 }}
-          maxW={{ lg: 'lg' }}
+          maxW={{ lg: "lg" }}
         >
           <Stack spacing={4}>
             <Heading
-              color={'gray.800'}
+              color={"gray.800"}
               lineHeight={1.1}
-              fontSize={{ base: '2xl', sm: '3xl', md: '4xl' }}
+              fontSize={{ base: "2xl", sm: "3xl", md: "4xl" }}
             >
               Welcome Back !
             </Heading>
-            <Text color="gray.500" fontSize={{ base: 'sm', sm: 'md' }}>
+            <Text color="gray.500" fontSize={{ base: "sm", sm: "md" }}>
               We have missed you a lot. Its great to see you again. You are just
               one step away from enjoying our cool features. Sign in and enjoy!
             </Text>
           </Stack>
-          <Box as={'form'} mt={10}>
+          <Box as={"form"} mt={10}>
             <Stack spacing={4}>
               <Box>
-                <Text color="gray.500" fontWeight="semibold" mb={2}>Email Address</Text>
+                <Text color="gray.500" fontWeight="semibold" mb={2}>
+                  Email Address
+                </Text>
                 <Input
                   placeholder="john@email.com"
                   bg="gray.100"
                   border={0}
                   color="gray.500"
                   _placeholder={{
-                    color: 'gray.500',
+                    color: "gray.300",
                   }}
+                  disabled={loading}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Box>
               <Box>
-              <Text color="gray.500" fontWeight="semibold" mb={2}>Password</Text>
-              <Input
-                placeholder="******"
-                bg="gray.100"
-                border={0}
-                color="gray.500"
-                _placeholder={{
-                  color: 'gray.500',
-                }}
-              />
+                <Text color="gray.500" fontWeight="semibold" mb={2}>
+                  Password
+                </Text>
+                <Input
+                  placeholder="******"
+                  type="password"
+                  bg="gray.100"
+                  border={0}
+                  color="gray.500"
+                  _placeholder={{
+                    color: "gray.300",
+                  }}
+                  disabled={loading}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </Box>
             </Stack>
-            <SimpleGrid columns={3} spacing={5} mt={8}>
-              <Button
-                colorScheme="cyan"
-                color="white"
-                leftIcon={<Icon as={FaGoogle} />}
-              >
-                Google
-              </Button>
-              <Button
-                colorScheme="facebook"
-                leftIcon={<Icon as={FaFacebook} />}
-              >
-                Facebook
-              </Button>
-              <Button colorScheme="twitter" leftIcon={<Icon as={FaTwitter} />}>
-                Twitter
-              </Button>
-            </SimpleGrid>
             <Button
-              fontFamily={'heading'}
+              fontFamily={"heading"}
               mt={8}
-              w={'full'}
+              w={"full"}
               bgGradient="linear(to-r, teal.400,blue.400)"
-              color={'white'}
+              color={"white"}
               _hover={{
-                bgGradient: 'linear(to-r, teal.400,blue.400)',
+                bgGradient: "linear(to-r, teal.400,blue.400)",
               }}
+              isLoading={loading}
+              onClick={submit}
             >
               Sign In
             </Button>
@@ -191,16 +222,17 @@ function Signin() {
         </Stack>
       </Container>
       <Blur
-        position={'absolute'}
+        position={"absolute"}
         top={-10}
         left={-10}
-        style={{ filter: 'blur(70px)' }}
+        style={{ filter: "blur(70px)" }}
       />
     </Box>
+    </UnAuthLayout>
   );
 }
 
-export const Blur = props => {
+export const Blur = (props) => {
   return (
     <Icon
       width="30vw"
