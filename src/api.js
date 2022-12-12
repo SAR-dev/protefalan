@@ -3,7 +3,7 @@ import { getLocalAccessToken } from "./helpers";
 
 const defaultConfig = () => {
   const unAuthConfig = {
-    baseURL: "https://protefalan.onrender.com/api",
+    baseURL: "https://protefalan-kmmp.onrender.com/api",
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${getLocalAccessToken()}`

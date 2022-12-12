@@ -1,7 +1,5 @@
-import { Flex, Box, Text, SimpleGrid } from '@chakra-ui/react';
-import SellerCard from './SellerCard';
-import { useQuery } from '@tanstack/react-query';
-import { getGigs } from '../api';
+import { Flex, Box, Text, SimpleGrid, Skeleton } from "@chakra-ui/react";
+import SellerCard from "./SellerCard";
 
 const SellerCardCarousel = ({
   header1,
@@ -9,26 +7,45 @@ const SellerCardCarousel = ({
   header2Color,
   details,
   rows,
+  isLoading = false,
 }) => {
-  const { status, data, error, isFetching, isLoading } = useQuery(["gigs"], () => getGigs())
-
   return (
     <Box>
-      <Flex fontSize="2xl" fontWeight="bold">
-        <Text>{header1}</Text>
-        {header2 && (
-          <Text ml={2} color={header2Color}>
-            {header2}
+      {isLoading ? (
+        <>
+        <Skeleton height="25px" width="300px" mb={3} />
+        <Skeleton height="25px" width="400px" />
+        </>
+      ) : (
+        <>
+          <Flex fontSize="2xl" fontWeight="bold">
+            <Text>{header1}</Text>
+            {header2 && (
+              <Text ml={2} color={header2Color}>
+                {header2}
+              </Text>
+            )}
+          </Flex>
+          <Text fontSize="xl" color="gray.600">
+            {details}
           </Text>
-        )}
-      </Flex>
-      <Text fontSize="xl" color="gray.600">
-        {details}
-      </Text>
+        </>
+      )}
+
       <SimpleGrid columns={4} spacing={5} mt={5} w="100%">
-        {[...Array(4 * rows)].map((el, i) => (
-          <SellerCard key={i} />
-        ))}
+        {isLoading ? (
+          <>
+            {[...Array(4 * rows)].map((el, i) => (
+              <Skeleton height="200px" width="100%" key={i} />
+            ))}
+          </>
+        ) : (
+          <>
+            {[...Array(4 * rows)].map((el, i) => (
+              <SellerCard key={i} />
+            ))}
+          </>
+        )}
       </SimpleGrid>
     </Box>
   );

@@ -13,6 +13,7 @@ import NavLayout from "../layouts/NavLayout";
 import HomeAdCarousel from "../components/HomeAdCarousel";
 import SellerCardCarousel from "../components/SellerCardCarousel";
 import { getHomeFeed } from "../api";
+import { getRandomColor } from "../helpers";
 import { useQuery } from "@tanstack/react-query";
 import AuthLayout from "../layouts/AuthLayout";
 
@@ -61,26 +62,34 @@ function Home() {
               <HomeAdCarousel />
             </Box>
           </Flex>
-          <SellerCardCarousel
-            header1="Most popular Gigs in"
-            header2="Web Programming"
-            header2Color="#344CB7"
-            rows={1}
-            details="Hand-vetted talent for all your professional needs"
-          />
-          <SellerCardCarousel
-            header1="Verified Pro services in"
-            header2="Artificial Intelligence"
-            header2Color="#D47AE8"
-            rows={1}
-            details="Hand-vetted talent for all your professional needs"
-          />
-          <HomeAdCarousel />
-          <SellerCardCarousel
-            header1="Editor's Picks"
-            details="Hand-vetted talent for all your professional needs"
-            rows={2}
-          />
+          {(isLoading || !data) &&
+            [...Array(4)].map((el, i) => (
+              <SellerCardCarousel
+                header1=""
+                header2=""
+                header2Color=""
+                rows={1}
+                details=""
+                isLoading={isLoading}
+              />
+            ))}
+          {!isLoading && data && (
+            <>
+              {data.results.map((e, i) => (
+                <>
+                <SellerCardCarousel
+                  header1="Most popular Gigs in"
+                  header2={e.name}
+                  header2Color={e.color}
+                  rows={1}
+                  details={e.label}
+                  key={i}
+                />
+                {(i % 3 === 0) && <HomeAdCarousel />}
+                </>
+              ))}
+            </>
+          )}
         </SimpleGrid>
       </NavLayout>
     </AuthLayout>

@@ -19,10 +19,13 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import { getMe } from "../api";
 import { useQuery } from "@tanstack/react-query";
+import useAuthStore from "../store";
 
 const NavLayout = ({ children }) => {
-  const { status, data, error, isFetching, isLoading } = useQuery(["me"], () =>
-    getMe()
+  const { accessToken } = useAuthStore();
+  const { status, data, error, isFetching, isLoading } = useQuery(
+    ["me", accessToken],
+    () => getMe()
   );
 
   return (
@@ -93,25 +96,18 @@ const NavLayout = ({ children }) => {
             >
               Switch to Selling
             </ChakraLink>
-            {data ? (
-              <Avatar
-                as={Link}
-                to="/profile"
-                size="sm"
-                src={data.avatar}
-              >
-                <AvatarBadge boxSize="1.25em" bg="green.500" />
-              </Avatar>
-            ) : (
-              <Avatar
-                as={Link}
-                to="/profile"
-                size="sm"
-                src="https://png.pngtree.com/png-vector/20190704/ourlarge/pngtree-boy-user-avatar-vector-icon-free-png-image_1538406.jpg"
-              >
-                <AvatarBadge boxSize="1.25em" bg="green.500" />
-              </Avatar>
-            )}
+            <Avatar
+              as={Link}
+              to="/profile"
+              size="sm"
+              src={
+                !isLoading && data
+                  ? data.avatar
+                  : "https://i.ibb.co/VvC5rbC/image.png"
+              }
+            >
+              <AvatarBadge boxSize="1.25em" bg="green.500" />
+            </Avatar>
           </HStack>
         </Flex>
       </Flex>
