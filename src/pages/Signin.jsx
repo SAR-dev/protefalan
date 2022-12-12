@@ -68,7 +68,7 @@ function Signin() {
         setLoading(false);
         setLocalAccessToken(res.access);
         setAccessToken(res.access);
-        history.push("/profile");
+        window.location.reload()
       }
     });
   };

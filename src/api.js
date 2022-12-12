@@ -1,10 +1,12 @@
 import axios from "axios";
+import { getLocalAccessToken } from "./helpers";
 
 const defaultConfig = () => {
   const unAuthConfig = {
     baseURL: "http://127.0.0.1:8000/api",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${getLocalAccessToken()}`
     },
   };
   return unAuthConfig;
