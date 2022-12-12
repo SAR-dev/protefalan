@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Flex,
   Box,
@@ -12,13 +12,19 @@ import {
   HStack,
   Avatar,
   AvatarBadge,
-} from '@chakra-ui/react';
-import { FiSearch } from 'react-icons/fi';
-import { Link as ChakraLink } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
-import Footer from './Footer';
+} from "@chakra-ui/react";
+import { FiSearch } from "react-icons/fi";
+import { Link as ChakraLink } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import Footer from "./Footer";
+import { getMe } from "../api";
+import { useQuery } from "@tanstack/react-query";
 
 const NavLayout = ({ children }) => {
+  const { status, data, error, isFetching, isLoading } = useQuery(["me"], () =>
+    getMe()
+  );
+
   return (
     <Box w="100%" minH="100vh">
       <Flex
@@ -52,18 +58,18 @@ const NavLayout = ({ children }) => {
               to="/messages"
               color="gray.600"
               fontWeight="semibold"
-              _hover={{ color: 'teal.500' }}
-              _focus={{ color: 'teal.600' }}
-              _active={{ color: 'teal.600' }}
+              _hover={{ color: "teal.500" }}
+              _focus={{ color: "teal.600" }}
+              _active={{ color: "teal.600" }}
             >
               Messages
             </ChakraLink>
             <ChakraLink
               color="gray.600"
               fontWeight="semibold"
-              _hover={{ color: 'teal.500' }}
-              _focus={{ color: 'teal.600' }}
-              _active={{ color: 'teal.600' }}
+              _hover={{ color: "teal.500" }}
+              _focus={{ color: "teal.600" }}
+              _active={{ color: "teal.600" }}
             >
               Lists
             </ChakraLink>
@@ -72,29 +78,40 @@ const NavLayout = ({ children }) => {
               to="/orders/active"
               color="gray.600"
               fontWeight="semibold"
-              _hover={{ color: 'teal.500' }}
-              _focus={{ color: 'teal.600' }}
-              _active={{ color: 'teal.600' }}
+              _hover={{ color: "teal.500" }}
+              _focus={{ color: "teal.600" }}
+              _active={{ color: "teal.600" }}
             >
               Orders
             </ChakraLink>
             <ChakraLink
               color="teal.500"
               fontWeight="semibold"
-              _hover={{ color: 'teal.500' }}
-              _focus={{ color: 'teal.600' }}
-              _active={{ color: 'teal.600' }}
+              _hover={{ color: "teal.500" }}
+              _focus={{ color: "teal.600" }}
+              _active={{ color: "teal.600" }}
             >
               Switch to Selling
             </ChakraLink>
-            <Avatar
-              as={Link}
-              to="/profile"
-              size="sm"
-              src="https://png.pngtree.com/png-vector/20190704/ourlarge/pngtree-boy-user-avatar-vector-icon-free-png-image_1538406.jpg"
-            >
-              <AvatarBadge boxSize="1.25em" bg="green.500" />
-            </Avatar>
+            {data ? (
+              <Avatar
+                as={Link}
+                to="/profile"
+                size="sm"
+                src={data.avatar}
+              >
+                <AvatarBadge boxSize="1.25em" bg="green.500" />
+              </Avatar>
+            ) : (
+              <Avatar
+                as={Link}
+                to="/profile"
+                size="sm"
+                src="https://png.pngtree.com/png-vector/20190704/ourlarge/pngtree-boy-user-avatar-vector-icon-free-png-image_1538406.jpg"
+              >
+                <AvatarBadge boxSize="1.25em" bg="green.500" />
+              </Avatar>
+            )}
           </HStack>
         </Flex>
       </Flex>

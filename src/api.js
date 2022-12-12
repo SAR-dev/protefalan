@@ -3,7 +3,7 @@ import { getLocalAccessToken } from "./helpers";
 
 const defaultConfig = () => {
   const unAuthConfig = {
-    baseURL: "http://127.0.0.1:8000/api",
+    baseURL: "https://protefalan.onrender.com/api",
     headers: {
       "Content-Type": "application/json",
       "Authorization": `Bearer ${getLocalAccessToken()}`
@@ -28,6 +28,17 @@ export const signUp = ({ username, first_name, last_name, email, password, passw
   const data = { username, first_name, last_name, email, password, password2 };
   return axios
     .post(`/account/create/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+};
+
+export const getMe = () => {
+  return axios
+    .get(`/account/me/`, defaultConfig())
     .then((res) => {
       return res.data;
     })
