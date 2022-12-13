@@ -83,6 +83,7 @@ function Home() {
                   header2Color={e.color}
                   rows={1}
                   details={e.label}
+                  gigs={e.gigs}
                   key={i}
                 />
                 {(i % 3 === 0) && <HomeAdCarousel />}

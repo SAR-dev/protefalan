@@ -8,6 +8,7 @@ const SellerCardCarousel = ({
   details,
   rows,
   isLoading = false,
+  gigs
 }) => {
   return (
     <Box>
@@ -41,8 +42,8 @@ const SellerCardCarousel = ({
           </>
         ) : (
           <>
-            {[...Array(4 * rows)].map((el, i) => (
-              <SellerCard key={i} />
+            {gigs && gigs.map((el, i) => (
+              <SellerCard gig={el} key={i} />
             ))}
           </>
         )}

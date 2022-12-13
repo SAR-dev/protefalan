@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Flex,
   Box,
@@ -9,23 +9,13 @@ import {
   Text,
   SimpleGrid,
   Avatar,
-} from '@chakra-ui/react';
-import { FaHeart, FaStar } from 'react-icons/fa';
-import { RiPlayListAddFill } from 'react-icons/ri';
-import {Link} from "react-router-dom";
+} from "@chakra-ui/react";
+import { FaHeart, FaStar, FaRegThumbsUp } from "react-icons/fa";
+import { MdOutlineThumbUpAlt, MdOutlineThumbDownAlt, MdThumbUp, MdThumbDown } from "react-icons/md";
+import { RiPlayListAddFill } from "react-icons/ri";
+import { Link } from "react-router-dom";
 
-const SellerCard = () => {
-    const data = {
-        id: 1,
-        author: {
-            name: "Sayed Rafi",
-            avatar: "https://i.imgur.com/8oKUFw6.png"
-        },
-        cover: "https://analyticsindiamag.com/wp-content/uploads/2021/01/pasted-image-0-2.png",
-        desc: "I will create a responsive website with tailwind CSS and alpine js",
-        rating: 4.61,
-        votes: 65
-    }
+const SellerCard = ({ gig }) => {
   return (
     <Box
       w="100%"
@@ -40,37 +30,76 @@ const SellerCard = () => {
           h="150px"
           w="100%"
           objectFit="cover"
-          src={data.cover}
-          _hover={{transform: "scale(1.1)"}}
+          src={gig.images.length !== 0 ? gig.images[0].image : "https://i.ibb.co/TqqwjtR/image.png"}
+          _hover={{ transform: "scale(1.1)" }}
           transition="transform .25s ease"
         />
       </Box>
       <SimpleGrid columns={1} spacing={3} p={4}>
         <Flex alignItems="center" w="100%">
-          <Avatar src={data.author.avatar} name={data.author.name} h="40px" w="40px" />
+          <Avatar
+            src={gig.author.avatar}
+            name={`${gig.author.first_name} ${gig.author.last_name}`}
+            h="40px"
+            w="40px"
+          />
           <SimpleGrid ml={3} columns={1} fontWeight="semibold">
             <Text color="gray.700">
-              {data.author.name}
+              {`${gig.author.first_name} ${gig.author.last_name}`}
             </Text>
-            <Text color="gray.400" fontSize="sm">Level 1 Seller</Text>
+            <Text color="gray.400" fontSize="sm">
+              {`@${gig.author.username}`}
+            </Text>
           </SimpleGrid>
         </Flex>
-        <Text noOfLines={2} color="gray.700" as={Link} to="/gig/1" _hover={{color: "teal.500"}}>
-          {data.desc}
+        <Text
+          noOfLines={2}
+          color="gray.700"
+          as={Link}
+          to="/gig/1"
+          _hover={{ color: "teal.500" }}
+        >
+          {gig.title}
         </Text>
         <Flex alignItems="center">
           <Flex alignItems="center">
             <Icon as={FaStar} h={5} w={5} color="yellow.500" />
             <Text color="yellow.500" fontWeight="semibold" ml={2}>
-              {data.rating}
+              {gig.average_rating.rating__avg
+                ? gig.average_rating.rating__avg
+                : 0}
             </Text>
             <Text color="gray.500" fontWeight="semibold" ml={2}>
-              ({data.votes})
+              ({gig.total_ratings})
             </Text>
           </Flex>
-          <Flex ml="auto">
-            <Icon cursor="pointer" _hover={{color: "gray.600"}} as={RiPlayListAddFill} h={5} w={5} color="gray.500" />
-            <Icon cursor="pointer" _hover={{color: "gray.600"}} as={FaHeart} h={5} w={5} color="gray.500" ml={4} />
+          <Flex ml="auto" alignItems="center">
+            <Text color="gray.500" fontSize={20} fontWeight="semibold">
+              {gig.num_vote_down}
+            </Text>
+            <Icon
+              cursor="pointer"
+              _hover={{ color: "gray.600" }}
+              as={gig.downvoted ? MdThumbDown : MdOutlineThumbDownAlt}
+              w={5}
+              h={5}
+              color={gig.upvoted ? "red.500" : "gray.500"}
+              ml={1}
+            />
+          </Flex>
+          <Flex ml={3} alignItems="center">
+            <Text color="gray.500" fontSize={20} fontWeight="semibold">
+              {gig.num_vote_up}
+            </Text>
+            <Icon
+              cursor="pointer"
+              _hover={{ color: "gray.600" }}
+              as={gig.upvoted ? MdThumbUp : MdOutlineThumbUpAlt}
+              w={5}
+              h={5}
+              color={gig.upvoted ? "red.500" : "gray.500"}
+              ml={1}
+            />
           </Flex>
         </Flex>
       </SimpleGrid>
