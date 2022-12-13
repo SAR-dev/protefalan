@@ -71,9 +71,10 @@ function Home() {
                 rows={1}
                 details=""
                 isLoading={isLoading}
+                key={`pc${i}`}
               />
             ))}
-          {!isLoading && data && (
+          {data && (
             <>
               {data.results.map((e, i) => (
                 <>
@@ -84,9 +85,10 @@ function Home() {
                   rows={1}
                   details={e.label}
                   gigs={e.gigs}
+                  categoryId={e.id}
                   key={i}
                 />
-                {(i % 3 === 0) && <HomeAdCarousel />}
+                {/* {(i % 3 === 0) && <HomeAdCarousel key={`ad${i}`} />} */}
                 </>
               ))}
             </>

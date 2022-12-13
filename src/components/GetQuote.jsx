@@ -112,6 +112,7 @@ const GetQuote = () => {
             _active={{ bg: 'blue.500', color: 'white' }}
             isActive={time === el}
             onClick={() => setTime(el)}
+            key={i}
           >
             24 hours
           </Button>

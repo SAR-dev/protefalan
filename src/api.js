@@ -93,7 +93,7 @@ export function addUpvoteGig(id) {
 
 export function removeUpvoteGig(id) {
   return axios
-    .delete(`/gig/${id}/vote/up/`, null, defaultConfig())
+    .delete(`/gig/${id}/vote/up/`, defaultConfig())
     .then((res) => {
       return res.data;
     })
@@ -115,7 +115,7 @@ export function addDownvoteGig(id) {
 
 export function removeDownvoteGig(id) {
   return axios
-    .delete(`/gig/${id}/vote/down/`, null, defaultConfig())
+    .delete(`/gig/${id}/vote/down/`, defaultConfig())
     .then((res) => {
       return res.data;
     })

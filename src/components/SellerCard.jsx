@@ -1,21 +1,182 @@
-import React from "react";
 import {
   Flex,
   Box,
-  Button,
   Icon,
-  IconButton,
   Image,
   Text,
   SimpleGrid,
   Avatar,
+  useToast,
 } from "@chakra-ui/react";
-import { FaHeart, FaStar, FaRegThumbsUp } from "react-icons/fa";
-import { MdOutlineThumbUpAlt, MdOutlineThumbDownAlt, MdThumbUp, MdThumbDown } from "react-icons/md";
-import { RiPlayListAddFill } from "react-icons/ri";
+import { FaStar } from "react-icons/fa";
+import {
+  MdOutlineThumbUpAlt,
+  MdOutlineThumbDownAlt,
+  MdThumbUp,
+  MdThumbDown,
+} from "react-icons/md";
 import { Link } from "react-router-dom";
+import { addUpvoteGig, removeUpvoteGig, addDownvoteGig, removeDownvoteGig } from "../api";
+import { useQueryClient } from "@tanstack/react-query";
 
-const SellerCard = ({ gig }) => {
+const SellerCard = ({ gig, categoryId }) => {
+  const queryClient = useQueryClient();
+  const toast = useToast();
+
+  const upvote = () => {
+    if (!gig.upvoted) {
+      addUpvoteGig(gig.id).then((res) => {
+        if (res.error) {
+          toast({
+            title: "Vote failed!",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Upvoted!",
+            description: "Gig was upvoted.",
+            status: "info",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+          const oldQueryData = queryClient.getQueryData(["feed"]);
+          const newQueryData = oldQueryData;
+          const foundCategoryIndex = newQueryData.results.findIndex(
+            (e) => e.id === categoryId
+          );
+          const foundGigIndex = newQueryData.results[
+            foundCategoryIndex
+          ].gigs.findIndex((e) => e.id === gig.id);
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].upvoted = true;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].downvoted = false;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_up = res.num_vote_up;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_down = res.num_vote_down;
+          queryClient.setQueryData(["feed"], (oldData) => {
+            return { ...oldData, ...newQueryData };
+          });
+        }
+      });
+    } else {
+      removeUpvoteGig(gig.id).then((res) => {
+        if (res.error) {
+          toast({
+            title: "Vote failed.",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Upvoted!",
+            description: "Upvote removed.",
+            status: "info",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+          const oldQueryData = queryClient.getQueryData(["feed"]);
+          const newQueryData = oldQueryData;
+          const foundCategoryIndex = newQueryData.results.findIndex(
+            (e) => e.id === categoryId
+          );
+          const foundGigIndex = newQueryData.results[
+            foundCategoryIndex
+          ].gigs.findIndex((e) => e.id === gig.id);
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].upvoted = false;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_up = res.num_vote_up;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_down = res.num_vote_down;
+          queryClient.setQueryData(["feed"], (oldData) => {
+            return { ...oldData, ...newQueryData };
+          });
+        }
+      });
+    }
+  };
+
+  const downvote = () => {
+    if (!gig.downvoted) {
+      addDownvoteGig(gig.id).then((res) => {
+        if (res.error) {
+          toast({
+            title: "Vote failed.",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Downvoted!",
+            description: "Gig was downvoted.",
+            status: "info",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+          const oldQueryData = queryClient.getQueryData(["feed"]);
+          const newQueryData = oldQueryData;
+          const foundCategoryIndex = newQueryData.results.findIndex(
+            (e) => e.id === categoryId
+          );
+          const foundGigIndex = newQueryData.results[
+            foundCategoryIndex
+          ].gigs.findIndex((e) => e.id === gig.id);
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].downvoted = true;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].upvoted = false;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_up = res.num_vote_up;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_down = res.num_vote_down;
+          queryClient.setQueryData(["feed"], (oldData) => {
+            return { ...oldData, ...newQueryData };
+          });
+        }
+      });
+    } else {
+      removeDownvoteGig(gig.id).then((res) => {
+        if (res.error) {
+          toast({
+            title: "Vote failed.",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Downvoted!",
+            description: "Downvote removed.",
+            status: "info",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+          const oldQueryData = queryClient.getQueryData(["feed"]);
+          const newQueryData = oldQueryData;
+          const foundCategoryIndex = newQueryData.results.findIndex(
+            (e) => e.id === categoryId
+          );
+          const foundGigIndex = newQueryData.results[
+            foundCategoryIndex
+          ].gigs.findIndex((e) => e.id === gig.id);
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].downvoted = false;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_up = res.num_vote_up;
+          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_down = res.num_vote_down;
+          queryClient.setQueryData(["feed"], (oldData) => {
+            return { ...oldData, ...newQueryData };
+          });
+        }
+      });
+    }
+  };
+
   return (
     <Box
       w="100%"
@@ -30,7 +191,11 @@ const SellerCard = ({ gig }) => {
           h="150px"
           w="100%"
           objectFit="cover"
-          src={gig.images.length !== 0 ? gig.images[0].image : "https://i.ibb.co/TqqwjtR/image.png"}
+          src={
+            gig.images.length !== 0
+              ? gig.images[0].image
+              : "https://i.ibb.co/TqqwjtR/image.png"
+          }
           _hover={{ transform: "scale(1.1)" }}
           transition="transform .25s ease"
         />
@@ -83,8 +248,9 @@ const SellerCard = ({ gig }) => {
               as={gig.downvoted ? MdThumbDown : MdOutlineThumbDownAlt}
               w={5}
               h={5}
-              color={gig.upvoted ? "red.500" : "gray.500"}
+              color={gig.downvoted ? "blue.500" : "gray.500"}
               ml={1}
+              onClick={downvote}
             />
           </Flex>
           <Flex ml={3} alignItems="center">
@@ -97,8 +263,9 @@ const SellerCard = ({ gig }) => {
               as={gig.upvoted ? MdThumbUp : MdOutlineThumbUpAlt}
               w={5}
               h={5}
-              color={gig.upvoted ? "red.500" : "gray.500"}
+              color={gig.upvoted ? "blue.500" : "gray.500"}
               ml={1}
+              onClick={upvote}
             />
           </Flex>
         </Flex>

@@ -140,7 +140,7 @@ const GigRightPanel = () => {
             {active.points
               .filter(obj => obj.type === 'boolean')
               .map((el, i) => (
-                <ListItem color="gray.700">
+                <ListItem color="gray.700" key={i}>
                   <ListIcon as={FaCheck} color={el.value ? "green.500" : "gray.200"} />
                   {el.name}
                 </ListItem>
