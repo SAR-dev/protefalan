@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Flex,
   Box,
@@ -22,10 +23,11 @@ import { useQueryClient } from "@tanstack/react-query";
 const SellerCard = ({ gig, categoryId }) => {
   const queryClient = useQueryClient();
   const toast = useToast();
+  const [ data, setData ] = useState(gig);
 
   const upvote = () => {
-    if (!gig.upvoted) {
-      addUpvoteGig(gig.id).then((res) => {
+    if (!data.upvoted) {
+      addUpvoteGig(data.id).then((res) => {
         if (res.error) {
           toast({
             title: "Vote failed!",
@@ -44,25 +46,12 @@ const SellerCard = ({ gig, categoryId }) => {
             duration: 9000,
             isClosable: true,
           });
-          const oldQueryData = queryClient.getQueryData(["feed"]);
-          const newQueryData = oldQueryData;
-          const foundCategoryIndex = newQueryData.results.findIndex(
-            (e) => e.id === categoryId
-          );
-          const foundGigIndex = newQueryData.results[
-            foundCategoryIndex
-          ].gigs.findIndex((e) => e.id === gig.id);
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].upvoted = true;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].downvoted = false;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_up = res.num_vote_up;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_down = res.num_vote_down;
-          queryClient.setQueryData(["feed"], (oldData) => {
-            return { ...oldData, ...newQueryData };
-          });
+          setData({ ...data, upvoted: true, downvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
+          queryClient.invalidateQueries(["feed"]);
         }
       });
     } else {
-      removeUpvoteGig(gig.id).then((res) => {
+      removeUpvoteGig(data.id).then((res) => {
         if (res.error) {
           toast({
             title: "Vote failed.",
@@ -81,28 +70,16 @@ const SellerCard = ({ gig, categoryId }) => {
             duration: 9000,
             isClosable: true,
           });
-          const oldQueryData = queryClient.getQueryData(["feed"]);
-          const newQueryData = oldQueryData;
-          const foundCategoryIndex = newQueryData.results.findIndex(
-            (e) => e.id === categoryId
-          );
-          const foundGigIndex = newQueryData.results[
-            foundCategoryIndex
-          ].gigs.findIndex((e) => e.id === gig.id);
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].upvoted = false;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_up = res.num_vote_up;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_down = res.num_vote_down;
-          queryClient.setQueryData(["feed"], (oldData) => {
-            return { ...oldData, ...newQueryData };
-          });
+          setData({ ...data, upvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
+          queryClient.invalidateQueries(["feed"]);
         }
       });
     }
   };
 
   const downvote = () => {
-    if (!gig.downvoted) {
-      addDownvoteGig(gig.id).then((res) => {
+    if (!data.downvoted) {
+      addDownvoteGig(data.id).then((res) => {
         if (res.error) {
           toast({
             title: "Vote failed.",
@@ -121,25 +98,12 @@ const SellerCard = ({ gig, categoryId }) => {
             duration: 9000,
             isClosable: true,
           });
-          const oldQueryData = queryClient.getQueryData(["feed"]);
-          const newQueryData = oldQueryData;
-          const foundCategoryIndex = newQueryData.results.findIndex(
-            (e) => e.id === categoryId
-          );
-          const foundGigIndex = newQueryData.results[
-            foundCategoryIndex
-          ].gigs.findIndex((e) => e.id === gig.id);
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].downvoted = true;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].upvoted = false;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_up = res.num_vote_up;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_down = res.num_vote_down;
-          queryClient.setQueryData(["feed"], (oldData) => {
-            return { ...oldData, ...newQueryData };
-          });
+          setData({ ...data, upvoted: false, downvoted: true, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
+          queryClient.invalidateQueries(["feed"]);
         }
       });
     } else {
-      removeDownvoteGig(gig.id).then((res) => {
+      removeDownvoteGig(data.id).then((res) => {
         if (res.error) {
           toast({
             title: "Vote failed.",
@@ -158,20 +122,8 @@ const SellerCard = ({ gig, categoryId }) => {
             duration: 9000,
             isClosable: true,
           });
-          const oldQueryData = queryClient.getQueryData(["feed"]);
-          const newQueryData = oldQueryData;
-          const foundCategoryIndex = newQueryData.results.findIndex(
-            (e) => e.id === categoryId
-          );
-          const foundGigIndex = newQueryData.results[
-            foundCategoryIndex
-          ].gigs.findIndex((e) => e.id === gig.id);
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].downvoted = false;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_up = res.num_vote_up;
-          newQueryData.results[foundCategoryIndex].gigs[foundGigIndex].num_vote_down = res.num_vote_down;
-          queryClient.setQueryData(["feed"], (oldData) => {
-            return { ...oldData, ...newQueryData };
-          });
+          setData({ ...data, downvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
+          queryClient.invalidateQueries(["feed"]);
         }
       });
     }
@@ -192,8 +144,8 @@ const SellerCard = ({ gig, categoryId }) => {
           w="100%"
           objectFit="cover"
           src={
-            gig.images.length !== 0
-              ? gig.images[0].image
+            data.images.length !== 0
+              ? data.images[0].image
               : "https://i.ibb.co/TqqwjtR/image.png"
           }
           _hover={{ transform: "scale(1.1)" }}
@@ -203,17 +155,17 @@ const SellerCard = ({ gig, categoryId }) => {
       <SimpleGrid columns={1} spacing={3} p={4}>
         <Flex alignItems="center" w="100%">
           <Avatar
-            src={gig.author.avatar}
-            name={`${gig.author.first_name} ${gig.author.last_name}`}
+            src={data.author.avatar}
+            name={`${data.author.first_name} ${data.author.last_name}`}
             h="40px"
             w="40px"
           />
           <SimpleGrid ml={3} columns={1} fontWeight="semibold">
             <Text color="gray.700">
-              {`${gig.author.first_name} ${gig.author.last_name}`}
+              {`${data.author.first_name} ${data.author.last_name}`}
             </Text>
             <Text color="gray.400" fontSize="sm">
-              {`@${gig.author.username}`}
+              {`@${data.author.username}`}
             </Text>
           </SimpleGrid>
         </Flex>
@@ -221,49 +173,49 @@ const SellerCard = ({ gig, categoryId }) => {
           noOfLines={2}
           color="gray.700"
           as={Link}
-          to="/gig/1"
+          to="/data/1"
           _hover={{ color: "teal.500" }}
         >
-          {gig.title}
+          {data.title}
         </Text>
         <Flex alignItems="center">
           <Flex alignItems="center">
             <Icon as={FaStar} h={5} w={5} color="yellow.500" />
             <Text color="yellow.500" fontWeight="semibold" ml={2}>
-              {gig.average_rating.rating__avg
-                ? gig.average_rating.rating__avg
+              {data.average_rating.rating__avg
+                ? data.average_rating.rating__avg
                 : 0}
             </Text>
             <Text color="gray.500" fontWeight="semibold" ml={2}>
-              ({gig.total_ratings})
+              ({data.total_ratings})
             </Text>
           </Flex>
           <Flex ml="auto" alignItems="center">
             <Text color="gray.500" fontSize={20} fontWeight="semibold">
-              {gig.num_vote_down}
+              {data.num_vote_down}
             </Text>
             <Icon
               cursor="pointer"
               _hover={{ color: "gray.600" }}
-              as={gig.downvoted ? MdThumbDown : MdOutlineThumbDownAlt}
+              as={data.downvoted ? MdThumbDown : MdOutlineThumbDownAlt}
               w={5}
               h={5}
-              color={gig.downvoted ? "blue.500" : "gray.500"}
+              color={data.downvoted ? "blue.500" : "gray.500"}
               ml={1}
               onClick={downvote}
             />
           </Flex>
           <Flex ml={3} alignItems="center">
             <Text color="gray.500" fontSize={20} fontWeight="semibold">
-              {gig.num_vote_up}
+              {data.num_vote_up}
             </Text>
             <Icon
               cursor="pointer"
               _hover={{ color: "gray.600" }}
-              as={gig.upvoted ? MdThumbUp : MdOutlineThumbUpAlt}
+              as={data.upvoted ? MdThumbUp : MdOutlineThumbUpAlt}
               w={5}
               h={5}
-              color={gig.upvoted ? "blue.500" : "gray.500"}
+              color={data.upvoted ? "blue.500" : "gray.500"}
               ml={1}
               onClick={upvote}
             />
