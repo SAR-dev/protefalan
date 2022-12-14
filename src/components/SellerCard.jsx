@@ -173,7 +173,7 @@ const SellerCard = ({ gig, categoryId }) => {
           noOfLines={2}
           color="gray.700"
           as={Link}
-          to="/data/1"
+          to={`/gig/${data.id}`}
           _hover={{ color: "teal.500" }}
         >
           {data.title}

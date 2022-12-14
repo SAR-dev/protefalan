@@ -18,7 +18,7 @@ const Gig = () => {
   const [active, setActive] = useState(1);
   return (
     <NavLayout>
-      <SimpleGrid columns={1} spacing={10}>
+      {/* <SimpleGrid columns={1} spacing={10}>
         <Flex
           alignItems="center"
           p={5}
@@ -88,7 +88,7 @@ const Gig = () => {
             rows={1}
           />
         </Box>
-      </SimpleGrid>
+      </SimpleGrid> */}
     </NavLayout>
   );
 };

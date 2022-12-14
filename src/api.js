@@ -58,28 +58,6 @@ export const getHomeFeed = () => {
     });
 };
 
-export function getGigs() {
-  return axios
-    .get(`/gigs`, defaultConfig())
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      return { error: err.response.data };
-    });
-}
-
-export function getGigDetails(id) {
-  return axios
-    .get(`/gig/${id}`, defaultConfig())
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      return { error: err.response.data };
-    });
-}
-
 export function addUpvoteGig(id) {
   return axios
     .post(`/gig/${id}/vote/up/`, null, defaultConfig())
@@ -124,12 +102,34 @@ export function removeDownvoteGig(id) {
     });
 }
 
+export function getGigDetails(id) {
+  return axios
+    .get(`/gig/${id}/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
 // DELETE THIS
 export function getOrders() {
   return axios
     .get(`/orders`, defaultConfig())
     .then((res) => {
       console.log(res);
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function getGigs() {
+  return axios
+    .get(`/gigs`, defaultConfig())
+    .then((res) => {
       return res.data;
     })
     .catch((err) => {
