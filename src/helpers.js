@@ -40,3 +40,7 @@ export function getRandomColor() {
   }
   return color;
 }
+
+export const parseText = (str) => {
+  return str.replace(/[^a-zA-Z ]/g, "");
+}
