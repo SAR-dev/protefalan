@@ -46,7 +46,7 @@ import Review from './Review';
 import FAQ from './FAQ';
 import SellerCard from './SellerCard';
 
-const GigLeftPanel = () => {
+const GigLeftPanel = ({ gig }) => {
   const data = {
     id: 1,
     author: {
@@ -106,68 +106,65 @@ const GigLeftPanel = () => {
     return 5 - Math.round(score);
   };
 
-  const getHalfStar = score => {
-    return 5 - Math.floor(score) - (5 - Math.round(score));
+  const hasHalfStar = score => {
+    return (score - Math.floor(score)) > 0
   };
   return (
     <>
       <Flex alignItems="center">
         <Text
           as={Link}
-          color="blue.500"
+          color={gig.category.color}
           _hover={{ color: 'blue.600' }}
           fontWeight="semibold"
         >
-          {data.category}
-        </Text>
-        <Icon as={MdKeyboardArrowRight} h={5} w={5} mx={1} color="gray.700" />
-        <Text
-          as={Link}
-          color="blue.500"
-          _hover={{ color: 'blue.600' }}
-          fontWeight="semibold"
-        >
-          {data.subCategory}
+          {gig.category.name}
         </Text>
       </Flex>
       <Text fontSize="3xl" fontWeight="semibold" color="gray.700">
-        {data.title}
+        {gig.title}
       </Text>
       <Flex my={5} alignItems="center">
         <Avatar src={data.author.avatar} name={data.author.name} size="sm" />
         <Text fontWeight="bold" color="gray.700" ml={3}>
-          {data.author.name}
+          {`${gig.author.first_name} ${gig.author.last_name}`}
         </Text>
         <Text fontWeight="bold" color="gray.700" mx={3}>
           |
         </Text>
+        {gig.author.average_rating && (
         <HStack spacing={1}>
-          {[...Array(Math.floor(getFullStar(data.author.rating)))].map(
+          {[...Array(Math.floor(getFullStar(gig.author.average_rating.rating__avg)))].map(
             (el, i) => (
               <Icon as={FaStar} h={4} w={4} color="yellow.400" key={i} />
             )
           )}
-          {[...Array(getHalfStar(data.author.rating))].map((el, i) => (
-            <Icon as={FaStarHalfAlt} h={4} w={4} color="yellow.400" key={i} />
-          ))}
-          {[...Array(getNullStar(data.author.rating))].map((el, i) => (
+          {hasHalfStar(gig.author.average_rating.rating__avg) && (
+            <Icon as={FaStarHalfAlt} h={4} w={4} color="yellow.400" />
+          )}
+          {[...Array(getNullStar(Math.ceil(gig.author.average_rating.rating__avg)))].map((el, i) => (
             <Icon as={FaRegStar} h={4} w={4} color="gray.400" key={i} />
           ))}
         </HStack>
+        )}
+        {gig.author.average_rating && (
         <Text color="yellow.400" fontWeight="bold" ml={2}>
-          {data.author.rating}
+          {gig.author.average_rating.rating__avg}
         </Text>
+        )}
+        {gig.author.total_ratings && (
         <Text color="gray.500" fontWeight="semibold" ml={2}>
-          ({data.author.votes})
+          ({gig.author.total_ratings})
         </Text>
+        )}
       </Flex>
-      <GigImageCarousel images={data.images} />
+      <GigImageCarousel images={gig.images} />
       <Box my={10}>
         <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
           About This Gig
         </Text>
         <Box className="post-content" color="gray.700">
-          {parse(data.content)}
+          {parse(gig.description)}
         </Box>
       </Box>
       <Flex
@@ -225,15 +222,14 @@ const GigLeftPanel = () => {
                     <Icon as={FaStar} h={4} w={4} color="yellow.400" key={i} />
                   )
                 )}
-                {[...Array(getHalfStar(data.author.rating))].map((el, i) => (
+                {hasHalfStar(data.author.rating) && (
                   <Icon
                     as={FaStarHalfAlt}
                     h={4}
                     w={4}
                     color="yellow.400"
-                    key={i}
                   />
-                ))}
+                )}
                 {[...Array(getNullStar(data.author.rating))].map((el, i) => (
                   <Icon as={FaRegStar} h={4} w={4} color="gray.400" key={i} />
                 ))}
@@ -300,9 +296,9 @@ const GigLeftPanel = () => {
           Recommended For You
         </Text>
         <SimpleGrid columns={3} spacing={5}>
-          {[...Array(3)].map((el, i) => (
+          {/* {[...Array(3)].map((el, i) => (
             <SellerCard key={i} />
-          ))}
+          ))} */}
         </SimpleGrid>
       </Box>
       <Box my={10}>

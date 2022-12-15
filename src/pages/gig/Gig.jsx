@@ -11,14 +11,28 @@ import { useParams } from 'react-router-dom';
 
 const Gig = () => {
   const { id } = useParams();
-  const { status, data, error, isFetching, isLoading } = useQuery(["gigs", id], () => getGigDetails(id), {
+  const { status, data, error, isFetching, isLoading, isError } = useQuery(["gigs", id], () => getGigDetails(id), {
     enabled: id !== undefined
   })
 
   const [active, setActive] = useState(1);
+
+
+  if(isLoading){
+    return <div>Loading...</div>
+  }
+
+  if(isError){
+    return (
+      <Text color="red.500">
+        {error.message}
+      </Text>
+    )
+  }
+
   return (
     <NavLayout>
-      {/* <SimpleGrid columns={1} spacing={10}>
+      <SimpleGrid columns={1} spacing={10}>
         <Flex
           alignItems="center"
           p={5}
@@ -66,29 +80,29 @@ const Gig = () => {
         </Flex>
         <Grid templateColumns="repeat(16, 1fr)" gap={16}>
           <GridItem colSpan={10}>
-            <GigLeftPanel />
+            <GigLeftPanel gig={data} />
           </GridItem>
-          <GridItem colSpan={6}>
+          {/* <GridItem colSpan={6}>
             <GigRightPanel />
-          </GridItem>
+          </GridItem> */}
         </Grid>
         <Box bg="#F5F5F5" p={10} rounded="md">
-          <SellerCardCarousel
+          {/* <SellerCardCarousel
             header1="Verified Pro services in"
             header2="Artificial Intelligence"
             header2Color="#D47AE8"
             rows={1}
             details="Hand-vetted talent for all your professional needs"
-          />
+          /> */}
         </Box>
         <Box bg="#F5F5F5" p={10} rounded="md">
-          <SellerCardCarousel
+          {/* <SellerCardCarousel
             header1="Editor's Picks"
             details="Hand-vetted talent for all your professional needs"
             rows={1}
-          />
+          /> */}
         </Box>
-      </SimpleGrid> */}
+      </SimpleGrid>
     </NavLayout>
   );
 };
