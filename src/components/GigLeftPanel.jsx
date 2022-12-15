@@ -45,6 +45,7 @@ import { Link } from 'react-router-dom';
 import Review from './Review';
 import FAQ from './FAQ';
 import SellerCard from './SellerCard';
+import {parseText} from '../helpers'
 
 const GigLeftPanel = ({ gig }) => {
   const data = {
@@ -125,7 +126,7 @@ const GigLeftPanel = ({ gig }) => {
         {gig.title}
       </Text>
       <Flex my={5} alignItems="center">
-        <Avatar src={data.author.avatar} name={data.author.name} size="sm" />
+        <Avatar src={gig.author.avatar} name={`${gig.author.first_name} ${gig.author.last_name}`} size="sm" />
         <Text fontWeight="bold" color="gray.700" ml={3}>
           {`${gig.author.first_name} ${gig.author.last_name}`}
         </Text>
@@ -134,27 +135,27 @@ const GigLeftPanel = ({ gig }) => {
         </Text>
         {gig.author.average_rating && (
         <HStack spacing={1}>
-          {[...Array(Math.floor(getFullStar(gig.author.average_rating.rating__avg)))].map(
+          {[...Array(Math.floor(getFullStar(gig.average_rating.rating__avg)))].map(
             (el, i) => (
               <Icon as={FaStar} h={4} w={4} color="yellow.400" key={i} />
             )
           )}
-          {hasHalfStar(gig.author.average_rating.rating__avg) && (
+          {hasHalfStar(gig.average_rating.rating__avg) && (
             <Icon as={FaStarHalfAlt} h={4} w={4} color="yellow.400" />
           )}
-          {[...Array(getNullStar(Math.ceil(gig.author.average_rating.rating__avg)))].map((el, i) => (
+          {[...Array(getNullStar(Math.ceil(gig.average_rating.rating__avg)))].map((el, i) => (
             <Icon as={FaRegStar} h={4} w={4} color="gray.400" key={i} />
           ))}
         </HStack>
         )}
-        {gig.author.average_rating && (
+        {gig.average_rating && (
         <Text color="yellow.400" fontWeight="bold" ml={2}>
-          {gig.author.average_rating.rating__avg}
+          {gig.average_rating.rating__avg}
         </Text>
         )}
-        {gig.author.total_ratings && (
+        {gig.total_ratings && (
         <Text color="gray.500" fontWeight="semibold" ml={2}>
-          ({gig.author.total_ratings})
+          ({gig.total_ratings})
         </Text>
         )}
       </Flex>
@@ -173,16 +174,36 @@ const GigLeftPanel = ({ gig }) => {
         borderTopWidth="1px"
         borderTopColor="gray.200"
       >
-        {data.info.map((el, i) => (
-          <Box color="gray.700" key={i}>
+        {gig.languages && gig.languages.length !== 0 &&(
+          <Box color="gray.700">
             <Text fontWeight="semibold" mb={2}>
-              {el.title}
+              Languages
             </Text>
-            {el.points.map((text, i) => (
-              <Text key={i}>{text}</Text>
+            {gig.languages.map((text, i) => (
+              <Text key={i}>{parseText(text)}</Text>
             ))}
           </Box>
-        ))}
+        )}
+        {gig.expertises && gig.expertises.length !== 0 &&(
+          <Box color="gray.700">
+            <Text fontWeight="semibold" mb={2}>
+              Expertises
+            </Text>
+            {gig.expertises.map((text, i) => (
+              <Text key={i}>{parseText(text)}</Text>
+            ))}
+          </Box>
+        )}
+        {gig.specializations && gig.specializations.length !== 0 &&(
+          <Box color="gray.700">
+            <Text fontWeight="semibold" mb={2}>
+              Specializations
+            </Text>
+            {gig.specializations.map((text, i) => (
+              <Text key={i}>{parseText(text)}</Text>
+            ))}
+          </Box>
+        )}
       </Flex>
       <Box my={10}>
         <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
@@ -190,39 +211,21 @@ const GigLeftPanel = ({ gig }) => {
         </Text>
         <Flex alignItems="center">
           <Box pos="relative" mr={5}>
-            <Avatar src={data.author.avatar} size="2xl" />
-            <Flex
-              h="50px"
-              w="50px"
-              rounded="full"
-              justifyContent="center"
-              alignItems="center"
-              fontWeight="semibold"
-              fontSize="xs"
-              bg="pink.500"
-              color="white"
-              pos="absolute"
-              right="0"
-              bottom="0"
-              mb="-5px"
-              mr="-5px"
-            >
-              LV 02
-            </Flex>
+            <Avatar src={gig.author.avatar} size="2xl" />
           </Box>
           <SimpleGrid columns={1}>
             <Text fontWeight="semibold" color="gray.700" fontSize="xl">
-              {data.author.name}
+              {`${gig.author.first_name} ${gig.author.last_name}`}
             </Text>
             <Text color="gray.700">{data.author.quote}</Text>
             <Flex alignItems="center">
               <HStack spacing={1}>
-                {[...Array(Math.floor(getFullStar(data.author.rating)))].map(
+                {[...Array(Math.floor(getFullStar(gig.author.average_rating.rating__avg)))].map(
                   (el, i) => (
                     <Icon as={FaStar} h={4} w={4} color="yellow.400" key={i} />
                   )
                 )}
-                {hasHalfStar(data.author.rating) && (
+                {hasHalfStar(gig.author.average_rating.rating__avg) && (
                   <Icon
                     as={FaStarHalfAlt}
                     h={4}
@@ -230,15 +233,15 @@ const GigLeftPanel = ({ gig }) => {
                     color="yellow.400"
                   />
                 )}
-                {[...Array(getNullStar(data.author.rating))].map((el, i) => (
+                {[...Array(getNullStar(gig.author.average_rating.rating__avg))].map((el, i) => (
                   <Icon as={FaRegStar} h={4} w={4} color="gray.400" key={i} />
                 ))}
               </HStack>
               <Text color="yellow.400" ml={2}>
-                {data.author.rating}
+                {gig.author.average_rating.rating__avg}
               </Text>
               <Text color="gray.500" ml={2}>
-                ({data.author.votes})
+                ({gig.author.total_ratings})
               </Text>
             </Flex>
             <Button colorScheme="blue" size="sm" mt={1} w="120px">

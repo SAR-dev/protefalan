@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Flex, Box, Button, Icon, Text, SimpleGrid, Grid, GridItem } from '@chakra-ui/react';
+import { Flex, Box, Button, Icon, Text, SimpleGrid, Grid, GridItem, useToast } from '@chakra-ui/react';
 import NavLayout from '../../layouts/NavLayout';
 import { FaSlideshare, FaShare, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 import GigRightPanel from '../../components/GirRightPanel';
@@ -8,21 +8,24 @@ import SellerCardCarousel from '../../components/SellerCardCarousel';
 import { useQuery } from '@tanstack/react-query';
 import { getGigDetails } from '../../api';
 import { useParams } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 
 const Gig = () => {
   const { id } = useParams();
   const { status, data, error, isFetching, isLoading, isError } = useQuery(["gigs", id], () => getGigDetails(id), {
     enabled: id !== undefined
   })
+  const toast = useToast();
 
   const [active, setActive] = useState(1);
 
 
-  if(isLoading){
+  if (isLoading) {
     return <div>Loading...</div>
   }
 
-  if(isError){
+  if (isError) {
     return (
       <Text color="red.500">
         {error.message}
@@ -68,14 +71,24 @@ const Gig = () => {
             >
               Facebook
             </Button>
-            <Button
-              colorScheme="teal"
-              size="sm"
-              leftIcon={<Icon as={FaShare} />}
-              ml={2}
-            >
-              Copy Link
-            </Button>
+            <CopyToClipboard text={window.location.href}
+              onCopy={() => toast({
+                title: "Copied!",
+                description: "The sharable link has been copied to clipboard.",
+                status: "info",
+                position: "bottom-left",
+                duration: 9000,
+                isClosable: true,
+              })}>
+              <Button
+                colorScheme="teal"
+                size="sm"
+                leftIcon={<Icon as={FaShare} />}
+                ml={2}
+              >
+                Copy Link
+              </Button>
+            </CopyToClipboard>
           </Flex>
         </Flex>
         <Grid templateColumns="repeat(16, 1fr)" gap={16}>
@@ -103,7 +116,7 @@ const Gig = () => {
           /> */}
         </Box>
       </SimpleGrid>
-    </NavLayout>
+    </NavLayout >
   );
 };
 
