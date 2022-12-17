@@ -4,10 +4,10 @@ import GigImageCarousel from './GigImageCarousel';
 import parse from 'html-react-parser';
 import PackageCompare from './PackageCompare';
 import { Link } from 'react-router-dom';
-import FAQ from './FAQ';
 import { parseText } from '../helpers'
 import { getGigsByAuthor } from '../api'
 import { useQuery } from '@tanstack/react-query';
+import SellerCard from './SellerCard';
 
 const GigLeftPanel = ({ gig }) => {
   const { status, data, error, isFetching, isLoading, isError } = useQuery(["recommendation", gig.author.username], () => getGigsByAuthor(gig.author.username), {
@@ -26,10 +26,6 @@ const GigLeftPanel = ({ gig }) => {
     return (score - Math.floor(score)) > 0
   };
 
-  if(isLoading || !data){
-    return <></>
-  }
-  
   return <>
     <Flex alignItems="center">
       <Text
@@ -206,35 +202,36 @@ const GigLeftPanel = ({ gig }) => {
       </Text>
       <PackageCompare packages={gig.packages} />
     </Box>
-    <Box my={10}>
-      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
-        Recommended For You
-      </Text>
-      <SimpleGrid columns={3} spacing={5}>
-        {/* {[...Array(3)].map((el, i) => (
-          <SellerCard key={i} />
-        ))} */}
-      </SimpleGrid>
-    </Box>
+    {!isLoading && data && data.results.length > 0 && (
+      <Box my={10}>
+        <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
+          Recommended For You
+        </Text>
+        <SimpleGrid columns={3} spacing={5}>
+          {data.results.slice(0, 9).map((el, i) => (
+            <SellerCard gig={el} key={i} />
+          ))}
+        </SimpleGrid>
+      </Box>
+    )}
     <Box my={10}>
       <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
         Frequently Asked Question
       </Text>
-      <FAQ />
-    </Box>
-    <Box py={10} borderTopWidth="1px" borderTopColor="gray.200">
+
       <Box className="post-content" color="gray.700">
         {gig.faq && gig.faq.length > 0 && gig.faq.map((e, i) => (
           <>
-          {i%2 === 0 ? (
-            <Text key={i} fontWeight={700}>Q: {parse(e.replace(/['"]+/g, ''))}</Text>
-          ) : (
-            <Text key={i}>A: {parse(e.replace(/['"]+/g, ''))}</Text>
-          )}
+            {i % 2 === 0 ? (
+              <Text key={i} fontWeight={700}>Q: {parse(e.replace(/['"]+/g, ''))}</Text>
+            ) : (
+              <Text key={i}>A: {parse(e.replace(/['"]+/g, ''))}</Text>
+            )}
           </>
         ))}
       </Box>
     </Box>
+
   </>;
 };
 

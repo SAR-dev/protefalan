@@ -1,83 +1,24 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Flex,
   Box,
   Button,
   Icon,
-  IconButton,
-  Image,
   Text,
   SimpleGrid,
-  Grid,
-  GridItem,
-  Avatar,
-  Heading,
   HStack,
-  Divider,
   StackDivider,
   List,
   ListItem,
   ListIcon,
 } from '@chakra-ui/react';
-import { FaCheck, FaSlideshare, FaStar, FaShare } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { BiReset } from 'react-icons/bi';
+import { parseText } from '../helpers'
 
-const GigRightPanel = () => {
-  const data = [
-    {
-      name: 'Basic',
-      slug: 'basic',
-      price: '$60',
-      title: 'Single Page Website',
-      details:
-        'I will create Single Page Website (4~5 sections) using Html CSS, Tailwind CSS & Alpine JS.',
-      points: [
-        { name: 'Design Customization', type: 'boolean', value: true },
-        { name: 'Content Upload', type: 'boolean', value: false },
-        { name: 'Responsive Design', type: 'boolean', value: true },
-        { name: 'Include Source Code', type: 'boolean', value: false },
-        { name: 'Number of Pages', type: 'number', value: 3 },
-        { name: 'Revisions', type: 'number', value: 2 },
-        { name: 'Delivery Time', type: 'text', value: '3 days' },
-      ],
-    },
-    {
-      name: 'Standard',
-      slug: 'standard',
-      price: '$200',
-      title: '3 Pages Website',
-      details:
-        'I will create 3 Pages Responsive Website using Html CSS, Tailwind CSS & Alpine JS.',
-      points: [
-        { name: 'Design Customization', type: 'boolean', value: true },
-        { name: 'Content Upload', type: 'boolean', value: false },
-        { name: 'Responsive Design', type: 'boolean', value: false },
-        { name: 'Include Source Code', type: 'boolean', value: true },
-        { name: 'Number of Pages', type: 'number', value: 3 },
-        { name: 'Revisions', type: 'number', value: 5 },
-        { name: 'Delivery Time', type: 'text', value: '5 days' },
-      ],
-    },
-    {
-      name: 'Premium',
-      slug: 'premium',
-      price: '$450',
-      title: '7 Pages Website',
-      details:
-        'I will create responsive 6 Pages Responsive Website using Html CSS, Tailwind CSS & Alpine JS.',
-      points: [
-        { name: 'Design Customization', type: 'boolean', value: false },
-        { name: 'Content Upload', type: 'boolean', value: false },
-        { name: 'Responsive Design', type: 'boolean', value: true },
-        { name: 'Include Source Code', type: 'boolean', value: true },
-        { name: 'Number of Pages', type: 'number', value: 3 },
-        { name: 'Revisions', type: 'number', value: 12 },
-        { name: 'Delivery Time', type: 'text', value: '15 days' },
-      ],
-    },
-  ];
-  const [active, setActive] = useState(data[0]);
+const GigRightPanel = ({ packages }) => {
+  const [active, setActive] = useState(packages[0]);
   return (
     <Box d="inline">
       <Box
@@ -90,59 +31,63 @@ const GigRightPanel = () => {
         top="15px"
       >
         <HStack spacing={0} divider={<StackDivider borderColor="gray.200" />}>
-          {data.map((el, i) => (
+          {packages.map((el, i) => (
             <Flex
               w="100%"
               justifyContent="center"
               alignItems="center"
               py={3}
               fontWeight="semibold"
-              color={active.slug === el.slug ? 'teal.500' : 'gray.700'}
-              bg={active.slug === el.slug ? 'white' : 'gray.50'}
-              borderBottomWidth={active.slug === el.slug ? '2px' : '1px'}
+              color={active.id === el.id ? 'teal.500' : 'gray.700'}
+              bg={active.id === el.id ? 'white' : 'gray.50'}
+              borderBottomWidth={active.id === el.id ? '2px' : '1px'}
               borderBottomColor={
-                active.slug === el.slug ? 'teal.500' : 'gray.200'
+                active.id === el.id ? 'teal.500' : 'gray.200'
               }
               cursor="pointer"
               onClick={() => setActive(el)}
               key={i}
             >
-              {el.name}
+              {el.title}
             </Flex>
           ))}
         </HStack>
         <SimpleGrid columns={1} spacing={6} p={6}>
           <Flex fontSize="xl">
             <Text fontWeight="bold" color="gray.700">
-              {active.name}
+              {active.title}
             </Text>
             <Text fontWeight="bold" color="gray.700" ml="auto">
               {active.price}
             </Text>
           </Flex>
 
-          <Text color="gray.700">{active.details}</Text>
+          <Text color="gray.700">{active.description}</Text>
 
           <Flex alignItems="center">
             <Icon as={AiOutlineFieldTime} h={5} w={5} color="gray.700" mr={2} />
             <Text fontSize="sm" fontWeight="semibold" color="gray.700" mr={4}>
-              {active.points.find(obj => obj.name === 'Delivery Time').value}{' '}
-              Delivery
+              {active.duration_in_days} Days Delivery
             </Text>
             <Icon as={BiReset} h={5} w={5} color="gray.700" mr={2} />
             <Text fontSize="sm" fontWeight="semibold" color="gray.700">
-              {active.points.find(obj => obj.name === 'Revisions').value}{' '}
-              Revisions
+              {active.revisions} Revisions
             </Text>
           </Flex>
 
           <List spacing={2}>
-            {active.points
-              .filter(obj => obj.type === 'boolean')
+            {active.enabled_services
               .map((el, i) => (
                 <ListItem color="gray.700" key={i}>
-                  <ListIcon as={FaCheck} color={el.value ? "green.500" : "gray.200"} />
-                  {el.name}
+                  <ListIcon as={FaCheck} color={"green.500"} />
+                  {parseText(el)}
+                </ListItem>
+              ))}
+              {active.disabled_services
+              .map((el, i) => (
+                <ListItem color="gray.700" key={i}>
+                  <ListIcon as={FaCheck} color={"gray.200"} />
+                  {parseText(el)}
                 </ListItem>
               ))}
           </List>

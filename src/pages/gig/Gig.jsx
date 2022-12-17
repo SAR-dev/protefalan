@@ -4,12 +4,11 @@ import NavLayout from '../../layouts/NavLayout';
 import { FaSlideshare, FaShare, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 import GigRightPanel from '../../components/GirRightPanel';
 import GigLeftPanel from '../../components/GigLeftPanel';
-import SellerCardCarousel from '../../components/SellerCardCarousel';
 import { useQuery } from '@tanstack/react-query';
 import { getGigDetails } from '../../api';
 import { useParams } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-
+import Reviews from "../../components/Reviews";
 
 const Gig = () => {
   const { id } = useParams();
@@ -95,25 +94,12 @@ const Gig = () => {
           <GridItem colSpan={10}>
             <GigLeftPanel gig={data} />
           </GridItem>
-          {/* <GridItem colSpan={6}>
-            <GigRightPanel />
-          </GridItem> */}
+          <GridItem colSpan={6}>
+            <GigRightPanel packages={data.packages} />
+          </GridItem>
         </Grid>
         <Box bg="#F5F5F5" p={10} rounded="md">
-          {/* <SellerCardCarousel
-            header1="Verified Pro services in"
-            header2="Artificial Intelligence"
-            header2Color="#D47AE8"
-            rows={1}
-            details="Hand-vetted talent for all your professional needs"
-          /> */}
-        </Box>
-        <Box bg="#F5F5F5" p={10} rounded="md">
-          {/* <SellerCardCarousel
-            header1="Editor's Picks"
-            details="Hand-vetted talent for all your professional needs"
-            rows={1}
-          /> */}
+          <Reviews />
         </Box>
       </SimpleGrid>
     </NavLayout >

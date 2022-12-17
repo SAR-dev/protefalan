@@ -124,12 +124,10 @@ export function getGigDetails(id) {
     });
 }
 
-// DELETE THIS
-export function getOrders() {
+export function getGigComments(gig_id) {
   return axios
-    .get(`/orders`, defaultConfig())
+    .get(`/comment/list/?gig__id=${gig_id}`, defaultConfig())
     .then((res) => {
-      console.log(res);
       return res.data;
     })
     .catch((err) => {
@@ -137,13 +135,3 @@ export function getOrders() {
     });
 }
 
-export function getGigs() {
-  return axios
-    .get(`/gigs`, defaultConfig())
-    .then((res) => {
-      return res.data;
-    })
-    .catch((err) => {
-      return { error: err.response.data };
-    });
-}

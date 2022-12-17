@@ -44,7 +44,7 @@ const SellerCardCarousel = ({
         ) : (
           <>
             {gigs && gigs.map((el, i) => (
-              <SellerCard gig={el} categoryId={categoryId} key={i} />
+              <SellerCard gig={el} key={i} />
             ))}
           </>
         )}
