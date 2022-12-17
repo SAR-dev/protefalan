@@ -47,6 +47,17 @@ export const getMe = () => {
     });
 };
 
+export const getGigsByAuthor = (username) => {
+  return axios
+    .get(`/gig/list/?author__username=${username}`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
 export const getHomeFeed = () => {
   return axios
     .get(`/category/feed/list/`, defaultConfig())

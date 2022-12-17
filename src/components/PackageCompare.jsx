@@ -40,8 +40,32 @@ import { AiOutlineFieldTime } from 'react-icons/ai';
 import { BiReset } from 'react-icons/bi';
 import GigImageCarousel from './GigImageCarousel';
 import parse from 'html-react-parser';
+import { parseText } from '../helpers'
 
-const PackageCompare = () => {
+const TableRow = ({title, values}) => (
+  <SimpleGrid
+    columns={values.length + 1}
+    color="gray.700"
+    borderBottomWidth="1px"
+    borderBottomColor="gray.200"
+  >
+    <Box p={5} borderRightWidth="1px" borderRightColor="gray.200">
+      {title}
+    </Box>
+    {values.map((el, i) => (
+      <Box
+        p={5}
+        borderRightWidth={values.length - 1 !== i && "1px"}
+        borderRightColor={values.length - 1 !== i && "gray.200"}
+        key={i}
+      >
+        {el}
+      </Box>
+    ))}
+  </SimpleGrid>
+)
+
+const PackageCompare = ({ packages }) => {
   const data = [
     {
       name: 'Basic',
@@ -129,51 +153,21 @@ const PackageCompare = () => {
         <Box p={5} borderRightWidth="1px" borderRightColor="gray.200">
           Package
         </Box>
-        {data.map((el, i) => (
-          <Box p={5} borderRightWidth={data.length-1 !== i && "1px"} borderRightColor={data.length-1 !== i && "gray.200"} key={i}>
+        {packages.map((el, i) => (
+          <Box p={5} borderRightWidth={data.length - 1 !== i && "1px"} borderRightColor={data.length - 1 !== i && "gray.200"} key={i}>
             <Text fontSize="xl">{el.price}</Text>
             <Text fontSize="xl" fontWeight="semibold" my={2}>
-              {el.name}
-            </Text>
-            <Text
-              fontSize="xs"
-              fontWeight="semibold"
-              textTransform="uppercase"
-              my={2}
-            >
               {el.title}
             </Text>
-            <Text fontSize="sm">{el.details}</Text>
+            <Text fontSize="sm">{el.description}</Text>
           </Box>
         ))}
       </SimpleGrid>
-      {Object.keys(points).map((key, i) => {
-        return (
-          <SimpleGrid
-            columns={4}
-            color="gray.700"
-            borderBottomWidth="1px"
-            borderBottomColor="gray.200"
-            key={i}
-          >
-            <Box p={5} borderRightWidth="1px" borderRightColor="gray.200">
-              {key}
-            </Box>
-            {points[key].map((el, i) => (
-              <Box
-                p={5}
-                borderRightWidth={points[key].length-1 !== i && "1px"} 
-                borderRightColor={points[key].length-1 !== i && "gray.200"}
-                key={i}
-              >
-                {el.type === 'boolean' ? (
-                  <Icon as={FaCheck} h={5} w={5} color={el.value ? "green.500" : "gray.200"} />
-                ) : (el.value)}
-              </Box>
-            ))}
-          </SimpleGrid>
-        );
-      })}
+      <TableRow title="Price" values={packages.map(e => `$ ${e.price}`)} />
+      <TableRow title="Duration in Days" values={packages.map(e => e.duration_in_days)} />
+      <TableRow title="No of Revisions" values={packages.map(e => e.revisions)} />
+      <TableRow title="Active Services" values={packages.map(e => e.enabled_services.map(x => parseText(x)).join(", "))} />
+      <TableRow title="Deactive Services" values={packages.map(e => e.disabled_services.map(x => parseText(x)).join(", "))} />
       <SimpleGrid
         columns={4}
         color="gray.700"
@@ -181,13 +175,13 @@ const PackageCompare = () => {
         <Flex alignItems="center" p={5} borderRightWidth="1px" borderRightColor="gray.200">
           Choose
         </Flex>
-        {data.map((el, i) => (
-          <Box p={5} borderRightWidth={data.length-1 !== i && "1px"} borderRightColor={data.length-1 !== i && "gray.200"} key={i}>
-            <Text fontSize="xl" textAlign="center">{el.price}</Text>
+        {packages.map((el, i) => (
+          <Box p={5} borderRightWidth={data.length - 1 !== i && "1px"} borderRightColor={data.length - 1 !== i && "gray.200"} key={i}>
+            <Text fontSize="xl" textAlign="center">{`$ ${el.price}`}</Text>
             <Button colorScheme="teal" w="100%" mt={2}>Select</Button>
           </Box>
         ))}
-      </SimpleGrid>
+      </SimpleGrid> 
     </Box>
   );
 };

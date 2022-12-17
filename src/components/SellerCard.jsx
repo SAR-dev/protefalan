@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 import { addUpvoteGig, removeUpvoteGig, addDownvoteGig, removeDownvoteGig } from "../api";
 import { useQueryClient } from "@tanstack/react-query";
 
-const SellerCard = ({ gig, categoryId }) => {
+const SellerCard = ({ gig }) => {
   const queryClient = useQueryClient();
   const toast = useToast();
   const [ data, setData ] = useState(gig);
