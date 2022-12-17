@@ -255,7 +255,7 @@ const GigLeftPanel = ({ gig }) => {
           <Box>
             <Text color="gray.500">From</Text>
             <Text color="gray.700" fontWeight="semibold">
-              Pakistan
+              {gig.author.profile.location}
             </Text>
           </Box>
           <Box>
