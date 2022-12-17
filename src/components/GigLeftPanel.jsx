@@ -25,7 +25,7 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
+  TableCaption
 } from '@chakra-ui/react';
 import {
   FaSlideshare,
@@ -45,7 +45,7 @@ import { Link } from 'react-router-dom';
 import Review from './Review';
 import FAQ from './FAQ';
 import SellerCard from './SellerCard';
-import {parseText} from '../helpers'
+import { parseText } from '../helpers'
 
 const GigLeftPanel = ({ gig }) => {
   const data = {
@@ -134,29 +134,29 @@ const GigLeftPanel = ({ gig }) => {
           |
         </Text>
         {gig.author.average_rating && (
-        <HStack spacing={1}>
-          {[...Array(Math.floor(getFullStar(gig.average_rating.rating__avg)))].map(
-            (el, i) => (
-              <Icon as={FaStar} h={4} w={4} color="yellow.400" key={i} />
-            )
-          )}
-          {hasHalfStar(gig.average_rating.rating__avg) && (
-            <Icon as={FaStarHalfAlt} h={4} w={4} color="yellow.400" />
-          )}
-          {[...Array(getNullStar(Math.ceil(gig.average_rating.rating__avg)))].map((el, i) => (
-            <Icon as={FaRegStar} h={4} w={4} color="gray.400" key={i} />
-          ))}
-        </HStack>
+          <HStack spacing={1}>
+            {[...Array(Math.floor(getFullStar(gig.average_rating.rating__avg)))].map(
+              (el, i) => (
+                <Icon as={FaStar} h={4} w={4} color="yellow.400" key={i} />
+              )
+            )}
+            {hasHalfStar(gig.average_rating.rating__avg) && (
+              <Icon as={FaStarHalfAlt} h={4} w={4} color="yellow.400" />
+            )}
+            {[...Array(getNullStar(Math.ceil(gig.average_rating.rating__avg)))].map((el, i) => (
+              <Icon as={FaRegStar} h={4} w={4} color="gray.400" key={i} />
+            ))}
+          </HStack>
         )}
         {gig.average_rating && (
-        <Text color="yellow.400" fontWeight="bold" ml={2}>
-          {gig.average_rating.rating__avg}
-        </Text>
+          <Text color="yellow.400" fontWeight="bold" ml={2}>
+            {gig.average_rating.rating__avg}
+          </Text>
         )}
         {gig.total_ratings && (
-        <Text color="gray.500" fontWeight="semibold" ml={2}>
-          ({gig.total_ratings})
-        </Text>
+          <Text color="gray.500" fontWeight="semibold" ml={2}>
+            ({gig.total_ratings})
+          </Text>
         )}
       </Flex>
       <GigImageCarousel images={gig.images} />
@@ -174,7 +174,7 @@ const GigLeftPanel = ({ gig }) => {
         borderTopWidth="1px"
         borderTopColor="gray.200"
       >
-        {gig.languages && gig.languages.length !== 0 &&(
+        {gig.languages && gig.languages.length !== 0 && (
           <Box color="gray.700">
             <Text fontWeight="semibold" mb={2}>
               Languages
@@ -184,7 +184,7 @@ const GigLeftPanel = ({ gig }) => {
             ))}
           </Box>
         )}
-        {gig.expertises && gig.expertises.length !== 0 &&(
+        {gig.expertises && gig.expertises.length !== 0 && (
           <Box color="gray.700">
             <Text fontWeight="semibold" mb={2}>
               Expertises
@@ -194,7 +194,7 @@ const GigLeftPanel = ({ gig }) => {
             ))}
           </Box>
         )}
-        {gig.specializations && gig.specializations.length !== 0 &&(
+        {gig.specializations && gig.specializations.length !== 0 && (
           <Box color="gray.700">
             <Text fontWeight="semibold" mb={2}>
               Specializations
@@ -217,7 +217,7 @@ const GigLeftPanel = ({ gig }) => {
             <Text fontWeight="semibold" color="gray.700" fontSize="xl">
               {`${gig.author.first_name} ${gig.author.last_name}`}
             </Text>
-            <Text color="gray.700">{data.author.quote}</Text>
+            <Text color="gray.700">{gig.author.profile.quote}</Text>
             <Flex alignItems="center">
               <HStack spacing={1}>
                 {[...Array(Math.floor(getFullStar(gig.author.average_rating.rating__avg)))].map(
@@ -244,9 +244,14 @@ const GigLeftPanel = ({ gig }) => {
                 ({gig.author.total_ratings})
               </Text>
             </Flex>
-            <Button colorScheme="blue" size="sm" mt={1} w="120px">
-              Contact Me
-            </Button>
+            <HStack mt={1} >
+              <Button colorScheme="blue" size="sm" w="120px" onClick={() => window.location = `mailto:${gig.author.profile.contact_email}`}>
+                Email Me
+              </Button>
+              <Button colorScheme="blue" size="sm" w="120px" onClick={() => window.location = `tel:${gig.author.profile.contact_number}`}>
+                Call Me
+              </Button>
+            </HStack>
           </SimpleGrid>
         </Flex>
       </Box>
@@ -261,19 +266,7 @@ const GigLeftPanel = ({ gig }) => {
           <Box>
             <Text color="gray.500">Member since</Text>
             <Text color="gray.700" fontWeight="semibold">
-              Nov 2017
-            </Text>
-          </Box>
-          <Box>
-            <Text color="gray.500">Avg. response time</Text>
-            <Text color="gray.700" fontWeight="semibold">
-              2 hours
-            </Text>
-          </Box>
-          <Box>
-            <Text color="gray.500">Last delivery</Text>
-            <Text color="gray.700" fontWeight="semibold">
-              1 day
+              {(new Date(gig.author.date_joined).toLocaleString('default', { month: 'short', year: 'numeric' }))}
             </Text>
           </Box>
         </SimpleGrid>
@@ -285,7 +278,7 @@ const GigLeftPanel = ({ gig }) => {
           color="gray.700"
           className="post-content"
         >
-          {parse(data.author.details)}
+          {parse(gig.author.profile.bio)}
         </Box>
       </Box>
       <Box my={10}>
