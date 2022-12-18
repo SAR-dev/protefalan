@@ -20,8 +20,7 @@ import { FaStar, FaUser } from 'react-icons/fa';
 import { MdPlace, MdDateRange } from 'react-icons/md';
 import ProfileBioData from '../components/ProfileBiodata';
 import ProfileGigs from '../components/ProfileGigs';
-import SellerReviews from '../components/SellerReviews';
-import BuyerReviews from '../components/BuyerReviews';
+import ProfileReviews from '../components/ProfileReviews';
 
 const Profile = () => {
 
@@ -35,9 +34,8 @@ const Profile = () => {
         </GridItem>
         <GridItem colSpan={15}>
           <SimpleGrid columns={1} spacing={10}>
-            {/* <ProfileGigs />
-            <SellerReviews />
-            <BuyerReviews /> */}
+            <ProfileGigs />
+            <ProfileReviews />
           </SimpleGrid>
         </GridItem>
       </Grid>

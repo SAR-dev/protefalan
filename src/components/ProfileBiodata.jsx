@@ -22,7 +22,8 @@ import {
   ModalCloseButton,
   useDisclosure,
   Textarea,
-  Select,
+  Spinner,
+  useToast
 } from '@chakra-ui/react';
 import { Link as ChakraLink } from '@chakra-ui/react';
 import {
@@ -36,20 +37,30 @@ import {
   FaGoogle,
   FaHeart,
 } from 'react-icons/fa';
-import { MdPlace, MdDateRange, MdClose, MdAttachFile, MdCastForEducation } from 'react-icons/md';
+import { MdPlace, MdDateRange, MdClose, MdPeople, MdCastForEducation } from 'react-icons/md';
 import { RiPlayListAddFill } from 'react-icons/ri';
 import { SlBadge } from "react-icons/sl"
 import GetQuote from './GetQuote';
-import { useQuery } from '@tanstack/react-query';
-import { getProfile } from '../api';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getProfile, follow, unfollow } from '../api';
 import { parseText } from '../helpers';
 import { useParams } from 'react-router-dom';
 
 const ProfileBioData = () => {
   const { username } = useParams();
+  const [submitting, setSubmitting] = useState(false)
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
+  const [following, setFollowing] = useState(false);
+  const [followers_count, setFollowersCount] = useState(0);
 
   const { status, data, error, isFetching, isLoading, isError } = useQuery(["profile", username], () => getProfile(username), {
-    enabled: username !== undefined
+    enabled: username !== undefined,
+    onSuccess: (res) => {
+      setFollowing(res.following)
+      setFollowersCount(res.followers_count)
+    }
   })
 
   if (isLoading) {
@@ -76,6 +87,73 @@ const ProfileBioData = () => {
     return (score - Math.floor(score)) > 0
   };
 
+  const submitFollow = () => {
+    setSubmitting(true)
+    if (data.following) {
+      unfollow(username)
+        .then((res) => {
+          if (res.error) {
+            setSubmitting(false);
+            toast({
+              title: "Unfollow failed.",
+              description: res.error.detail,
+              status: "error",
+              position: "bottom-left",
+              duration: 9000,
+              isClosable: true,
+            });
+            setFollowing(res.following);
+            setFollowersCount(res.followers_count)
+            queryClient.invalidateQueries(["profile", username])
+          } else {
+            setSubmitting(false);
+            toast({
+              title: "Follow removed.",
+              description: `You are not following ${data.author.first_name} ${data.author.last_name} anymore`,
+              status: "info",
+              position: "bottom-left",
+              duration: 9000,
+              isClosable: true,
+            });
+            setFollowing(res.following);
+            setFollowersCount(res.followers_count)
+            queryClient.invalidateQueries(["profile", username])
+          }
+        })
+    } else {
+      follow(username)
+        .then((res) => {
+          if (res.error) {
+            setSubmitting(false);
+            toast({
+              title: "Follow failed.",
+              description: res.error.detail,
+              status: "error",
+              position: "bottom-left",
+              duration: 9000,
+              isClosable: true,
+            });
+            setFollowing(res.following);
+            setFollowersCount(res.followers_count)
+            queryClient.invalidateQueries(["profile", username])
+          } else {
+            setSubmitting(false);
+            toast({
+              title: "Follow added.",
+              description: `You are now following ${data.author.first_name} ${data.author.last_name}`,
+              status: "info",
+              position: "bottom-left",
+              duration: 9000,
+              isClosable: true,
+            });
+            setFollowing(res.following);
+            setFollowersCount(res.followers_count)
+            queryClient.invalidateQueries(["profile", username])
+          }
+        })
+    }
+  }
+
   return (
     <>
       <Box
@@ -86,30 +164,27 @@ const ProfileBioData = () => {
         textAlign="center"
         pos="relative"
       >
-        <Icon
-          m={5}
-          cursor="pointer"
-          _hover={{ color: 'gray.600' }}
-          as={RiPlayListAddFill}
-          h={5}
-          w={5}
-          color="gray.500"
-          pos="absolute"
-          top="0"
-          left="0"
-        />
-        <Icon
-          m={5}
-          cursor="pointer"
-          _hover={{ color: 'gray.600' }}
-          as={FaHeart}
-          h={5}
-          w={5}
-          color="gray.500"
-          pos="absolute"
-          top="0"
-          right="0"
-        />
+        {submitting ? (
+          <Spinner
+            m={5} pos="absolute"
+            top="0"
+            right="0"
+            size="md"
+          />) : (
+          <Icon
+            m={5}
+            cursor="pointer"
+            _hover={{ color: following ? "gray.500" : "pink.500" }}
+            as={FaHeart}
+            h={5}
+            w={5}
+            color={following ? "pink.500" : "gray.500"}
+            pos="absolute"
+            top="0"
+            right="0"
+            onClick={submitFollow}
+          />
+        )}
         <Box
           p={2}
           d="inline-block"
@@ -169,10 +244,17 @@ const ProfileBioData = () => {
             </Text>
           </Flex>
           <Flex alignItems="center">
-            <Icon as={FaUser} h={5} w={5} />
+            <Icon as={MdDateRange} h={5} w={5} />
             <Text ml={2}>Member Since</Text>
             <Text ml="auto" fontWeight="semibold">
               {(new Date(data.author.date_joined).toLocaleString('default', { month: 'short', year: 'numeric' }))}
+            </Text>
+          </Flex>
+          <Flex alignItems="center">
+            <Icon as={MdPeople} h={5} w={5} />
+            <Text ml={2}>Followers</Text>
+            <Text ml="auto" fontWeight="semibold">
+              {followers_count}
             </Text>
           </Flex>
         </SimpleGrid>

@@ -135,10 +135,43 @@ export function getGigComments(gig_id) {
     });
 }
 
+export function getProfileComments(username) {
+  return axios
+    .get(`/comment/list/?gig__author__username=${username}`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
 
 export function getProfile(username) {
   return axios
     .get(`/profile/username/${username}/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function follow(username) {
+  return axios
+    .post(`/profile/follow/${username}/`, null,  defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function unfollow(username) {
+  return axios
+    .delete(`/profile/follow/${username}/`, defaultConfig())
     .then((res) => {
       return res.data;
     })

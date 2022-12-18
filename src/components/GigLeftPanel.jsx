@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import SellerCard from './SellerCard';
 
 const GigLeftPanel = ({ gig }) => {
-  const { status, data, error, isFetching, isLoading, isError } = useQuery(["recommendation", gig.author.username], () => getGigsByAuthor(gig.author.username), {
+  const { status, data, error, isFetching, isLoading, isError } = useQuery(["gigs_author", gig.author.username], () => getGigsByAuthor(gig.author.username), {
     enabled: gig !== undefined
   })
 

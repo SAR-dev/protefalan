@@ -17,16 +17,30 @@ import {
 } from '@chakra-ui/react';
 import SellerCard from './SellerCard';
 import { Link } from 'react-router-dom';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getGigsByAuthor, follow, unfollow } from '../api';
+import { parseText } from '../helpers';
+import { useParams } from 'react-router-dom';
 
 const ProfileGigs = () => {
+  const { username } = useParams();
+
+  const { status, data, error, isFetching, isLoading, isError } = useQuery(["gigs_author", username], () => getGigsByAuthor(username), {
+    enabled: username !== undefined
+  })
+
+  if(isLoading || !data){
+    return <></>;
+  }
+
   return (
     <Box>
       <Text fontSize="2xl" color="gray.700" mb={5}>
         Gigs by Sayed Rafi
       </Text>
       <SimpleGrid columns={3} spacing={5}>
-        {[...Array(4)].map((el, i) => (
-          <SellerCard key={i} />
+        {data.results.map((el, i) => (
+          <SellerCard gig={el} key={i} />
         ))}
         <Flex
           w="100%"
