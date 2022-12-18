@@ -135,3 +135,14 @@ export function getGigComments(gig_id) {
     });
 }
 
+
+export function getProfile(username) {
+  return axios
+    .get(`/profile/username/${username}/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}

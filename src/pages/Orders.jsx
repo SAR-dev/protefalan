@@ -17,12 +17,12 @@ import { FiSearch } from 'react-icons/fi';
 import { useParams, Link } from 'react-router-dom';
 import { Link as ChakraLink } from '@chakra-ui/react';
 import OrderRow from '../components/OrderRow';
-import { getOrders } from '../api';
+// import { getOrders } from '../api';
 import { useQuery } from '@tanstack/react-query';
 
 const Orders = () => {
   const { type } = useParams();
-  const { status, data, error, isFetching, isLoading } = useQuery(["orders"], () => getOrders())
+  // const { status, data, error, isFetching, isLoading } = useQuery(["orders"], () => getOrders())
 
   const types = [
     { name: 'ACTIVE', url: 'active' },
@@ -112,9 +112,9 @@ const Orders = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((el, i) => (
+            {/* {data.map((el, i) => (
               <OrderRow el={el} key={i} />
-            ))}
+            ))} */}
           </Tbody>
         </Table>
       </Box>

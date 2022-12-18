@@ -17,18 +17,19 @@ import {
   Select,
 } from '@chakra-ui/react';
 import { FaStar, FaRegUserCircle, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
+import { parseFromNow } from "../helpers";
 
-const Review = () => {
+const Review = ({ review }) => {
   return (
     <SimpleGrid columns={1} spacing={3}>
       <Flex alignItems="center">
         <Box w="70px" flexShrink="0">
-          <Avatar src="https://i.imgur.com/8oKUFw6.png" name="Sayed Rafi" />
+          <Avatar src={review.author.avatar} name={`${review.author.first_name} ${review.author.last_name}`} />
         </Box>
         <SimpleGrid columns={1}>
           <Flex alignItems="center">
             <Text fontWeight="semibold" color="gray.700">
-              Sayed Rafi
+              {`${review.author.first_name} ${review.author.last_name}`}
             </Text>
             <Flex
               fontWeight="semibold"
@@ -37,35 +38,35 @@ const Review = () => {
               ml={2}
             >
               <Icon as={FaRegUserCircle} mr={1} />
-              <Text>sar-dev</Text>
+              <Text>{review.author.username}</Text>
             </Flex>
           </Flex>
-          <Flex mt={1}>
-            <Icon as={FaStar} h={5} w={5} color="yellow.400" />
-            <Text ml={2} color="yellow.500">
-              4
-            </Text>
-          </Flex>
+          {review.rating && (
+            <Flex mt={1}>
+              <Icon as={FaStar} h={5} w={5} color="yellow.400" />
+              <Text ml={2} color="yellow.500">
+                {review.rating}
+              </Text>
+            </Flex>
+          )}
         </SimpleGrid>
       </Flex>
       <Box pl="70px">
         <Text color="gray.700">
-          Met and exceeded expectations! Communication was great. Turnaround was
-          fast + ahead of schedule, but still met requirements and went beyond
-          my expectations. I'm excited to work with this seller again!
+          {review.message}
         </Text>
       </Box>
       <Box pl="70px">
-          <Text color="gray.500">Published 4 months ago</Text>
+        <Text color="gray.500">Published {parseFromNow(review.created_at)} ago</Text>
       </Box>
       <Flex pl="70px">
-        <Flex alignItems="center" color="gray.700" cursor="pointer" _hover={{color: "teal.500"}} mr={5}>
-            <Icon as={FaRegThumbsUp} h={5} w={5} />
-            <Text fontWeight="semibold" ml={1}>Helpful</Text>
+        <Flex alignItems="center" color="gray.700" cursor="pointer" _hover={{ color: "teal.500" }} mr={5}>
+          <Icon as={FaRegThumbsUp} h={5} w={5} />
+          <Text fontWeight="semibold" ml={1}>Helpful</Text>
         </Flex>
-        <Flex alignItems="center" color="gray.700" cursor="pointer" _hover={{color: "red.500"}} mr={5}>
-            <Icon as={FaRegThumbsDown} h={5} w={5} />
-            <Text fontWeight="semibold" ml={1}>Not Helpful</Text>
+        <Flex alignItems="center" color="gray.700" cursor="pointer" _hover={{ color: "red.500" }} mr={5}>
+          <Icon as={FaRegThumbsDown} h={5} w={5} />
+          <Text fontWeight="semibold" ml={1}>Not Helpful</Text>
         </Flex>
       </Flex>
     </SimpleGrid>

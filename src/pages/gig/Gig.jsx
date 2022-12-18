@@ -8,16 +8,13 @@ import { useQuery } from '@tanstack/react-query';
 import { getGigDetails } from '../../api';
 import { useParams } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Reviews from "../../components/Reviews";
+import GigReviews from "../../components/GigReviews";
 
 const Gig = () => {
   const { id } = useParams();
   const { status, data, error, isFetching, isLoading, isError } = useQuery(["gigs", id], () => getGigDetails(id), {
     enabled: id !== undefined
   })
-  const toast = useToast();
-
-  const [active, setActive] = useState(1);
 
 
   if (isLoading) {
@@ -99,7 +96,7 @@ const Gig = () => {
           </GridItem>
         </Grid>
         <Box bg="#F5F5F5" p={10} rounded="md">
-          <Reviews />
+          <GigReviews />
         </Box>
       </SimpleGrid>
     </NavLayout >

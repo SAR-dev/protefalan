@@ -1,3 +1,7 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 export const setLocalAccessToken = (token) => {
   localStorage.setItem("prf_act", token);
 };
@@ -43,4 +47,8 @@ export function getRandomColor() {
 
 export const parseText = (str) => {
   return str.replace(/[^a-zA-Z ]/g, "");
+}
+
+export const parseFromNow = (d) => {
+  return dayjs().from(dayjs(d), true)
 }

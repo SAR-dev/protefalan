@@ -96,9 +96,10 @@ const NavLayout = ({ children }) => {
             >
               Switch to Selling
             </ChakraLink>
+            {data && (
             <Avatar
               as={Link}
-              to="/profile"
+              to={`/profile/${data.username}`}
               size="sm"
               src={
                 !isLoading && data
@@ -108,6 +109,7 @@ const NavLayout = ({ children }) => {
             >
               <AvatarBadge boxSize="1.25em" bg="green.500" />
             </Avatar>
+            )}
           </HStack>
         </Flex>
       </Flex>
