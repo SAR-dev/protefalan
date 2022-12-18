@@ -23,60 +23,12 @@ import {
   CheckboxGroup,
 } from '@chakra-ui/react';
 
-const Step2Pricing = ({ save }) => {
-  const delivery_times = ['1 Day', '3 Days', '1 Week', '1 Month'];
-  const [basic, setBasic] = useState({
-    name: '',
-    details: '',
-    delivery_time: '',
-    no_of_pages: 1,
-    revisions: 1,
-    responsive: false,
-    prototype: false,
-    content_upload: false,
-    convert_to: false,
-    source_file: false,
-    price: 1,
-  });
-  const [standard, setStandard] = useState({
-    name: '',
-    details: '',
-    delivery_time: '',
-    no_of_pages: 1,
-    revisions: 1,
-    responsive: false,
-    prototype: false,
-    content_upload: false,
-    convert_to: false,
-    source_file: false,
-    price: 1,
-  });
-  const [premium, setPremium] = useState({
-    name: '',
-    details: '',
-    delivery_time: '',
-    no_of_pages: 1,
-    revisions: 1,
-    responsive: false,
-    prototype: false,
-    content_upload: false,
-    convert_to: false,
-    source_file: false,
-    price: 1,
-  });
-
+const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPremium, extra_services, set_extra_services, save }) => {
+  const delivery_times = ['1', '3', '7', '15', '30'];
+  
   const format = val => `$` + val;
   const parse = val => val.replace(/^\$/, '');
 
-  const [additional_features, set_additional_features] = useState(
-    [
-      { id: 1, name: 'Additional Pages or Screens' },
-      { id: 2, name: 'Extra Fast Delivery' },
-      { id: 3, name: 'Additional Custom Asset Design' },
-      { id: 4, name: 'Color Pallete' },
-      { id: 5, name: 'Prototype' },
-    ]
-  )
   const [features, setFeatures] = useState([]);
   const handleFeatures = el => {
     const f = features;
@@ -86,12 +38,11 @@ const Step2Pricing = ({ save }) => {
       f.splice(f.indexOf(el.id), 1);
     }
     setFeatures(f);
-    console.log(f);
   };
 
   const [extra, setExtra] = useState("")
   const addExtra = () => {
-    set_additional_features(prevState => [...prevState, {id: Math.floor(Math.random() * (100 - 50) + 50), name: extra}])
+    set_extra_services(prevState => [...prevState, {id: Math.floor(Math.random() * (100 - 50) + 50), name: extra}])
     setExtra("")
   }
 
@@ -243,11 +194,11 @@ const Step2Pricing = ({ save }) => {
               </option>
               {delivery_times.map((el, i) => (
                 <option
-                  value={el.name}
-                  selected={el === basic.delivery_time}
+                  value={el}
+                  selected={el == basic.delivery_time}
                   key={i}
                 >
-                  {el}
+                  {el} Days
                 </option>
               ))}
             </Select>
@@ -267,11 +218,11 @@ const Step2Pricing = ({ save }) => {
               </option>
               {delivery_times.map((el, i) => (
                 <option
-                  value={el.name}
-                  selected={el === standard.delivery_time}
+                  value={el}
+                  selected={el == standard.delivery_time}
                   key={i}
                 >
-                  {el}
+                  {el} Days
                 </option>
               ))}
             </Select>
@@ -291,64 +242,14 @@ const Step2Pricing = ({ save }) => {
               </option>
               {delivery_times.map((el, i) => (
                 <option
-                  value={el.name}
-                  selected={el === premium.delivery_time}
+                  value={el}
+                  selected={el == premium.delivery_time}
                   key={i}
                 >
-                  {el}
+                  {el} Days
                 </option>
               ))}
             </Select>
-          </Box>
-        </SimpleGrid>
-        <SimpleGrid columns={4} borderBottomWidth="1px" borderColor="gray.200">
-          <Box p={2} borderRightWidth="1px" borderColor="gray.200">
-            <Text color="gray.700">No of Pages/Screens</Text>
-          </Box>
-          <Box p={2} borderRightWidth="1px" borderColor="gray.200">
-            <NumberInput
-              min={1}
-              defaultValue={1}
-              value={basic.no_of_pages}
-              onChange={e =>
-                setBasic(prevState => ({
-                  ...prevState,
-                  no_of_pages: e,
-                }))
-              }
-            >
-              <NumberInputField />
-            </NumberInput>
-          </Box>
-          <Box p={2} borderRightWidth="1px" borderColor="gray.200">
-            <NumberInput
-              min={1}
-              defaultValue={1}
-              value={standard.no_of_pages}
-              onChange={e =>
-                setStandard(prevState => ({
-                  ...prevState,
-                  no_of_pages: e,
-                }))
-              }
-            >
-              <NumberInputField />
-            </NumberInput>
-          </Box>
-          <Box p={2}>
-            <NumberInput
-              min={1}
-              defaultValue={1}
-              value={premium.no_of_pages}
-              onChange={e =>
-                setPremium(prevState => ({
-                  ...prevState,
-                  no_of_pages: e,
-                }))
-              }
-            >
-              <NumberInputField />
-            </NumberInput>
           </Box>
         </SimpleGrid>
         <SimpleGrid columns={4} borderBottomWidth="1px" borderColor="gray.200">
@@ -400,59 +301,6 @@ const Step2Pricing = ({ save }) => {
               <NumberInputField />
             </NumberInput>
           </Box>
-        </SimpleGrid>
-        <SimpleGrid columns={4} borderBottomWidth="1px" borderColor="gray.200">
-          <Box p={2} borderRightWidth="1px" borderColor="gray.200">
-            <Text color="gray.700">Responsive Design</Text>
-          </Box>
-          <Flex
-            p={4}
-            borderRightWidth="1px"
-            borderColor="gray.200"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Checkbox
-              size="lg"
-              value={basic.responsive}
-              onChange={e =>
-                setBasic(prevState => ({
-                  ...prevState,
-                  responsive: e.target.checked,
-                }))
-              }
-            />
-          </Flex>
-          <Flex
-            p={4}
-            borderRightWidth="1px"
-            borderColor="gray.200"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Checkbox
-              size="lg"
-              value={standard.responsive}
-              onChange={e =>
-                setStandard(prevState => ({
-                  ...prevState,
-                  responsive: e.target.checked,
-                }))
-              }
-            />
-          </Flex>
-          <Flex p={4} justifyContent="center" alignItems="center">
-            <Checkbox
-              size="lg"
-              value={premium.responsive}
-              onChange={e =>
-                setPremium(prevState => ({
-                  ...prevState,
-                  responsive: e.target.checked,
-                }))
-              }
-            />
-          </Flex>
         </SimpleGrid>
         <SimpleGrid columns={4} borderBottomWidth="1px" borderColor="gray.200">
           <Box p={2} borderRightWidth="1px" borderColor="gray.200">
@@ -555,59 +403,6 @@ const Step2Pricing = ({ save }) => {
                 setPremium(prevState => ({
                   ...prevState,
                   content_upload: e.target.checked,
-                }))
-              }
-            />
-          </Flex>
-        </SimpleGrid>
-        <SimpleGrid columns={4} borderBottomWidth="1px" borderColor="gray.200">
-          <Box p={2} borderRightWidth="1px" borderColor="gray.200">
-            <Text color="gray.700">Convert to HTML/CSS</Text>
-          </Box>
-          <Flex
-            p={4}
-            borderRightWidth="1px"
-            borderColor="gray.200"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Checkbox
-              size="lg"
-              value={basic.convert_to}
-              onChange={e =>
-                setBasic(prevState => ({
-                  ...prevState,
-                  convert_to: e.target.checked,
-                }))
-              }
-            />
-          </Flex>
-          <Flex
-            p={4}
-            borderRightWidth="1px"
-            borderColor="gray.200"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Checkbox
-              size="lg"
-              value={standard.convert_to}
-              onChange={e =>
-                setStandard(prevState => ({
-                  ...prevState,
-                  convert_to: e.target.checked,
-                }))
-              }
-            />
-          </Flex>
-          <Flex p={4} justifyContent="center" alignItems="center">
-            <Checkbox
-              size="lg"
-              value={premium.convert_to}
-              onChange={e =>
-                setPremium(prevState => ({
-                  ...prevState,
-                  convert_to: e.target.checked,
                 }))
               }
             />
@@ -736,7 +531,7 @@ const Step2Pricing = ({ save }) => {
         mb={10}
       >
         <CheckboxGroup value={features}>
-          {additional_features.map((el, i) => (
+          {extra_services.map((el, i) => (
             <Flex p={5} borderBottomWidth="1px" borderColor="gray.200" key={i}>
               <Checkbox value={el.id} onChange={() => handleFeatures(el)} />
               <Text color="gray.700" ml={2}>

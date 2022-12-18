@@ -12,6 +12,16 @@ const defaultConfig = () => {
   return unAuthConfig;
 };
 
+const formdataConfig = () => {
+  const unAuthConfig = {
+    baseURL: `${import.meta.env.VITE_API_URL}/api`,
+    headers: {
+      "Authorization": `Bearer ${getLocalAccessToken()}`
+    },
+  };
+  return unAuthConfig;
+};
+
 export const signIn = ({ email, password }) => {
   const data = { email, password };
   return axios
@@ -160,7 +170,7 @@ export function getProfile(username) {
 
 export function follow(username) {
   return axios
-    .post(`/profile/follow/${username}/`, null,  defaultConfig())
+    .post(`/profile/follow/${username}/`, null, defaultConfig())
     .then((res) => {
       return res.data;
     })
@@ -179,3 +189,26 @@ export function unfollow(username) {
       return { error: err.response.data };
     });
 }
+
+export function getCategoryList() {
+  return axios
+    .get(`/category/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function imageUploader(img) {
+  var formData = new FormData();
+  formData.append("image", img);
+  return axios.post(`/image/create/`, formData, formdataConfig())
+    .then((res) => {
+      return { data: res.data }
+    })
+    .catch((err) => {
+      return { error: err.response.data }
+    })
+};

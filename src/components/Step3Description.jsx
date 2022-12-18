@@ -24,9 +24,7 @@ import {
 } from '@chakra-ui/react';
 import BraftPostEditor from './BraftPostEditor';
 
-const Step3Description = ({ save }) => {
-  const [description, setDescription] = useState('');
-  const [faq, setFaq] = useState([]);
+const Step3Description = ({ description, setDescription, faq, setFaq, save }) => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
   const addFaq = () => {

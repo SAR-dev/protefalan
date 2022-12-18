@@ -28,15 +28,23 @@ import {
   Tr,
   Th,
   Td,
+  Spinner,
   TableCaption,
+  Link,
+  useToast
 } from '@chakra-ui/react';
 import { RiImageAddFill, RiVideoAddLine, RiFolderHistoryLine } from 'react-icons/ri';
-import {ImAttachment} from 'react-icons/im'
+import ReactPlayer from 'react-player'
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { imageUploader } from "../api";
 
-const Step5Gallery = ({ save }) => {
+const Step5Gallery = ({ images, setImages, videos, setVideos, documents, setDocuments, save }) => {
+  const [video, setVideo] = useState('');
+  const [document, setDocument] = useState('');
+  const toast = useToast()
+  const [uploading, setUploading] = useState(false);
+
   const imageInputReference = createRef();
-  const videoInputReference = createRef();
-  const fileInputReference = createRef();
   const imageExtensions = [
     'image/jpg',
     'image/jpeg',
@@ -46,41 +54,40 @@ const Step5Gallery = ({ save }) => {
     'image/tiff',
     'image/webp',
   ];
-  const [images, setImages] = useState([]);
   function handleImage(event) {
     if (
       event.target.files[0] &&
       imageExtensions.includes(event.target.files[0].type)
     ) {
-      setImages(prevState => [...prevState, event.target.files[0]]);
+      setUploading(true)
+      imageUploader(event.target.files[0]).then(res => {
+        if (res.error) {
+          setUploading(false)
+          toast({
+            title: "Upload failed.",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          setUploading(false)
+          setImages(prevState => [...prevState, res.data]);
+        }
+      })
     }
   }
 
-  const videoExtensions = ['video/mp4'];
-  const [videos, setVideos] = useState([]);
-  function handleVideo(event) {
-    if (
-      event.target.files[0] &&
-      videoExtensions.includes(event.target.files[0].type)
-    ) {
-      setVideos(prevState => [...prevState, event.target.files[0]]);
-    }
+  const addVideo = () => {
+    setVideos(prevState => [...prevState, video]);
+    setVideo('')
   }
 
-  const [files, setFiles] = useState([]);
-  function handleFile(event) {
-    if (event.target.files[0]) {
-      setFiles(prevState => [...prevState, event.target.files[0]]);
-    }
+  const addDocument = () => {
+    setDocuments(prevState => [...prevState, document]);
+    setDocument('')
   }
-
-  function bytesToSize(bytes) {
-    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
-    if (bytes == 0) return '0 Byte';
-    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
- }
- 
 
   return (
     <Box p={10} borderWidth="1px" borderColor="gray.200" rounded="md">
@@ -118,7 +125,7 @@ const Step5Gallery = ({ save }) => {
                   h="150px"
                   rounded="md"
                   objectFit="cover"
-                  src={URL.createObjectURL(el)}
+                  src={el.image}
                 />
               </Box>
             ))}
@@ -131,10 +138,11 @@ const Step5Gallery = ({ save }) => {
               color="gray.700"
               borderWidth="1px"
               borderColor="gray.200"
-              _hover={{bg: "blue.500", color: "white"}}
-              _focus={{bg: "blue.500", color: "white"}}
-              _active={{bg: "blue.500", color: "white"}}
-              icon={<Icon as={RiImageAddFill} h={16} w={16} />}
+              disabled={uploading}
+              _hover={{ bg: "blue.500", color: "white" }}
+              _focus={{ bg: "blue.500", color: "white" }}
+              _active={{ bg: "blue.500", color: "white" }}
+              icon={uploading ? <Spinner size="lg" /> : <Icon as={RiImageAddFill} h={16} w={16} />}
               onClick={() => imageInputReference.current.click()}
             />
             <input
@@ -156,47 +164,23 @@ const Step5Gallery = ({ save }) => {
           <Text color="gray.700" fontWeight="semibold" mb={3}>
             Add Videos
           </Text>
-          <SimpleGrid columns={4} spacing={5}>
+          <SimpleGrid columns={3} spacing={5} mb={videos.length !== 0 ? 5 : 0}>
             {videos.map((el, i) => (
               <Box
                 w="100%"
-                p={2}
-                bg="gray.700"
                 borderWidth="1px"
                 borderColor="gray.200"
                 rounded="md"
                 key={i}
               >
-                <video controls>
-                  <source src={URL.createObjectURL(el)} />
-                </video>
-                <Text color="white" fontSize="xs" isTruncated mt={2}>
-                  {el.name}
-                </Text>
+                <ReactPlayer width="100%" height="100%" url={el} />
               </Box>
             ))}
-            <IconButton
-              h="100%"
-              minH="150px"
-              w="100%"
-              colorScheme="blue"
-              bg="white"
-              color="gray.700"
-              borderWidth="1px"
-              borderColor="gray.200"
-              _hover={{bg: "blue.500", color: "white"}}
-              _focus={{bg: "blue.500", color: "white"}}
-              _active={{bg: "blue.500", color: "white"}}
-              icon={<Icon as={RiVideoAddLine} h={16} w={16} />}
-              onClick={() => videoInputReference.current.click()}
-            />
-            <input
-              type="file"
-              hidden
-              ref={videoInputReference}
-              onChange={handleVideo}
-            />
           </SimpleGrid>
+          <Flex>
+            <Input placeholder='Add video link' mr={2} value={video} onChange={(e) => setVideo(e.target.value)} />
+            <Button colorScheme="blue" onClick={() => addVideo()}>Save</Button>
+          </Flex>
         </Box>
 
         <Box
@@ -209,46 +193,16 @@ const Step5Gallery = ({ save }) => {
           <Text color="gray.700" fontWeight="semibold" mb={3}>
             Add Documents
           </Text>
-          <SimpleGrid columns={1} spacing={5}>
-          {files.map((el, i) => (
-              <Flex
-                w="100%"
-                p={2}
-                bg="white"
-                borderWidth="1px"
-                borderColor="gray.200"
-                rounded="md"
-                alignItems="center"
-                key={i}
-              >
-                <Icon as={RiFolderHistoryLine} mr={2} />
-                <Text color="gray.700" fontSize="sm" w="100px">({bytesToSize(el.size)})</Text>
-                <Text color="gray.700" fontSize="sm" isTruncated>
-                  {el.name}
-                </Text>
-              </Flex>
+          <SimpleGrid columns={1} spacing={5} mb={documents.length !== 0 ? 5 : 0}>
+            {documents.map((el, i) => (
+              <Link href='https://chakra-ui.com' px={5} py={3} d="flex" rounded="md" alignItems="center" bg="gray.200" isExternal key={i}>
+                <Text noOfLines={1}>{el}</Text> <ExternalLinkIcon ml='2px' />
+              </Link>
             ))}
-            <Button
-              colorScheme="blue"
-              bg="white"
-              color="gray.700"
-              borderWidth="1px"
-              borderColor="gray.200"
-              _hover={{bg: "blue.500", color: "white"}}
-              _focus={{bg: "blue.500", color: "white"}}
-              _active={{bg: "blue.500", color: "white"}}
-              leftIcon={<Icon as={ImAttachment} />}
-              onClick={() => fileInputReference.current.click()}
-              justifyContent="start"
-            >
-                Upload Documents
-            </Button>
-            <input
-              type="file"
-              hidden
-              ref={fileInputReference}
-              onChange={handleFile}
-            />
+            <Flex>
+              <Input placeholder='Add document link' mr={2} value={document} onChange={(e) => setDocument(e.target.value)} />
+              <Button colorScheme="blue" onClick={() => addDocument()}>Save</Button>
+            </Flex>
           </SimpleGrid>
         </Box>
       </SimpleGrid>

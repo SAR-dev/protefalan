@@ -18,72 +18,14 @@ import {
   Input,
   Textarea,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+import { getCategoryList } from '../api';
 
-const Step1Overview = ({save}) => {
-  const categories = [
-    {
-      name: 'Category A',
-      children: [
-        { name: 'Subcategory A1' },
-        { name: 'Subcategory A2' },
-        { name: 'Subcategory A3' },
-        { name: 'Subcategory A4' },
-        { name: 'Subcategory A5' },
-      ],
-    },
-    {
-      name: 'Category B',
-      children: [
-        { name: 'Subcategory B1' },
-        { name: 'Subcategory B2' },
-        { name: 'Subcategory B3' },
-        { name: 'Subcategory B4' },
-        { name: 'Subcategory B5' },
-      ],
-    },
-    {
-      name: 'Category C',
-      children: [
-        { name: 'Subcategory C1' },
-        { name: 'Subcategory C2' },
-        { name: 'Subcategory C3' },
-        { name: 'Subcategory C4' },
-        { name: 'Subcategory C5' },
-      ],
-    },
-    {
-      name: 'Category D',
-      children: [
-        { name: 'Subcategory D1' },
-        { name: 'Subcategory D2' },
-        { name: 'Subcategory D3' },
-        { name: 'Subcategory D4' },
-        { name: 'Subcategory D5' },
-      ],
-    },
-    {
-      name: 'Category E',
-      children: [
-        { name: 'Subcategory E1' },
-        { name: 'Subcategory E2' },
-        { name: 'Subcategory E3' },
-        { name: 'Subcategory E4' },
-        { name: 'Subcategory E5' },
-      ],
-    },
-  ];
-  const [title, setTitle] = useState('');
-  const [tags, setTags] = useState('');
-  const [category, setCategory] = useState();
-  const [subCategory, setSubCategory] = useState();
-  const [placeholder, setPlaceholder] = useState(true);
+const Step1Overview = ({title, setTitle, tags, setTags, category, setCategory, save}) => {
+  const { status, data, error, isFetching, isLoading, isError } = useQuery(["categories"], () => getCategoryList())
 
-  const getSubCategories = () => {
-    const c = categories.find(cat => cat.name === category);
-    if (c) {
-      return c.children;
-    } else return [];
-  };
+
+
 
   return (
     <Box p={10} borderWidth="1px" borderColor="gray.200" rounded="md">
@@ -97,7 +39,7 @@ const Step1Overview = ({save}) => {
             fontWeight="semibold"
             color="gray.700"
           >
-            GIG TITLE
+            Gig Title
           </Text>
           <Box w="100%">
             <Input
@@ -125,37 +67,16 @@ const Step1Overview = ({save}) => {
             fontWeight="semibold"
             color="gray.700"
           >
-            GIG TITLE
+            Category
           </Text>
           <Select
-            onChange={e => {
-              setCategory(e.target.value);
-              setSubCategory();
-              setPlaceholder(true);
-            }}
-            mr={2}
+            onChange={e => setCategory(e.target.value)}
           >
             <option value="" disabled selected>
               Select A Category
             </option>
-            {categories.map((el, i) => (
-              <option value={el.name} selected={el.name === category} key={i}>
-                {el.name}
-              </option>
-            ))}
-          </Select>
-          <Select
-            onChange={e => {
-              setPlaceholder(false);
-              setSubCategory(e.target.value);
-            }}
-            ml={2}
-          >
-            <option value="" disabled selected={placeholder}>
-              Select A Subcategory
-            </option>
-            {getSubCategories().map((el, i) => (
-              <option value={el.name} selected={el.name === subCategory} key={i}>
+            {data && data.results.map((el, i) => (
+              <option value={el.id} selected={el.id === category} key={i}>
                 {el.name}
               </option>
             ))}
@@ -170,13 +91,13 @@ const Step1Overview = ({save}) => {
             fontWeight="semibold"
             color="gray.700"
           >
-            Search Tags
+            Gig Tags
           </Text>
           <Box w="100%">
             <Input
               type="text"
               value={tags}
-              onChange={e => setTags(e.target.value)}
+              onChange={e => setTags(e.target.value.replace(/ +/g, ""))}
             />
             <Flex fontSize="xs" mt={1}>
               <Text color="gray.400">
