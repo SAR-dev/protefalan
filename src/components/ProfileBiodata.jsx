@@ -36,63 +36,33 @@ import {
   FaGoogle,
   FaHeart,
 } from 'react-icons/fa';
-import { MdPlace, MdDateRange, MdClose, MdAttachFile } from 'react-icons/md';
+import { MdPlace, MdDateRange, MdClose, MdAttachFile, MdCastForEducation } from 'react-icons/md';
 import { RiPlayListAddFill } from 'react-icons/ri';
+import { SlBadge } from "react-icons/sl"
 import GetQuote from './GetQuote';
+import { useQuery } from '@tanstack/react-query';
+import { getProfile } from '../api';
+import { parseText } from '../helpers';
+import { useParams } from 'react-router-dom';
 
 const ProfileBioData = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  let [value, setValue] = useState('');
+  const { username } = useParams();
 
-  const data = {
-    id: 1,
-    author: {
-      name: 'Sayed Rafi',
-      username: 'sayed-rafi',
-      avatar: 'https://i.imgur.com/8oKUFw6.png',
-      desc: 'Chakra UI is a simple, modular and accessible component library',
-    },
-    rating: {
-      score: 3.6,
-      votes: 161,
-    },
-    details: {
-      place: 'Dhaka, Bangladesh',
-      joined: 'September, 1996',
-      last_delivery: '1 month ago',
-    },
-    desc: "Software development is my passion and profession. I'm a passionate Web Developer. My expertise are in HTML, CSS, JavaScript, Jquery, Bootstrap, Material UI, ReactJS, NextJS, Gatsby, GIT, MySQL, MongoDB, NodeJS, Express, PHP, WordPress., Squarespace, Shopify, and Wix. I have been working on several projects individually and as a part of the team. Anything you want, I would provide you. Contact me and let me know if I can help. I will not dismay you.",
-    languages: [
-      { name: 'English', level: 'Conversational' },
-      { name: 'Bangla', level: 'Fluent' },
-    ],
-    social: [
-      { name: 'Facebook', link: 'fb.com' },
-      { name: 'Google', link: 'fb.com' },
-      { name: 'Github', link: 'fb.com' },
-      { name: 'Twitter', link: 'fb.com' },
-    ],
-    education: [
-      {
-        degree: 'B.Sc - Civil Engineering',
-        details: ['Islamic University of Technology', 'Graduated 2018'],
-      },
-      {
-        degree: 'M.Sc - Soil Development',
-        details: ['Islamic University of Technology', 'Graduated 2020'],
-      },
-    ],
-    certifications: [
-      {
-        degree: 'Web Designer and Developer',
-        details: ['Udemy', 'Completed 2018'],
-      },
-      {
-        degree: 'Diploma in Soil Development',
-        details: ['Artificial Intelligence Engineer', 'Completed  2020'],
-      },
-    ],
-  };
+  const { status, data, error, isFetching, isLoading, isError } = useQuery(["profile", username], () => getProfile(username), {
+    enabled: username !== undefined
+  })
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
+
+  if (isError) {
+    return (
+      <Text color="red.500">
+        {error.message}
+      </Text>
+    )
+  }
 
   const getFullStar = score => {
     return Math.floor(score);
@@ -102,8 +72,8 @@ const ProfileBioData = () => {
     return 5 - Math.round(score);
   };
 
-  const getHalfStar = score => {
-    return 5 - Math.floor(score) - (5 - Math.round(score));
+  const hasHalfStar = score => {
+    return (score - Math.floor(score)) > 0
   };
 
   return (
@@ -147,50 +117,46 @@ const ProfileBioData = () => {
           borderColor="teal.500"
           rounded="full"
         >
-          <Avatar size="2xl" src={data.author.avatar} name={data.author.name} />
+          <Avatar size="2xl" src={data.author.avatar} name={`${data.author.first_name} ${data.author.last_name}`} />
         </Box>
         <Heading fontSize="2xl" mt={3}>
-          {data.author.name}
+          {`${data.author.first_name} ${data.author.last_name}`}
         </Heading>
         <Text fontWeight="semibold" color="gray.700" mt={1}>
           f/{data.author.username}
         </Text>
         <Text color="gray.500" mt={1}>
-          {data.author.desc}
+          {data.author.quote}
         </Text>
         <Box my={5}>
           <Flex justifyContent="center" alignItems="center">
             <HStack spacing={2}>
-              {[...Array(Math.floor(getFullStar(data.rating.score)))].map(
+              {[...Array(Math.floor(getFullStar(data.author.average_rating.rating__avg)))].map(
                 (el, i) => (
-                  <Icon as={FaStar} h={5} w={5} color="yellow.400" key={i} />
+                  <Icon as={FaStar} h={4} w={4} color="yellow.400" key={i} />
                 )
               )}
-              {[...Array(getHalfStar(data.rating.score))].map((el, i) => (
-                <Icon
-                  as={FaStarHalfAlt}
-                  h={5}
-                  w={5}
-                  color="yellow.400"
-                  key={i}
-                />
-              ))}
-              {[...Array(getNullStar(data.rating.score))].map((el, i) => (
-                <Icon as={FaRegStar} h={5} w={5} color="gray.400" key={i} />
+              {hasHalfStar(data.author.average_rating.rating__avg) && (
+                <Icon as={FaStarHalfAlt} h={4} w={4} color="yellow.400" />
+              )}
+              {[...Array(getNullStar(Math.ceil(data.author.average_rating.rating__avg)))].map((el, i) => (
+                <Icon as={FaRegStar} h={4} w={4} color="gray.400" key={i} />
               ))}
             </HStack>
           </Flex>
           <Flex justifyContent="center" mt={1}>
-            <Text fontWeight="semibold">{data.rating.score}</Text>
+            <Text fontWeight="semibold">{data.author.average_rating.rating__avg}</Text>
             <Text color="gray.500" ml={1}>
-              ({data.rating.votes} Reviews)
+              ({data.author.total_ratings} Reviews)
             </Text>
           </Flex>
         </Box>
         <SimpleGrid columns={2} spacing={3}>
-          <Button size="sm" colorScheme="teal">Contact Me</Button>
-          <Button size="sm" variant="outline" onClick={onOpen}>
-            Get a Quote
+          <Button colorScheme="blue" size="sm" onClick={() => window.location = `mailto:${data.contact_email}`}>
+            Email Me
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => window.location = `tel:${data.contact_number}`}>
+            Call Me
           </Button>
         </SimpleGrid>
         <Box w="100%" h="1px" bg="gray.200" my={5} />
@@ -199,21 +165,14 @@ const ProfileBioData = () => {
             <Icon as={MdPlace} h={5} w={5} />
             <Text ml={2}>From</Text>
             <Text ml="auto" fontWeight="semibold">
-              {data.details.place}
+              {data.location}
             </Text>
           </Flex>
           <Flex alignItems="center">
             <Icon as={FaUser} h={5} w={5} />
             <Text ml={2}>Member Since</Text>
             <Text ml="auto" fontWeight="semibold">
-              {data.details.joined}
-            </Text>
-          </Flex>
-          <Flex alignItems="center">
-            <Icon as={MdDateRange} h={6} w={5} />
-            <Text ml={2}>Last Delivery</Text>
-            <Text ml="auto" fontWeight="semibold">
-              {data.details.last_delivery}
+              {(new Date(data.author.date_joined).toLocaleString('default', { month: 'short', year: 'numeric' }))}
             </Text>
           </Flex>
         </SimpleGrid>
@@ -231,7 +190,7 @@ const ProfileBioData = () => {
               Description
             </Text>
             <Text color="gray.500">
-              {data.desc}
+              {data.bio}
             </Text>
           </Box>
           <Box w="100%" h="1px" bg="gray.200" />
@@ -242,10 +201,7 @@ const ProfileBioData = () => {
             <SimpleGrid columns={1} spacing={2}>
               {data.languages.map((el, i) => (
                 <Flex color="gray.700" key={i}>
-                  <Text>{el.name}</Text>
-                  <Text color="gray.500" ml={2}>
-                    - {el.level}
-                  </Text>
+                  <Text>{parseText(el)}</Text>
                 </Flex>
               ))}
             </SimpleGrid>
@@ -256,31 +212,45 @@ const ProfileBioData = () => {
               Linked Accounts
             </Text>
             <SimpleGrid columns={1} spacing={2}>
-              {data.social.map((el, i) => (
+              {data.facebook && (
                 <Flex
                   color="gray.500"
                   alignItems="center"
                   as={ChakraLink}
                   _focus={{ boxShadow: 'none' }}
-                  href={el.link}
+                  href={data.facebook}
                   isExternal
-                  key={i}
                 >
-                  {el.name === 'Facebook' && (
-                    <Icon as={FaFacebook} h={5} w={5} mr={2} color="#1877f2" />
-                  )}
-                  {el.name === 'Github' && (
-                    <Icon as={FaGithub} h={5} w={5} mr={2} color="#333333" />
-                  )}
-                  {el.name === 'Twitter' && (
-                    <Icon as={FaTwitter} h={5} w={5} mr={2} color="#1da1f2" />
-                  )}
-                  {el.name === 'Google' && (
-                    <Icon as={FaGoogle} h={5} w={5} mr={2} color="#34a853" />
-                  )}
-                  {el.name}
+                  <Icon as={FaFacebook} h={5} w={5} mr={2} color="#1877f2" />
+                  Facebook
                 </Flex>
-              ))}
+              )}
+              {data.twitter && (
+                <Flex
+                  color="gray.500"
+                  alignItems="center"
+                  as={ChakraLink}
+                  _focus={{ boxShadow: 'none' }}
+                  href={data.twitter}
+                  isExternal
+                >
+                  <Icon as={FaTwitter} h={5} w={5} mr={2} color="#1da1f2" />
+                  Twitter
+                </Flex>
+              )}
+              {data.github && (
+                <Flex
+                  color="gray.500"
+                  alignItems="center"
+                  as={ChakraLink}
+                  _focus={{ boxShadow: 'none' }}
+                  href={data.github}
+                  isExternal
+                >
+                  <Icon as={FaGithub} h={5} w={5} mr={2} color="#333333" />
+                  Github
+                </Flex>
+              )}
             </SimpleGrid>
           </Box>
           <Box w="100%" h="1px" bg="gray.200" />
@@ -289,17 +259,11 @@ const ProfileBioData = () => {
               Education
             </Text>
             <SimpleGrid columns={1} spacing={2} >
-              {data.education.map((el, i) => (
-                <Box key={i}>
-                  <Text color="gray.700" fontWeight="semibold">
-                    {el.degree}
-                  </Text>
-                  {el.details.map((det, i) => (
-                    <Text color="gray.500" key={i}>
-                      {det}
-                    </Text>
-                  ))}
-                </Box>
+              {data.educations.map((el, i) => (
+                <Text color="gray.500" key={i}>
+                  <Icon as={MdCastForEducation} style={{ marginRight: 5 }} />
+                  {parseText(el)}
+                </Text>
               ))}
             </SimpleGrid>
           </Box>
@@ -310,45 +274,15 @@ const ProfileBioData = () => {
             </Text>
             <SimpleGrid columns={1} spacing={2}>
               {data.certifications.map((el, i) => (
-                <Box key={i}>
-                  <Text color="gray.700" fontWeight="semibold">
-                    {el.degree}
-                  </Text>
-                  {el.details.map((det, i) => (
-                    <Text color="gray.500" key={i}>
-                      {det}
-                    </Text>
-                  ))}
-                </Box>
+                <Text color="gray.500" key={i}>
+                  <Icon as={SlBadge} style={{ marginRight: 5 }} />
+                  {parseText(el)}
+                </Text>
               ))}
             </SimpleGrid>
           </Box>
         </SimpleGrid>
       </Box>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl" scrollBehavior="inside" isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader bg="gray.100">
-            <Flex alignItems="center">
-              <Text>Request a Quote</Text>
-              <IconButton
-                ml="auto"
-                onClick={onClose}
-                icon={<Icon as={MdClose} />}
-              />
-            </Flex>
-          </ModalHeader>
-          <ModalBody className="ash-scrollbar">
-            <GetQuote />
-          </ModalBody>
-          <ModalFooter bg="gray.100">
-            <Button colorScheme="red" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button colorScheme="blue">Submit Request</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </>
   );
 };

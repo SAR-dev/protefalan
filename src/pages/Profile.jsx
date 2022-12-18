@@ -22,16 +22,8 @@ import ProfileBioData from '../components/ProfileBiodata';
 import ProfileGigs from '../components/ProfileGigs';
 import SellerReviews from '../components/SellerReviews';
 import BuyerReviews from '../components/BuyerReviews';
-import { useQuery } from '@tanstack/react-query';
-import { getProfile } from '../api';
-import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-  const { username } = useParams();
-
-  const { status, data, error, isFetching, isLoading, isError } = useQuery(["profile", username], () => getProfile(username), {
-    enabled: username !== undefined
-  })
 
   return (
     <NavLayout>
