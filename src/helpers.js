@@ -22,7 +22,7 @@ export const removeLocalRefreshToken = (token) => {
   localStorage.removeItem("prf_rft");
 };
 
-function capitalizeFirstLetter(string) {
+export function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 

@@ -93,11 +93,11 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Input
               placeholder="Name of package"
               fontSize="sm"
-              value={basic.name}
+              value={basic.title}
               onChange={e =>
                 setBasic(prevState => ({
                   ...prevState,
-                  name: e.target.value,
+                  title: e.target.value,
                 }))
               }
             />
@@ -106,11 +106,11 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Input
               placeholder="Name of package"
               fontSize="sm"
-              value={standard.name}
+              value={standard.title}
               onChange={e =>
                 setStandard(prevState => ({
                   ...prevState,
-                  name: e.target.value,
+                  title: e.target.value,
                 }))
               }
             />
@@ -119,11 +119,11 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Input
               placeholder="Name of package"
               fontSize="sm"
-              value={premium.name}
+              value={premium.title}
               onChange={e =>
                 setPremium(prevState => ({
                   ...prevState,
-                  name: e.target.value,
+                  title: e.target.value,
                 }))
               }
             />
@@ -555,7 +555,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
         </CheckboxGroup>
         <Flex p={5}>
           <Input
-            placeholder='Add extra gig'
+            placeholder='Add extra service'
             mr={2}
             onKeyDown={e => {
               if (e.keyCode === 13) {

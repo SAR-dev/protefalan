@@ -51,7 +51,7 @@ const GigCreate = () => {
   const [category, setCategory] = useState();
 
   const [basic, setBasic] = useState({
-    name: "",
+    title: "",
     description: "",
     duration_in_days: "",
     no_of_pages: 1,
@@ -64,7 +64,7 @@ const GigCreate = () => {
     price: 1,
   });
   const [standard, setStandard] = useState({
-    name: "",
+    title: "",
     description: "",
     duration_in_days: "",
     no_of_pages: 1,
@@ -77,7 +77,7 @@ const GigCreate = () => {
     price: 1,
   });
   const [premium, setPremium] = useState({
-    name: "",
+    title: "",
     description: "",
     duration_in_days: "",
     no_of_pages: 1,

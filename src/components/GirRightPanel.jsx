@@ -15,10 +15,13 @@ import {
 import { FaCheck } from 'react-icons/fa';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { BiReset } from 'react-icons/bi';
-import { parseText } from '../helpers'
+import { parseText, capitalizeFirstLetter } from '../helpers'
 
-const GigRightPanel = ({ packages }) => {
+const bools = ["prototype", "content_upload", "source_file"]
+
+const GigRightPanel = ({ extra_services, packages }) => {
   const [active, setActive] = useState(packages[0]);
+
   return (
     <Box d="inline">
       <Box
@@ -76,18 +79,18 @@ const GigRightPanel = ({ packages }) => {
           </Flex>
 
           <List spacing={2}>
-            {active.enabled_services
+            {extra_services
               .map((el, i) => (
                 <ListItem color="gray.700" key={i}>
                   <ListIcon as={FaCheck} color={"green.500"} />
                   {parseText(el)}
                 </ListItem>
               ))}
-              {active.disabled_services
+              {bools
               .map((el, i) => (
                 <ListItem color="gray.700" key={i}>
-                  <ListIcon as={FaCheck} color={"gray.200"} />
-                  {parseText(el)}
+                  <ListIcon as={FaCheck} color={active[el] ? "green.500" : "gray.200"} />
+                  {capitalizeFirstLetter(el.split("_").join(" "))}
                 </ListItem>
               ))}
           </List>

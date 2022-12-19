@@ -94,7 +94,7 @@ const Gig = () => {
               <GigLeftPanel gig={data} />
             </GridItem>
             <GridItem colSpan={6}>
-              <GigRightPanel packages={data.packages} />
+              <GigRightPanel extra_services={data.extra_services} packages={data.packages} />
             </GridItem>
           </Grid>
           <Box bg="#F5F5F5" p={10} rounded="md">
