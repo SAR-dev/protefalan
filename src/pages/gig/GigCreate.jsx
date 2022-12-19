@@ -26,6 +26,7 @@ import Step3Description from "../../components/Step3Description";
 import Step4Requirements from "../../components/Step4Requirements";
 import Step5Gallery from "../../components/Step5Gallery";
 import Step6Publish from "../../components/Step6Publish";
+import AuthLayout from "../../layouts/AuthLayout";
 
 const GigCreate = () => {
   const menus = [
@@ -37,7 +38,7 @@ const GigCreate = () => {
     { name: "Publish", step: 6 },
   ];
 
-  const [active, setActive] = useState(5);
+  const [active, setActive] = useState(1);
 
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
@@ -103,6 +104,7 @@ const GigCreate = () => {
   const [documents, setDocuments] = useState([]);
 
   return (
+    <AuthLayout>
     <NavLayout>
       <Grid
         templateColumns="repeat(9, 1fr)"
@@ -183,6 +185,7 @@ const GigCreate = () => {
         </GridItem>
       </Grid>
     </NavLayout>
+    </AuthLayout>
   );
 };
 
