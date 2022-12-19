@@ -19,6 +19,7 @@ import { signUp } from "../api";
 import { parseError } from "../helpers";
 import useAuthStore from "../store";
 import UnAuthLayout from "../layouts/UnAuthLayout";
+import { Link } from 'react-router-dom';
 
 const avatars = [
   {
@@ -190,6 +191,11 @@ function Signup() {
                     disabled={loading}
                     value={first_name}
                     onChange={(e) => setFirstName(e.target.value)}
+                    onKeyDown={e => {
+                      if(e.keyCode === 13){
+                        submit();
+                      }
+                    }}
                   />
                   <Input
                     placeholder="Last Name"
@@ -202,6 +208,11 @@ function Signup() {
                     disabled={loading}
                     value={last_name}
                     onChange={(e) => setLastName(e.target.value)}
+                    onKeyDown={e => {
+                      if(e.keyCode === 13){
+                        submit();
+                      }
+                    }}
                   />
                 </SimpleGrid>
                 <Input
@@ -215,6 +226,11 @@ function Signup() {
                   disabled={loading}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={e => {
+                    if(e.keyCode === 13){
+                      submit();
+                    }
+                  }}
                 />
                 <Input
                   placeholder="Username"
@@ -227,6 +243,11 @@ function Signup() {
                   disabled={loading}
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                  onKeyDown={e => {
+                    if(e.keyCode === 13){
+                      submit();
+                    }
+                  }}
                 />
                 <Input
                   placeholder="******"
@@ -240,6 +261,11 @@ function Signup() {
                   disabled={loading}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onKeyDown={e => {
+                    if(e.keyCode === 13){
+                      submit();
+                    }
+                  }}
                 />
               </Stack>
               <Button
@@ -255,6 +281,9 @@ function Signup() {
                 onClick={submit}
               >
                 Create Account
+              </Button>
+              <Button variant="outline" as={Link} to="/signin"  w="full" mt={5}>
+                Already have an  account ?
               </Button>
             </Box>
             form

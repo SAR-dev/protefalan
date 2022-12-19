@@ -12,6 +12,16 @@ const defaultConfig = () => {
   return unAuthConfig;
 };
 
+const unauthConfig = () => {
+  const unAuthConfig = {
+    baseURL: `${import.meta.env.VITE_API_URL}/api`,
+    headers: {
+      "Content-Type": "application/json"
+    },
+  };
+  return unAuthConfig;
+};
+
 const formdataConfig = () => {
   const unAuthConfig = {
     baseURL: `${import.meta.env.VITE_API_URL}/api`,
@@ -25,7 +35,7 @@ const formdataConfig = () => {
 export const signIn = ({ email, password }) => {
   const data = { email, password };
   return axios
-    .post(`/token/`, data, defaultConfig())
+    .post(`/token/`, data, unauthConfig())
     .then((res) => {
       return res.data;
     })
@@ -37,7 +47,7 @@ export const signIn = ({ email, password }) => {
 export const signUp = ({ username, first_name, last_name, email, password, password2 }) => {
   const data = { username, first_name, last_name, email, password, password2 };
   return axios
-    .post(`/account/create/`, data, defaultConfig())
+    .post(`/account/create/`, data, unauthConfig())
     .then((res) => {
       return res.data;
     })

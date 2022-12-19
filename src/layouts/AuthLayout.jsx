@@ -1,11 +1,11 @@
 import { useHistory } from "react-router-dom";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { getLocalAccessToken } from "../helpers";
 
 const AuthLayout = ({ children }) => {
   const history = useHistory();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!getLocalAccessToken()) {
       history.push("/signin");
     }
