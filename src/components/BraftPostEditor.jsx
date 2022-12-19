@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BraftEditor from 'braft-editor';
 import { Box } from '@chakra-ui/react';
 
-const BraftPostEditor = ({ setPost, height, placeholder }) => {
+const BraftPostEditor = ({ post, setPost, height, placeholder }) => {
+  const [isLiving, setIsLiving] = useState(false)
   const [active, setActive] = useState(false);
-  const [state, setState] = useState({
-    editorState: null,
-  });
+  const [state, setState] = useState(BraftEditor.createEditorState(post));
+
   const controls = [
     'bold',
     'italic',
@@ -33,9 +33,9 @@ const BraftPostEditor = ({ setPost, height, placeholder }) => {
   }
 
   const handleEditorChange = editorState => {
-    setState({ editorState });
+    setState( editorState );
     if (state.editorState !== null) {
-      const htmlContent = state.editorState.toHTML();
+      const htmlContent = state.toHTML();
       setPost(htmlContent);
     }
     check();

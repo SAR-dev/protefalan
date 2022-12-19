@@ -83,7 +83,11 @@ const Step4Requirements = ({ requirements, setRequirements, save }) => {
             <Tbody>
               {requirements.map((el, i) => (
                 <Tr key={i}>
-                  <Td>{el}</Td>
+                  <Td>
+                    <Text whiteSpace="pre-wrap">
+                      {el}
+                    </Text>
+                  </Td>
                 </Tr>
               ))}
             </Tbody>
@@ -92,6 +96,7 @@ const Step4Requirements = ({ requirements, setRequirements, save }) => {
         <Textarea
           bg="white"
           value={requirement}
+          whiteSpace="pre-wrap"
           onChange={e => setRequirement(e.target.value)}
           placeholder="Describe a requirement..."
           h="120px"

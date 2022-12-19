@@ -222,3 +222,25 @@ export function imageUploader(img) {
       return { error: err.response.data }
     })
 };
+
+export function createGig(data) {
+  return axios
+    .post(`/gig/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function createBulkPackages(data) {
+  return axios
+    .post(`/package/bulk/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}

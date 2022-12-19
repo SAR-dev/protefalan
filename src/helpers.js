@@ -27,7 +27,7 @@ function capitalizeFirstLetter(string) {
 }
 
 export const parseError = (err) => {
-  if(err.detail){
+  if (err.detail) {
     return err.detail
   }
   let message = []
@@ -40,7 +40,7 @@ export const parseError = (err) => {
 export function getRandomColor() {
   var color = '#';
   for (var i = 0; i < 6; i++) {
-      color += Math.floor(Math.random() * 10);
+    color += Math.floor(Math.random() * 10);
   }
   return color;
 }
@@ -51,4 +51,34 @@ export const parseText = (str) => {
 
 export const parseFromNow = (d) => {
   return dayjs().from(dayjs(d), true)
+}
+
+export const saveLocalGigId = (data) => {
+  localStorage.setItem("protefalan_gig_create_id", JSON.stringify(data));
+}
+
+export const getLocalGigId = (data) => {
+  return JSON.parse(localStorage.getItem("protefalan_gig_create_id"));
+}
+
+export const saveLocalGig = (data) => {
+  localStorage.setItem("protefalan_gig_create", JSON.stringify(data));
+}
+
+export const getLocalGig = (data) => {
+  return JSON.parse(localStorage.getItem("protefalan_gig_create"));
+}
+
+export const saveLocalPackages = (data) => {
+  localStorage.setItem("protefalan_packages_create", JSON.stringify(data));
+}
+
+export const getLocalPackages = (data) => {
+  return JSON.parse(localStorage.getItem("protefalan_packages_create"));
+}
+
+export const clearGigCache = () => {
+  localStorage.removeItem("protefalan_gig_create");
+  localStorage.removeItem("protefalan_gig_create_id");
+  localStorage.removeItem("protefalan_packages_create");
 }

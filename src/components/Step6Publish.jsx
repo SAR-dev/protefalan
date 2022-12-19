@@ -32,7 +32,7 @@ import {
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-const Step6Publish = () => {
+const Step6Publish = ({submit, loading}) => {
   return (
     <Box p={10} borderWidth="1px" borderColor="gray.200" rounded="md">
       <Text
@@ -48,7 +48,7 @@ const Step6Publish = () => {
         Let's publish your gig and roll some buyers in!
       </Text>
       <Flex justifyContent="center">
-        <Button as={Link} to="/" colorScheme="teal">Publish</Button>
+        <Button onClick={submit} colorScheme="teal" isLoading={loading}>Publish</Button>
       </Flex>
     </Box>
   );

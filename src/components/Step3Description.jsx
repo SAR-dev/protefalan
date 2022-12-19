@@ -49,7 +49,9 @@ const Step3Description = ({ description, setDescription, faq, setFaq, save }) =>
         <Text color="gray.700" mb={5}>
           Briefly describe your gig
         </Text>
-        <BraftPostEditor setPost={setDescription} height={350} />
+        {description.length >= 1 && (
+          <BraftPostEditor post={description} setPost={setDescription} height={350} />
+        )}
       </Box>
       <Text
         fontSize="xl"
@@ -71,14 +73,14 @@ const Step3Description = ({ description, setDescription, faq, setFaq, save }) =>
         mb={10}
         p={10}
       >
-          {faq.map((el, i) => (
-            <Box color="gray.700" mb={5} key={i}>
-              <Text fontWeight="semibold" mb={3}>
-                {el.question}
-              </Text>
-              <Text>{el.answer}</Text>
-            </Box>
-          ))}
+        {faq.map((el, i) => (
+          <Box color="gray.700" mb={5} key={i}>
+            <Text fontWeight="semibold" mb={3}>
+              {el.question}
+            </Text>
+            <Text whiteSpace="pre-wrap">{el.answer}</Text>
+          </Box>
+        ))}
         <SimpleGrid columns={1} spacing={3}>
           <Input
             bg="white"
@@ -89,6 +91,7 @@ const Step3Description = ({ description, setDescription, faq, setFaq, save }) =>
           <Textarea
             bg="white"
             placeholder="Answer"
+            whiteSpace="pre-wrap"
             value={answer}
             onChange={e => setAnswer(e.target.value)}
           />

@@ -23,13 +23,12 @@ import {
   CheckboxGroup,
 } from '@chakra-ui/react';
 
-const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPremium, extra_services, set_extra_services, save }) => {
-  const delivery_times = ['1', '3', '7', '15', '30'];
-  
+const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPremium, features, setFeatures, extra_services, set_extra_services, save }) => {
+  const delivery_list = ['1', '3', '7', '15', '30'];
+
   const format = val => `$` + val;
   const parse = val => val.replace(/^\$/, '');
 
-  const [features, setFeatures] = useState([]);
   const handleFeatures = el => {
     const f = features;
     if (f.indexOf(el.id) === -1) {
@@ -42,8 +41,10 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
 
   const [extra, setExtra] = useState("")
   const addExtra = () => {
-    set_extra_services(prevState => [...prevState, {id: Math.floor(Math.random() * (100 - 50) + 50), name: extra}])
-    setExtra("")
+    if (extra.length > 0) {
+      set_extra_services(prevState => [...prevState, { id: Math.floor(Math.random() * (100 - 50) + 50), name: extra }])
+      setExtra("")
+    }
   }
 
   return (
@@ -134,42 +135,45 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
           </Box>
           <Box p={2} borderRightWidth="1px" borderColor="gray.200">
             <Textarea
-              h="100%"
+              h="200px"
               placeholder="Details of your offering"
               fontSize="sm"
-              value={basic.details}
+              whiteSpace="pre-wrap"
+              value={basic.description}
               onChange={e =>
                 setBasic(prevState => ({
                   ...prevState,
-                  details: e.target.value,
+                  description: e.target.value,
                 }))
               }
             />
           </Box>
           <Box p={2} borderRightWidth="1px" borderColor="gray.200">
             <Textarea
-              h="100%"
+              h="200px"
               placeholder="Details of your offering"
               fontSize="sm"
-              value={standard.details}
+              whiteSpace="pre-wrap"
+              value={standard.description}
               onChange={e =>
                 setStandard(prevState => ({
                   ...prevState,
-                  details: e.target.value,
+                  description: e.target.value,
                 }))
               }
             />
           </Box>
           <Box p={2}>
             <Textarea
-              h="100%"
+              h="200px"
               placeholder="Details of your offering"
               fontSize="sm"
-              value={premium.details}
+              whiteSpace="pre-wrap"
+              value={premium.description}
               onChange={e =>
                 setPremium(prevState => ({
                   ...prevState,
-                  details: e.target.value,
+                  description: e.target.value,
                 }))
               }
             />
@@ -181,21 +185,21 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
           </Box>
           <Box p={2} borderRightWidth="1px" borderColor="gray.200">
             <Select
-              value={basic.delivery_time}
+              value={basic.duration_in_days}
               onChange={e =>
                 setBasic(prevState => ({
                   ...prevState,
-                  delivery_time: e.target.value,
+                  duration_in_days: e.target.value,
                 }))
               }
             >
               <option value="" disabled selected>
                 Select Time
               </option>
-              {delivery_times.map((el, i) => (
+              {delivery_list.map((el, i) => (
                 <option
                   value={el}
-                  selected={el == basic.delivery_time}
+                  selected={el == basic.duration_in_days}
                   key={i}
                 >
                   {el} Days
@@ -205,21 +209,21 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
           </Box>
           <Box p={2} borderRightWidth="1px" borderColor="gray.200">
             <Select
-              value={standard.delivery_time}
+              value={standard.duration_in_days}
               onChange={e =>
                 setStandard(prevState => ({
                   ...prevState,
-                  delivery_time: e.target.value,
+                  duration_in_days: e.target.value,
                 }))
               }
             >
               <option value="" disabled selected>
                 Select Time
               </option>
-              {delivery_times.map((el, i) => (
+              {delivery_list.map((el, i) => (
                 <option
                   value={el}
-                  selected={el == standard.delivery_time}
+                  selected={el == standard.duration_in_days}
                   key={i}
                 >
                   {el} Days
@@ -229,21 +233,21 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
           </Box>
           <Box p={2}>
             <Select
-              value={premium.delivery_time}
+              value={premium.duration_in_days}
               onChange={e =>
                 setPremium(prevState => ({
                   ...prevState,
-                  delivery_time: e.target.value,
+                  duration_in_days: e.target.value,
                 }))
               }
             >
               <option value="" disabled selected>
                 Select Time
               </option>
-              {delivery_times.map((el, i) => (
+              {delivery_list.map((el, i) => (
                 <option
                   value={el}
-                  selected={el == premium.delivery_time}
+                  selected={el == premium.duration_in_days}
                   key={i}
                 >
                   {el} Days
@@ -316,6 +320,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={basic.prototype}
+              isChecked={basic.prototype}
               onChange={e =>
                 setBasic(prevState => ({
                   ...prevState,
@@ -334,6 +339,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={standard.prototype}
+              isChecked={standard.prototype}
               onChange={e =>
                 setStandard(prevState => ({
                   ...prevState,
@@ -346,6 +352,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={premium.prototype}
+              isChecked={premium.prototype}
               onChange={e =>
                 setPremium(prevState => ({
                   ...prevState,
@@ -369,6 +376,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={basic.content_upload}
+              isChecked={basic.content_upload}
               onChange={e =>
                 setBasic(prevState => ({
                   ...prevState,
@@ -387,6 +395,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={standard.content_upload}
+              isChecked={standard.content_upload}
               onChange={e =>
                 setStandard(prevState => ({
                   ...prevState,
@@ -399,6 +408,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={premium.content_upload}
+              isChecked={premium.content_upload}
               onChange={e =>
                 setPremium(prevState => ({
                   ...prevState,
@@ -422,6 +432,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={basic.source_file}
+              isChecked={basic.source_file}
               onChange={e =>
                 setBasic(prevState => ({
                   ...prevState,
@@ -440,6 +451,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={standard.source_file}
+              isChecked={standard.source_file}
               onChange={e =>
                 setStandard(prevState => ({
                   ...prevState,
@@ -452,6 +464,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             <Checkbox
               size="lg"
               value={premium.source_file}
+              isChecked={premium.source_file}
               onChange={e =>
                 setPremium(prevState => ({
                   ...prevState,
@@ -533,7 +546,7 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
         <CheckboxGroup value={features}>
           {extra_services.map((el, i) => (
             <Flex p={5} borderBottomWidth="1px" borderColor="gray.200" key={i}>
-              <Checkbox value={el.id} onChange={() => handleFeatures(el)} />
+              <Checkbox value={el.id} isChecked={features.includes(el.id)} onChange={() => handleFeatures(el)} />
               <Text color="gray.700" ml={2}>
                 {el.name}
               </Text>
@@ -541,7 +554,17 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
           ))}
         </CheckboxGroup>
         <Flex p={5}>
-          <Input placeholder='Add extra gig' mr={2} value={extra} onChange={(e) => setExtra(e.target.value)} />
+          <Input
+            placeholder='Add extra gig'
+            mr={2}
+            onKeyDown={e => {
+              if (e.keyCode === 13) {
+                addExtra();
+              }
+            }}
+            value={extra}
+            onChange={(e) => setExtra(e.target.value)}
+          />
           <Button colorScheme="blue" onClick={() => addExtra()}>Save</Button>
         </Flex>
       </Box>

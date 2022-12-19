@@ -76,6 +76,15 @@ const Step5Gallery = ({ images, setImages, videos, setVideos, documents, setDocu
           setImages(prevState => [...prevState, res.data]);
         }
       })
+    } else {
+      toast({
+        title: "Upload failed.",
+        description: "Only these extensions are allowed - " + imageExtensions.join(", "),
+        status: "error",
+        position: "bottom-left",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   }
 

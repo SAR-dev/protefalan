@@ -21,11 +21,8 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { getCategoryList } from '../api';
 
-const Step1Overview = ({title, setTitle, tags, setTags, category, setCategory, save}) => {
+const Step1Overview = ({ title, setTitle, tags, setTags, category, setCategory, save }) => {
   const { status, data, error, isFetching, isLoading, isError } = useQuery(["categories"], () => getCategoryList())
-
-
-
 
   return (
     <Box p={10} borderWidth="1px" borderColor="gray.200" rounded="md">
@@ -75,11 +72,13 @@ const Step1Overview = ({title, setTitle, tags, setTags, category, setCategory, s
             <option value="" disabled selected>
               Select A Category
             </option>
-            {data && data.results.map((el, i) => (
-              <option value={el.id} selected={el.id === category} key={i}>
-                {el.name}
-              </option>
-            ))}
+            {!isLoading && (<>
+              {data && data.results.map((el, i) => (
+                <option value={el.id} selected={el.id == category} key={i}>
+                  {el.name}
+                </option>
+              ))}
+            </>)}
           </Select>
         </Flex>
         <Flex>
