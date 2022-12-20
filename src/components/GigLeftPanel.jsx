@@ -8,6 +8,7 @@ import { parseText } from '../helpers'
 import { getGigsByAuthor } from '../api'
 import { useQuery } from '@tanstack/react-query';
 import SellerCard from './SellerCard';
+import ReactPlayer from 'react-player'
 
 const GigLeftPanel = ({ gig }) => {
   const { status, data, error, isFetching, isLoading, isError } = useQuery(["gigs_author", gig.author.username], () => getGigsByAuthor(gig.author.username), {
@@ -31,6 +32,8 @@ const GigLeftPanel = ({ gig }) => {
       <Text
         as={Link}
         color={gig.category.color}
+        bg="gray.200"
+        px={3}
         _hover={{ color: 'blue.600' }}
         fontWeight="semibold"
       >
@@ -75,8 +78,22 @@ const GigLeftPanel = ({ gig }) => {
       )}
     </Flex>
     <GigImageCarousel images={gig.images} />
+    {gig.videos.length !== 0 && (
+      <>
+        <Text fontSize="xl" fontWeight="bold" color="gray.700" my={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
+          Related Videos
+        </Text>
+        <SimpleGrid columns={3} spacing={5} my={5}>
+          {gig.videos.map((e, i) => (
+            <Box overflow="hidden" borderWidth="3px" borderColor="blue.500" rounded="md">
+              <ReactPlayer width="100%" height="100%" url={e} />
+            </Box>
+          ))}
+        </SimpleGrid>
+      </>
+    )}
     <Box my={10}>
-      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
+      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
         About This Gig
       </Text>
       <Box className="post-content" color="gray.700">
@@ -121,7 +138,7 @@ const GigLeftPanel = ({ gig }) => {
       )}
     </Flex>
     <Box my={10}>
-      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
+      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
         About The Seller
       </Text>
       <Flex alignItems="center">
@@ -193,18 +210,32 @@ const GigLeftPanel = ({ gig }) => {
         color="gray.700"
         className="post-content"
       >
-        {parse(gig.author.profile.bio)}
+        {parse(gig.author.profile.bio || "")}
       </Box>
     </Box>
     <Box my={10}>
-      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
+      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
         Compare Packages
       </Text>
-      <PackageCompare packages={gig.packages} />
+      {/* <PackageCompare packages={gig.packages} /> */}
+    </Box>
+    <Box my={10}>
+      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
+        Frequently Asked Question
+      </Text>
+
+      <Box className="post-content" color="gray.700">
+        {gig.faq && gig.faq.length > 0 && gig.faq.map((e, i) => (
+          <Box key={i}>
+            <Text fontWeight={700}>Q: {JSON.parse(e).question}</Text>
+            <Text key={i}>A: {JSON.parse(e).answer}</Text>
+          </Box>
+        ))}
+      </Box>
     </Box>
     {!isLoading && data && data.results.length > 0 && (
       <Box my={10}>
-        <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
+        <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
           Recommended For You
         </Text>
         <SimpleGrid columns={3} spacing={5}>
@@ -214,23 +245,6 @@ const GigLeftPanel = ({ gig }) => {
         </SimpleGrid>
       </Box>
     )}
-    <Box my={10}>
-      <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={3}>
-        Frequently Asked Question
-      </Text>
-
-      <Box className="post-content" color="gray.700">
-        {gig.faq && gig.faq.length > 0 && gig.faq.map((e, i) => (
-          <>
-            {i % 2 === 0 ? (
-              <Text key={i} fontWeight={700}>Q: {parse(e.replace(/['"]+/g, ''))}</Text>
-            ) : (
-              <Text key={i}>A: {parse(e.replace(/['"]+/g, ''))}</Text>
-            )}
-          </>
-        ))}
-      </Box>
-    </Box>
 
   </>;
 };

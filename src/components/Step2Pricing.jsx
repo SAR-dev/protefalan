@@ -474,6 +474,176 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
             />
           </Flex>
         </SimpleGrid>
+        <SimpleGrid columns={4} borderBottomWidth="1px" borderColor="gray.200">
+          <Box p={2} borderRightWidth="1px" borderColor="gray.200">
+            <Text color="gray.700">Consultation</Text>
+          </Box>
+          <Flex
+            p={4}
+            borderRightWidth="1px"
+            borderColor="gray.200"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Checkbox
+              size="lg"
+              value={basic.consulatation}
+              isChecked={basic.consulatation}
+              onChange={e =>
+                setBasic(prevState => ({
+                  ...prevState,
+                  consulatation: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+          <Flex
+            p={4}
+            borderRightWidth="1px"
+            borderColor="gray.200"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Checkbox
+              size="lg"
+              value={standard.consulatation}
+              isChecked={standard.consulatation}
+              onChange={e =>
+                setStandard(prevState => ({
+                  ...prevState,
+                  consulatation: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+          <Flex p={4} justifyContent="center" alignItems="center">
+            <Checkbox
+              size="lg"
+              value={premium.consulatation}
+              isChecked={premium.consulatation}
+              onChange={e =>
+                setPremium(prevState => ({
+                  ...prevState,
+                  consulatation: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+        </SimpleGrid>
+        <SimpleGrid columns={4} borderBottomWidth="1px" borderColor="gray.200">
+          <Box p={2} borderRightWidth="1px" borderColor="gray.200">
+            <Text color="gray.700">Deployment</Text>
+          </Box>
+          <Flex
+            p={4}
+            borderRightWidth="1px"
+            borderColor="gray.200"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Checkbox
+              size="lg"
+              value={basic.deployment}
+              isChecked={basic.deployment}
+              onChange={e =>
+                setBasic(prevState => ({
+                  ...prevState,
+                  deployment: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+          <Flex
+            p={4}
+            borderRightWidth="1px"
+            borderColor="gray.200"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Checkbox
+              size="lg"
+              value={standard.deployment}
+              isChecked={standard.deployment}
+              onChange={e =>
+                setStandard(prevState => ({
+                  ...prevState,
+                  deployment: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+          <Flex p={4} justifyContent="center" alignItems="center">
+            <Checkbox
+              size="lg"
+              value={premium.deployment}
+              isChecked={premium.deployment}
+              onChange={e =>
+                setPremium(prevState => ({
+                  ...prevState,
+                  deployment: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+        </SimpleGrid>
+
+        <SimpleGrid columns={4} borderBottomWidth="1px" borderColor="gray.200">
+          <Box p={2} borderRightWidth="1px" borderColor="gray.200">
+            <Text color="gray.700">Integration</Text>
+          </Box>
+          <Flex
+            p={4}
+            borderRightWidth="1px"
+            borderColor="gray.200"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Checkbox
+              size="lg"
+              value={basic.integration}
+              isChecked={basic.integration}
+              onChange={e =>
+                setBasic(prevState => ({
+                  ...prevState,
+                  integration: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+          <Flex
+            p={4}
+            borderRightWidth="1px"
+            borderColor="gray.200"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Checkbox
+              size="lg"
+              value={standard.integration}
+              isChecked={standard.integration}
+              onChange={e =>
+                setStandard(prevState => ({
+                  ...prevState,
+                  integration: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+          <Flex p={4} justifyContent="center" alignItems="center">
+            <Checkbox
+              size="lg"
+              value={premium.integration}
+              isChecked={premium.integration}
+              onChange={e =>
+                setPremium(prevState => ({
+                  ...prevState,
+                  integration: e.target.checked,
+                }))
+              }
+            />
+          </Flex>
+        </SimpleGrid>
+
         <SimpleGrid columns={4}>
           <Box p={2} borderRightWidth="1px" borderColor="gray.200">
             <Text color="gray.700">Price in Dollar</Text>

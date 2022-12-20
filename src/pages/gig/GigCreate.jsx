@@ -45,6 +45,7 @@ const GigCreate = () => {
   ];
 
   const [active, setActive] = useState(1);
+  const [error, setError] = useState({})
 
   const [title, setTitle] = useState("");
   const [tags, setTags] = useState("");
@@ -54,39 +55,36 @@ const GigCreate = () => {
     title: "",
     description: "",
     duration_in_days: "",
-    no_of_pages: 1,
     revisions: 1,
-    responsive: false,
     prototype: false,
     content_upload: false,
-    convert_to: false,
-    source_file: false,
+    consulatation: false,
+    deployment: false,
+    integration: false,
     price: 1,
   });
   const [standard, setStandard] = useState({
     title: "",
     description: "",
     duration_in_days: "",
-    no_of_pages: 1,
     revisions: 1,
-    responsive: false,
     prototype: false,
     content_upload: false,
-    convert_to: false,
-    source_file: false,
+    consulatation: false,
+    deployment: false,
+    integration: false,
     price: 1,
   });
   const [premium, setPremium] = useState({
     title: "",
     description: "",
     duration_in_days: "",
-    no_of_pages: 1,
     revisions: 1,
-    responsive: false,
     prototype: false,
     content_upload: false,
-    convert_to: false,
-    source_file: false,
+    consulatation: false,
+    deployment: false,
+    integration: false,
     price: 1,
   });
 
@@ -111,6 +109,7 @@ const GigCreate = () => {
   const [documents, setDocuments] = useState([]);
 
   const submit = () => {
+    setError([])
     setLoading(true)
     const gigData = {
       title: title,
@@ -145,6 +144,7 @@ const GigCreate = () => {
       if (res.error) {
         setLoading(false)
         console.log(res.error)
+        setError(res.error)
       } else {
         saveLocalGigId(res.id)
         const gigId = getLocalGigId()
@@ -155,6 +155,7 @@ const GigCreate = () => {
           if (res.error) {
             setLoading(false)
             console.log(r.error)
+            setError(r.error)
           } else {
             setLoading(false)
             clearGigCache()
@@ -297,7 +298,7 @@ const GigCreate = () => {
               <Step5Gallery images={images} setImages={setImages} videos={videos} setVideos={setVideos} documents={documents} setDocuments={setDocuments} save={() => setActive(6)} />
             </Box>
             <Box d={active !== 6 && "none"}>
-              <Step6Publish submit={submit} loading={loading} />
+              <Step6Publish submit={submit} loading={loading} error={error} setError={setError} />
             </Box>
           </GridItem>
         </Grid>

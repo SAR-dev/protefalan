@@ -13,6 +13,8 @@ import GigReviews from "../../components/GigReviews";
 
 const Gig = () => {
   const { id } = useParams();
+  const toast = useToast()
+
   const { status, data, error, isFetching, isLoading, isError } = useQuery(["gigs", id], () => getGigDetails(id), {
     enabled: id !== undefined
   })
@@ -53,22 +55,6 @@ const Gig = () => {
               </Text>
             </SimpleGrid>
             <Flex ml="auto">
-              <Button
-                colorScheme="whatsapp"
-                size="sm"
-                leftIcon={<Icon as={FaWhatsapp} />}
-                ml={2}
-              >
-                WhatsApp
-              </Button>
-              <Button
-                colorScheme="facebook"
-                size="sm"
-                leftIcon={<Icon as={FaFacebook} />}
-                ml={2}
-              >
-                Facebook
-              </Button>
               <CopyToClipboard text={window.location.href}
                 onCopy={() => toast({
                   title: "Copied!",

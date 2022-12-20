@@ -41,8 +41,8 @@
   line-height: 1.5rem;
   margin: 0 0 1.5rem 0;
   padding: 15px 20px;
-  background-color: #181c28;
-  border-left: solid 5px #212735;
+  background-color: #ccc;
+  border-left: solid 5px #424242;
 }
 
 .post-content a {

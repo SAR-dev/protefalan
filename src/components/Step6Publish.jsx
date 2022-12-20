@@ -1,38 +1,9 @@
-import React, { useState, createRef } from 'react';
-import {
-  Flex,
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-  Grid,
-  GridItem,
-  Avatar,
-  Heading,
-  HStack,
-  Divider,
-  Select,
-  Input,
-  Textarea,
-  NumberInput,
-  NumberInputField,
-  Checkbox,
-  CheckboxGroup,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-} from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Flex, Box, Button, Text, List, ListIcon, ListItem, UnorderedList } from '@chakra-ui/react';
+import { WarningTwoIcon } from "@chakra-ui/icons"
+import { parseText, capitalizeFirstLetter } from '../helpers'
 
-const Step6Publish = ({submit, loading}) => {
+const Step6Publish = ({ submit, loading, error, setError }) => {
   return (
     <Box p={10} borderWidth="1px" borderColor="gray.200" rounded="md">
       <Text
@@ -50,6 +21,19 @@ const Step6Publish = ({submit, loading}) => {
       <Flex justifyContent="center">
         <Button onClick={submit} colorScheme="teal" isLoading={loading}>Publish</Button>
       </Flex>
+
+      {Object.keys(error).length !== 0 > 0 && (
+        <Box p={5} mt={5} rounded="md" bg="red.100" >
+          <Text mb={5} px={5}>Fix these errors:</Text>
+          <UnorderedList spacing={3} pl={10}>
+            {Object.keys(error).map((el, i) => (
+              <ListItem key={i}>
+                {`${capitalizeFirstLetter(el.split("_").join(" "))} : ${error[el].join(", ")}`}
+              </ListItem>
+            ))}
+          </UnorderedList>
+        </Box>
+      )}
     </Box>
   );
 };

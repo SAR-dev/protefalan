@@ -17,7 +17,7 @@ import { AiOutlineFieldTime } from 'react-icons/ai';
 import { BiReset } from 'react-icons/bi';
 import { parseText, capitalizeFirstLetter } from '../helpers'
 
-const bools = ["prototype", "content_upload", "source_file"]
+const bools = ["prototype", "content_upload", "source_file", "consulatation", "deployment", "integration"]
 
 const GigRightPanel = ({ extra_services, packages }) => {
   const [active, setActive] = useState(packages[0]);
@@ -61,7 +61,7 @@ const GigRightPanel = ({ extra_services, packages }) => {
               {active.title}
             </Text>
             <Text fontWeight="bold" color="gray.700" ml="auto">
-              {active.price}
+              $ {active.price}
             </Text>
           </Flex>
 

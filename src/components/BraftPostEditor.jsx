@@ -18,27 +18,12 @@ const BraftPostEditor = ({ post, setPost, height, placeholder }) => {
     'blockquote',
   ];
 
-  function check() {
-    let el = getComputedStyle(
-      document.querySelector('.public-DraftEditor-content div')
-    );
-    let contentHeight = parseInt(el.height.substring(0, el.height.length - 2));
-    if (contentHeight > height) {
-      document.querySelector('.bf-content').style.height = getComputedStyle(
-        document.querySelector('.public-DraftEditor-content div')
-      ).height;
-    } else {
-      document.querySelector('.bf-content').style.height = `${height}px`;
-    }
-  }
-
   const handleEditorChange = editorState => {
     setState( editorState );
     if (state.editorState !== null) {
       const htmlContent = state.toHTML();
       setPost(htmlContent);
     }
-    check();
   };
 
   return (
