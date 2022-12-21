@@ -20,6 +20,7 @@ import ChatMessages from './pages/ChatMessages';
 import { useEffect } from 'react';
 import { getLocalAccessToken } from './helpers';
 import useAuthStore from './store';
+import GigUpdate from './pages/gig/GigUpdate';
 
 const App = () => {
   const {setAccessToken} = useAuthStore()
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/signin" exact component={Signin} />
           <Route path="/gig/create" exact component={GigCreate} />
           <Route path="/gig/:id" exact component={Gig} />
+          <Route path="/gig/:id/update" exact component={GigUpdate} />
           <Route path="/messages" exact component={ChatMessages} />
           <Route path="/orders/:type" exact component={Orders} />
           <Route path="/u" exact component={UHome} />

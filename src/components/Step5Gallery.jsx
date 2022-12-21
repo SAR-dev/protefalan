@@ -37,6 +37,7 @@ import { RiImageAddFill, RiVideoAddLine, RiFolderHistoryLine } from 'react-icons
 import ReactPlayer from 'react-player'
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { imageUploader } from "../api";
+import { MdDelete } from 'react-icons/md';
 
 const Step5Gallery = ({ images, setImages, videos, setVideos, documents, setDocuments, save }) => {
   const [video, setVideo] = useState('');
@@ -88,14 +89,32 @@ const Step5Gallery = ({ images, setImages, videos, setVideos, documents, setDocu
     }
   }
 
+  const removeImage = (i) => {
+    const t = images;
+    t.splice(i, 1)
+    setImages([...t])
+  }
+
   const addVideo = () => {
     setVideos(prevState => [...prevState, video]);
     setVideo('')
   }
 
+  const removeVideo = (i) => {
+    const t = videos;
+    t.splice(i, 1)
+    setVideos([...t])
+  }
+
   const addDocument = () => {
     setDocuments(prevState => [...prevState, document]);
     setDocument('')
+  }
+
+  const removeDocument = (i) => {
+    const t = documents;
+    t.splice(i, 1)
+    setDocuments([...t])
   }
 
   return (
@@ -136,6 +155,7 @@ const Step5Gallery = ({ images, setImages, videos, setVideos, documents, setDocu
                   objectFit="cover"
                   src={el.image}
                 />
+                <Button mt={1} variant="outline" size="xs" w="100%" onClick={() => removeImage(i)}>Delete</Button>
               </Box>
             ))}
             <IconButton
@@ -177,12 +197,11 @@ const Step5Gallery = ({ images, setImages, videos, setVideos, documents, setDocu
             {videos.map((el, i) => (
               <Box
                 w="100%"
-                borderWidth="1px"
-                borderColor="gray.200"
                 rounded="md"
                 key={i}
               >
-                <ReactPlayer width="100%" height="100%" url={el} />
+                <ReactPlayer width="100%" height="150px" url={el} />
+                <Button mt={1} variant="outline" size="xs" w="100%" onClick={() => removeVideo(i)}>Delete</Button>
               </Box>
             ))}
           </SimpleGrid>
@@ -204,9 +223,12 @@ const Step5Gallery = ({ images, setImages, videos, setVideos, documents, setDocu
           </Text>
           <SimpleGrid columns={1} spacing={5} mb={documents.length !== 0 ? 5 : 0}>
             {documents.map((el, i) => (
+              <Flex>
               <Link href='https://chakra-ui.com' px={5} py={3} d="flex" rounded="md" alignItems="center" bg="gray.200" isExternal key={i}>
                 <Text noOfLines={1}>{el}</Text> <ExternalLinkIcon ml='2px' />
               </Link>
+              <IconButton icon={<MdDelete />} ml={1} h="100%" variant="outline" onClick={() => removeDocument(i)} />
+              </Flex>
             ))}
             <Flex>
               <Input placeholder='Add document link' mr={2} value={document} onChange={(e) => setDocument(e.target.value)} />

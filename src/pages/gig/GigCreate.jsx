@@ -28,7 +28,7 @@ import Step5Gallery from "../../components/Step5Gallery";
 import Step6Publish from "../../components/Step6Publish";
 import AuthLayout from "../../layouts/AuthLayout";
 import { clearGigCache, saveLocalGigId, getLocalGigId, saveLocalGig, saveLocalPackages, getLocalGig, getLocalPackages } from "../../helpers"
-import { createGig, createBulkPackages } from "../../api"
+import { createGig, createBulkPackages, deleteeGig } from "../../api"
 import { useHistory } from "react-router-dom";
 
 const GigCreate = () => {
@@ -143,7 +143,6 @@ const GigCreate = () => {
     createGig(gig).then((res) => {
       if (res.error) {
         setLoading(false)
-        console.log(res.error)
         setError(res.error)
       } else {
         saveLocalGigId(res.id)
@@ -153,8 +152,8 @@ const GigCreate = () => {
         })
         createBulkPackages(p).then(r => {
           if (res.error) {
+            deleteeGig(gigId)
             setLoading(false)
-            console.log(r.error)
             setError(r.error)
           } else {
             setLoading(false)

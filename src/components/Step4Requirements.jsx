@@ -31,6 +31,7 @@ import {
   TableCaption,
 } from '@chakra-ui/react';
 import BraftPostEditor from './BraftPostEditor';
+import UpdatableTextarea from './UpdatableTextarea';
 
 const Step4Requirements = ({ requirements, setRequirements, save }) => {
   const [requirement, setRequirement] = useState('');
@@ -84,9 +85,11 @@ const Step4Requirements = ({ requirements, setRequirements, save }) => {
               {requirements.map((el, i) => (
                 <Tr key={i}>
                   <Td>
-                    <Text whiteSpace="pre-wrap">
-                      {el}
-                    </Text>
+                    <UpdatableTextarea value={el} arr={requirements} setArr={setRequirements} index={i}>
+                      <Text whiteSpace="pre-wrap">
+                        {el}
+                      </Text>
+                    </UpdatableTextarea>
                   </Td>
                 </Tr>
               ))}

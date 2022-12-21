@@ -22,7 +22,7 @@ const Step6Publish = ({ submit, loading, error, setError }) => {
         <Button onClick={submit} colorScheme="teal" isLoading={loading}>Publish</Button>
       </Flex>
 
-      {Object.keys(error).length !== 0 > 0 && (
+      {Object.keys(error).length !== 0  && (
         <Box p={5} mt={5} rounded="md" bg="red.100" >
           <Text mb={5} px={5}>Fix these errors:</Text>
           <UnorderedList spacing={3} pl={10}>

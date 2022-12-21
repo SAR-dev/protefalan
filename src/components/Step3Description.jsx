@@ -23,6 +23,7 @@ import {
   CheckboxGroup,
 } from '@chakra-ui/react';
 import BraftPostEditor from './BraftPostEditor';
+import UpdatableTextareaWithInput from './UpdatableTextareaWithInput';
 
 const Step3Description = ({ description, setDescription, faq, setFaq, save }) => {
   const [question, setQuestion] = useState('');
@@ -73,14 +74,20 @@ const Step3Description = ({ description, setDescription, faq, setFaq, save }) =>
         mb={10}
         p={10}
       >
-        {faq.map((el, i) => (
-          <Box color="gray.700" mb={5} key={i}>
-            <Text fontWeight="semibold" mb={3}>
-              {el.question}
-            </Text>
-            <Text whiteSpace="pre-wrap">{el.answer}</Text>
-          </Box>
-        ))}
+        {faq.length !== 0 && (
+          <SimpleGrid columns={1} spacing={3} mb={5} bg="white" p={5} rounded="md">
+            {faq.map((el, i) => (
+              <UpdatableTextareaWithInput input={el.question} textarea={el.answer} arr={faq} setArr={setFaq} index={i} key={i}>
+                <Box color="gray.700" pb={3} borderBottom="1px solid #eee">
+                  <Text fontWeight="semibold" mb={3}>
+                    {el.question}
+                  </Text>
+                  <Text whiteSpace="pre-wrap">{el.answer}</Text>
+                </Box>
+              </UpdatableTextareaWithInput>
+            ))}
+          </SimpleGrid>
+        )}
         <SimpleGrid columns={1} spacing={3}>
           <Input
             bg="white"

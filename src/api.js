@@ -144,6 +144,17 @@ export function getGigDetails(id) {
     });
 }
 
+export function getGigUpdateDetails(id) {
+  return axios
+    .get(`/gig/${id}/update/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
 export function getGigComments(gig_id) {
   return axios
     .get(`/comment/list/?gig__id=${gig_id}`, defaultConfig())
@@ -226,6 +237,17 @@ export function imageUploader(img) {
 export function createGig(data) {
   return axios
     .post(`/gig/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function deleteeGig(id) {
+  return axios
+    .delete(`/gig/${id}/update/`, defaultConfig())
     .then((res) => {
       return res.data;
     })
