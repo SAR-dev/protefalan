@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Flex,
   Box,
   Button,
-  Icon,
-  IconButton,
-  Image,
   Text,
   SimpleGrid,
   Grid,
   GridItem,
-  Avatar,
-  Heading,
-  HStack,
-  Divider,
-  StackDivider,
-  List,
-  ListItem,
-  ListIcon,
   Alert,
   AlertIcon,
   AlertTitle,
@@ -31,8 +20,14 @@ import Step4Requirements from "../../components/Step4Requirements";
 import Step5Gallery from "../../components/Step5Gallery";
 import Step6Publish from "../../components/Step6Publish";
 import AuthLayout from "../../layouts/AuthLayout";
-import { clearGigCache, saveLocalGigId, getLocalGigId, saveLocalGig, saveLocalPackages, getLocalGig, getLocalPackages } from "../../helpers"
-import { createGig, createBulkPackages, deleteeGig, getGigUpdateDetails } from "../../api"
+import {
+  clearGigCache,
+  saveLocalGigId,
+  getLocalGigId,
+  saveLocalGig,
+  saveLocalPackages,
+} from "../../helpers";
+import { createGig, createBulkPackages, deleteGig, getGigUpdateDetails, updateGig, updatePackage } from "../../api"
 import { useHistory, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -106,6 +101,7 @@ const GigUpdate = () => {
   const [category, setCategory] = useState();
 
   const [basic, setBasic] = useState({
+    id: "",
     title: "",
     description: "",
     duration_in_days: "",
@@ -119,6 +115,7 @@ const GigUpdate = () => {
     price: 1,
   });
   const [standard, setStandard] = useState({
+    id: "",
     title: "",
     description: "",
     duration_in_days: "",
@@ -132,6 +129,7 @@ const GigUpdate = () => {
     price: 1,
   });
   const [premium, setPremium] = useState({
+    id: "",
     title: "",
     description: "",
     duration_in_days: "",
@@ -168,19 +166,6 @@ const GigUpdate = () => {
   const submit = () => {
     setError([])
     setLoading(true)
-    const gigData = {
-      title: title,
-      tags: tags,
-      category: category,
-      description: description,
-      faq: faq,
-      requirements: requirements,
-      images: images,
-      videos: videos,
-      documents: documents,
-      extra_services: extra_services,
-      features: features
-    }
     const gig = {
       title: title,
       tags: tags.split(','),
@@ -193,87 +178,19 @@ const GigUpdate = () => {
       documents: documents,
       extra_services: extra_services.filter(service => features.includes(service.id)).map(e => e.name),
     }
-    const packages = [{ ...basic }, { ...standard }, { ...premium }]
-    saveLocalGig(gigData)
-    saveLocalPackages(packages)
 
-    createGig(gig).then((res) => {
+    updateGig({ id: id, data: gig }).then((res) => {
       if (res.error) {
         setLoading(false)
         setError(res.error)
       } else {
-        saveLocalGigId(res.id)
-        const gigId = getLocalGigId()
-        const p = packages.map(e => {
-          return { ...e, gig: gigId }
-        })
-        createBulkPackages(p).then(r => {
-          if (res.error) {
-            deleteeGig(gigId)
-            setLoading(false)
-            setError(r.error)
-          } else {
-            setLoading(false)
-            clearGigCache()
-            history.push(`/gig/${gigId}`)
-          }
-        })
+        updatePackage({ id: basic.id, data: basic })
+        updatePackage({ id: standard.id, data: standard })
+        updatePackage({ id: premium.id, data: premium })
+        history.push(`/gig/${gigId}`)
       }
     })
   }
-
-  useEffect(() => {
-    const g = getLocalGig();
-    const p = getLocalPackages()
-    if (g) {
-      if (g.title) {
-        setTitle(g.title)
-      }
-      if (g.tags) {
-        setTags(g.tags)
-      }
-      if (g.category) {
-        setCategory(g.category)
-      }
-      if (g.description) {
-        setDescription(g.description)
-      }
-      if (g.faq) {
-        setFaq(g.faq)
-      }
-      if (g.requirements) {
-        setRequirements(g.requirements)
-      }
-      if (g.images) {
-        setImages(g.images)
-      }
-      if (g.videos) {
-        setVideos(g.videos)
-      }
-      if (g.documents) {
-        setDocuments(g.documents)
-      }
-      if (g.extra_services) {
-        set_extra_services(g.extra_services)
-      }
-      if (g.features) {
-        setFeatures(g.features)
-      }
-    } else {
-      setDescription('<p></p>')
-    }
-    if (p) {
-      if (p[0]) {
-        setBasic({ ...p[0] })
-      }
-      if (p[1]) {
-        setStandard({ ...p[1] })
-      }
-      if (p[2]) {
-        setPremium({ ...p[2] })
-      }
-    }
-  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -379,7 +296,7 @@ const GigUpdate = () => {
               <Step5Gallery images={images} setImages={setImages} videos={videos} setVideos={setVideos} documents={documents} setDocuments={setDocuments} save={() => setActive(6)} />
             </Box>
             <Box d={active !== 6 && "none"}>
-              <Step6Publish submit={submit} loading={loading} error={error} setError={setError} />
+              <Step6Publish name="Update" submit={submit} loading={loading} error={error} setError={setError} />
             </Box>
           </GridItem>
         </Grid>

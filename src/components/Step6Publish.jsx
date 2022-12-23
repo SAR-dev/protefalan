@@ -3,7 +3,7 @@ import { Flex, Box, Button, Text, List, ListIcon, ListItem, UnorderedList } from
 import { WarningTwoIcon } from "@chakra-ui/icons"
 import { parseText, capitalizeFirstLetter } from '../helpers'
 
-const Step6Publish = ({ submit, loading, error, setError }) => {
+const Step6Publish = ({ name, submit, loading, error, setError }) => {
   return (
     <Box p={10} borderWidth="1px" borderColor="gray.200" rounded="md">
       <Text
@@ -16,10 +16,10 @@ const Step6Publish = ({ submit, loading, error, setError }) => {
         ALMOST THERE
       </Text>
       <Text color="gray.700" textAlign="center" w="350px" mx="auto" mb={5}>
-        Let's publish your gig and roll some buyers in!
+        Let's {name.toLowerCase()} your gig and roll some buyers in!
       </Text>
       <Flex justifyContent="center">
-        <Button onClick={submit} colorScheme="teal" isLoading={loading}>Publish</Button>
+        <Button onClick={submit} colorScheme="teal" isLoading={loading}>{name}</Button>
       </Flex>
 
       {Object.keys(error).length !== 0  && (

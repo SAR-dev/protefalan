@@ -28,7 +28,7 @@ import Step5Gallery from "../../components/Step5Gallery";
 import Step6Publish from "../../components/Step6Publish";
 import AuthLayout from "../../layouts/AuthLayout";
 import { clearGigCache, saveLocalGigId, getLocalGigId, saveLocalGig, saveLocalPackages, getLocalGig, getLocalPackages } from "../../helpers"
-import { createGig, createBulkPackages, deleteeGig } from "../../api"
+import { createGig, createBulkPackages, deleteGig } from "../../api"
 import { useHistory } from "react-router-dom";
 
 const GigCreate = () => {
@@ -155,7 +155,7 @@ const GigCreate = () => {
         })
         createBulkPackages(p).then(r => {
           if (res.error) {
-            deleteeGig(gigId)
+            deleteGig(gigId)
             setLoading(false)
             setError(r.error)
           } else {
@@ -300,7 +300,7 @@ const GigCreate = () => {
               <Step5Gallery images={images} setImages={setImages} videos={videos} setVideos={setVideos} documents={documents} setDocuments={setDocuments} save={() => setActive(6)} />
             </Box>
             <Box d={active !== 6 && "none"}>
-              <Step6Publish submit={submit} loading={loading} error={error} setError={setError} />
+              <Step6Publish name="Publish" submit={submit} loading={loading} error={error} setError={setError} />
             </Box>
           </GridItem>
         </Grid>

@@ -245,9 +245,31 @@ export function createGig(data) {
     });
 }
 
-export function deleteeGig(id) {
+export function deleteGig(id) {
   return axios
     .delete(`/gig/${id}/update/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function updateGig({id, data}) {
+  return axios
+    .put(`/gig/${id}/update/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function updatePackage({id, data}) {
+  return axios
+    .put(`/package/${id}/update/`, data, defaultConfig())
     .then((res) => {
       return res.data;
     })

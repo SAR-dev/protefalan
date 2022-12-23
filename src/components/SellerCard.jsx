@@ -8,6 +8,7 @@ import {
   SimpleGrid,
   Avatar,
   useToast,
+  IconButton,
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 import {
@@ -17,13 +18,17 @@ import {
   MdThumbDown,
 } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { MdEdit } from "react-icons/md";
 import { addUpvoteGig, removeUpvoteGig, addDownvoteGig, removeDownvoteGig } from "../api";
 import { useQueryClient } from "@tanstack/react-query";
+import useAuthStore from '../store';
+import jwt_decode from "jwt-decode";
 
 const SellerCard = ({ gig }) => {
   const queryClient = useQueryClient();
   const toast = useToast();
-  const [ data, setData ] = useState(gig);
+  const [data, setData] = useState(gig);
+  const { accessToken } = useAuthStore()
 
   const upvote = () => {
     if (!data.upvoted) {
@@ -138,7 +143,7 @@ const SellerCard = ({ gig }) => {
       overflow="hidden"
       bg="white"
     >
-      <Box h="150px" w="100%" bg="gray.200" overflow="hidden">
+      <Box h="150px" w="100%" bg="gray.200" pos="relative" overflow="hidden">
         <Image
           h="150px"
           w="100%"
@@ -151,6 +156,9 @@ const SellerCard = ({ gig }) => {
           _hover={{ transform: "scale(1.1)" }}
           transition="transform .25s ease"
         />
+        {jwt_decode(accessToken).user_id == data.author.id && (
+          <IconButton as={Link} to={`/gig/${data.id}/update`} size="sm" pos="absolute" top={0} right={0} m={1} icon={<MdEdit />} />
+        )}
       </Box>
       <SimpleGrid columns={1} spacing={3} p={4}>
         <Flex alignItems="center" w="100%">
