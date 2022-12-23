@@ -199,7 +199,6 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
               {delivery_list.map((el, i) => (
                 <option
                   value={el}
-                  selected={el == basic.duration_in_days}
                   key={i}
                 >
                   {el} Days
@@ -223,7 +222,6 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
               {delivery_list.map((el, i) => (
                 <option
                   value={el}
-                  selected={el == standard.duration_in_days}
                   key={i}
                 >
                   {el} Days
@@ -247,7 +245,6 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
               {delivery_list.map((el, i) => (
                 <option
                   value={el}
-                  selected={el == premium.duration_in_days}
                   key={i}
                 >
                   {el} Days
@@ -713,7 +710,6 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
         rounded="md"
         mb={10}
       >
-        <CheckboxGroup value={features}>
           {extra_services.map((el, i) => (
             <Flex p={5} borderBottomWidth="1px" borderColor="gray.200" key={i}>
               <Checkbox value={el.id} isChecked={features.includes(el.id)} onChange={() => handleFeatures(el)} />
@@ -722,7 +718,6 @@ const Step2Pricing = ({ basic, setBasic, standard, setStandard, premium, setPrem
               </Text>
             </Flex>
           ))}
-        </CheckboxGroup>
         <Flex p={5}>
           <Input
             placeholder='Add extra service'

@@ -223,8 +223,8 @@ const Step5Gallery = ({ images, setImages, videos, setVideos, documents, setDocu
           </Text>
           <SimpleGrid columns={1} spacing={5} mb={documents.length !== 0 ? 5 : 0}>
             {documents.map((el, i) => (
-              <Flex>
-              <Link href='https://chakra-ui.com' px={5} py={3} d="flex" rounded="md" alignItems="center" bg="gray.200" isExternal key={i}>
+              <Flex w="100%" key={i}>
+              <Link href={el} px={5} py={3} d="flex" rounded="md" alignItems="center" w="100%" bg="gray.200" isExternal key={i}>
                 <Text noOfLines={1}>{el}</Text> <ExternalLinkIcon ml='2px' />
               </Link>
               <IconButton icon={<MdDelete />} ml={1} h="100%" variant="outline" onClick={() => removeDocument(i)} />

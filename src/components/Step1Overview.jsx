@@ -68,13 +68,14 @@ const Step1Overview = ({ title, setTitle, tags, setTags, category, setCategory, 
           </Text>
           <Select
             onChange={e => setCategory(e.target.value)}
+            value={category}
           >
             <option value="" disabled selected>
               Select A Category
             </option>
             {!isLoading && (<>
               {data && data.results.map((el, i) => (
-                <option value={el.id} selected={el.id == category} key={i}>
+                <option value={el.id} key={i}>
                   {el.name}
                 </option>
               ))}

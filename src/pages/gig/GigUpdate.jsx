@@ -39,8 +39,52 @@ import { useQuery } from "@tanstack/react-query";
 const GigUpdate = () => {
   const { id } = useParams();
   const { status, data, isFetching, isLoading, isError } = useQuery(["gigs", id], () => getGigUpdateDetails(id), {
-    enabled: id !== undefined
+    enabled: id !== undefined,
+    onSuccess: (g) => {
+      if (g.title) {
+        setTitle(g.title)
+      }
+      if (g.tags) {
+        setTags(g.tags.join(","))
+      }
+      if (g.category) {
+        setCategory(g.category)
+      }
+      if (g.description) {
+        setDescription(g.description)
+      }
+      if (g.faq) {
+        setFaq(g.faq.map(e => JSON.parse(e)))
+      }
+      if (g.requirements) {
+        setRequirements(g.requirements)
+      }
+      if (g.src_images) {
+        setImages(g.src_images)
+      }
+      if (g.videos) {
+        setVideos(g.videos)
+      }
+      if (g.documents) {
+        setDocuments(g.documents)
+      }
+      if (g.src_packages && g.src_packages.length > 0) {
+        setBasic(g.src_packages[0])
+        setStandard(g.src_packages[1])
+        setPremium(g.src_packages[2])
+      }
+      if (g.extra_services) {
+        const es = g.extra_services.map(e => e.toLowerCase().replace(/ /g, ''))
+        const ep = extra_services.map(e => e.name.toLowerCase().replace(/ /g, ''))
+        const ed = [...extra_services, ...g.extra_services.filter(e => !ep.includes(e.toLowerCase().replace(/ /g, ''))).map(x => { return { id: Math.floor(Math.random() * (100 - 50) + 50), name: x } })]
+        set_extra_services(ed)
+        setFeatures([...ed.filter(e => es.includes(e.name.toLowerCase().replace(/ /g, ''))).map(x => x.id)])
+      }
+    },
+    staleTime: Infinity,
+    cacheTime: Infinity
   })
+
 
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -67,6 +111,7 @@ const GigUpdate = () => {
     duration_in_days: "",
     revisions: 1,
     prototype: false,
+    source_file: false,
     content_upload: false,
     consulatation: false,
     deployment: false,
@@ -79,6 +124,7 @@ const GigUpdate = () => {
     duration_in_days: "",
     revisions: 1,
     prototype: false,
+    source_file: false,
     content_upload: false,
     consulatation: false,
     deployment: false,
@@ -91,6 +137,7 @@ const GigUpdate = () => {
     duration_in_days: "",
     revisions: 1,
     prototype: false,
+    source_file: false,
     content_upload: false,
     consulatation: false,
     deployment: false,
@@ -242,15 +289,15 @@ const GigUpdate = () => {
 
   if (data && data.error) {
     return (
-    <AuthLayout>
-      <NavLayout>
-        <Alert status='error' w="500px" mx="auto">
-          <AlertIcon />
-          <AlertTitle>Unauthorized!</AlertTitle>
-          <AlertDescription>Your can not view this route.</AlertDescription>
-        </Alert>
-      </NavLayout>
-    </AuthLayout>)
+      <AuthLayout>
+        <NavLayout>
+          <Alert status='error' w="500px" mx="auto">
+            <AlertIcon />
+            <AlertTitle>Unauthorized!</AlertTitle>
+            <AlertDescription>Your can not view this route.</AlertDescription>
+          </Alert>
+        </NavLayout>
+      </AuthLayout>)
   }
 
   return (
