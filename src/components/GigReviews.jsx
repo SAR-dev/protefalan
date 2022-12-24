@@ -39,18 +39,7 @@ const GigReviews = () => {
     const ReviewsHeader = () => (
         <Flex mb={5} alignItems='center'>
             <Text fontSize="2xl" color="gray.700">Reviews</Text>
-            <Flex color="yellow.400" mx={3} alignItems="center">
-                <Icon as={FaStar} h={5} w={5} mr={1} />
-                <Text>5</Text>
-            </Flex>
-            <Text color="gray.400">(104)</Text>
-            <Select ml="auto" w="250px" size="sm">
-                <option selected value="option1">
-                    Most Relevant
-                </option>
-                <option value="option2">Top Reviews</option>
-                <option value="option3">Popular Reviews</option>
-            </Select>
+            <Text fontSize="2xl" color="gray.400" ml={3}>({comments.length})</Text>
         </Flex>
     );
 

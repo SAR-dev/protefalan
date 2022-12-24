@@ -256,6 +256,17 @@ export function createComment(data) {
     });
 }
 
+export function updateComment(id, data) {
+  return axios
+    .put(`/comment/${id}/update/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
 export function deleteGig(id) {
   return axios
     .delete(`/gig/${id}/update/`, defaultConfig())
