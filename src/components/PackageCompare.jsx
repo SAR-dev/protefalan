@@ -40,7 +40,9 @@ import { AiOutlineFieldTime } from 'react-icons/ai';
 import { BiReset } from 'react-icons/bi';
 import GigImageCarousel from './GigImageCarousel';
 import parse from 'html-react-parser';
-import { parseText } from '../helpers'
+import { parseText, capitalizeFirstLetter } from '../helpers'
+
+const bools = ["prototype", "content_upload", "source_file", "consulatation", "deployment", "integration"]
 
 const TableRow = ({title, values}) => (
   <SimpleGrid
@@ -65,82 +67,30 @@ const TableRow = ({title, values}) => (
   </SimpleGrid>
 )
 
+const TableBooleanRow = ({title, values}) => (
+  <SimpleGrid
+    columns={values.length + 1}
+    color="gray.700"
+    borderBottomWidth="1px"
+    borderBottomColor="gray.200"
+  >
+    <Box p={5} borderRightWidth="1px" borderRightColor="gray.200">
+      {title}
+    </Box>
+    {values.map((el, i) => (
+      <Box
+        p={5}
+        borderRightWidth={values.length - 1 !== i && "1px"}
+        borderRightColor={values.length - 1 !== i && "gray.200"}
+        key={i}
+      >
+        <Icon as={FaCheck} color={el ? "green.500" : "gray.200"} />
+      </Box>
+    ))}
+  </SimpleGrid>
+)
+
 const PackageCompare = ({ packages }) => {
-  // const data = [
-  //   {
-  //     name: 'Basic',
-  //     slug: 'basic',
-  //     price: '$60',
-  //     title: 'Single Page Website',
-  //     details:
-  //       'I will create Single Page Website (4~5 sections) using Html CSS, Tailwind CSS & Alpine JS.',
-  //     points: [
-  //       { name: 'Design Customization', type: 'boolean', value: true },
-  //       { name: 'Content Upload', type: 'boolean', value: false },
-  //       { name: 'Responsive Design', type: 'boolean', value: true },
-  //       { name: 'Include Source Code', type: 'boolean', value: false },
-  //       { name: 'Number of Pages', type: 'number', value: 3 },
-  //       { name: 'Revisions', type: 'number', value: 2 },
-  //       { name: 'Delivery Time', type: 'text', value: '3 days' },
-  //     ],
-  //   },
-  //   {
-  //     name: 'Standard',
-  //     slug: 'standard',
-  //     price: '$200',
-  //     title: '3 Pages Website',
-  //     details:
-  //       'I will create 3 Pages Responsive Website using Html CSS, Tailwind CSS & Alpine JS.',
-  //     points: [
-  //       { name: 'Design Customization', type: 'boolean', value: true },
-  //       { name: 'Content Upload', type: 'boolean', value: false },
-  //       { name: 'Responsive Design', type: 'boolean', value: false },
-  //       { name: 'Include Source Code', type: 'boolean', value: true },
-  //       { name: 'Number of Pages', type: 'number', value: 3 },
-  //       { name: 'Revisions', type: 'number', value: 5 },
-  //       { name: 'Delivery Time', type: 'text', value: '5 days' },
-  //     ],
-  //   },
-  //   {
-  //     name: 'Premium',
-  //     slug: 'premium',
-  //     price: '$450',
-  //     title: '7 Pages Website',
-  //     details:
-  //       'I will create responsive 6 Pages Responsive Website using Html CSS, Tailwind CSS & Alpine JS.',
-  //     points: [
-  //       { name: 'Design Customization', type: 'boolean', value: false },
-  //       { name: 'Content Upload', type: 'boolean', value: false },
-  //       { name: 'Responsive Design', type: 'boolean', value: true },
-  //       { name: 'Include Source Code', type: 'boolean', value: true },
-  //       { name: 'Number of Pages', type: 'number', value: 3 },
-  //       { name: 'Revisions', type: 'number', value: 12 },
-  //       { name: 'Delivery Time', type: 'text', value: '15 days' },
-  //     ],
-  //   },
-  // ];
-
-  // const [points, setPoints] = useState({});
-
-  // function groupArrayOfObjects(list, key) {
-  //   return list.reduce(function (rv, x) {
-  //     (rv[x[key]] = rv[x[key]] || []).push(x);
-  //     return rv;
-  //   }, {});
-  // }
-
-  // const createPoints = () => {
-  //   const points = [];
-  //   data.map(el =>
-  //     el.points.map(obj => points.push({ ...obj, source: el.slug }))
-  //   );
-  //   const grouped = groupArrayOfObjects(points, 'name');
-  //   setPoints(grouped);
-  // };
-
-  // useEffect(() => {
-  //   createPoints();
-  // }, [data]);
 
   return (
     <Box borderWidth="1px" borderColor="gray.200" rounded="md">
@@ -164,10 +114,11 @@ const PackageCompare = ({ packages }) => {
         ))}
       </SimpleGrid>
       <TableRow title="Price" values={packages.map(e => `$ ${e.price}`)} />
-      <TableRow title="Duration in Days" values={packages.map(e => e.duration_in_days)} />
+      <TableRow title="Delivery Time" values={packages.map(e => e.duration_in_days)} />
       <TableRow title="No of Revisions" values={packages.map(e => e.revisions)} />
-      <TableRow title="Active Services" values={packages.map(e => e.enabled_services.map(x => parseText(x)).join(", "))} />
-      <TableRow title="Deactive Services" values={packages.map(e => e.disabled_services.map(x => parseText(x)).join(", "))} />
+      {bools.map((b, i) => (
+        <TableBooleanRow title={capitalizeFirstLetter(b.split("_").join(" "))} values={packages.map(e => e[b])} key={i}/>
+      ))}
       <SimpleGrid
         columns={4}
         color="gray.700"

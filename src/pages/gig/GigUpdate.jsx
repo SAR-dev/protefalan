@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   Flex,
   Box,
@@ -11,6 +11,14 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useToast,
+  useDisclosure
 } from "@chakra-ui/react";
 import NavLayout from "../../layouts/NavLayout";
 import Step1Overview from "../../components/Step1Overview";
@@ -20,18 +28,13 @@ import Step4Requirements from "../../components/Step4Requirements";
 import Step5Gallery from "../../components/Step5Gallery";
 import Step6Publish from "../../components/Step6Publish";
 import AuthLayout from "../../layouts/AuthLayout";
-import {
-  clearGigCache,
-  saveLocalGigId,
-  getLocalGigId,
-  saveLocalGig,
-  saveLocalPackages,
-} from "../../helpers";
-import { createGig, createBulkPackages, deleteGig, getGigUpdateDetails, updateGig, updatePackage } from "../../api"
+import { deleteGig, deletePackage, getGigUpdateDetails, updateGig, updatePackage } from "../../api";
 import { useHistory, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { MdDeleteOutline } from "react-icons/md"
 
 const GigUpdate = () => {
+  const toast = useToast();
   const { id } = useParams();
   const { status, data, isFetching, isLoading, isError } = useQuery(["gigs", id], () => getGigUpdateDetails(id), {
     enabled: id !== undefined,
@@ -192,6 +195,26 @@ const GigUpdate = () => {
     })
   }
 
+  const remove = () => {
+    deleteGig(id).then((res) => {
+      if (res.error) {
+        toast({
+          title: "Vote failed!",
+          description: res.error.detail,
+          status: "error",
+          position: "bottom-left",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        deletePackage(basic.id)
+        deletePackage(standard.id)
+        deletePackage(premium.id)
+        history.push("/gig")
+      }
+    })
+  }
+
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -257,6 +280,7 @@ const GigUpdate = () => {
                   {el.name}
                 </Button>
               ))}
+              <DeleteAlert />
             </SimpleGrid>
           </GridItem>
           <GridItem colSpan={7} bg="white">
@@ -306,3 +330,39 @@ const GigUpdate = () => {
 };
 
 export default GigUpdate;
+
+const DeleteAlert = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = useRef()
+  return (
+    <>
+      <Button colorScheme="red" leftIcon={<MdDeleteOutline />} onClick={onOpen}>Delete</Button>
+      <AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+              Delete Gig
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? You can't undo this action afterwards.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='red' onClick={onClose} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+    </>
+  )
+}

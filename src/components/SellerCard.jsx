@@ -17,7 +17,7 @@ import {
   MdThumbUp,
   MdThumbDown,
 } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import { addUpvoteGig, removeUpvoteGig, addDownvoteGig, removeDownvoteGig } from "../api";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,6 +27,7 @@ import jwt_decode from "jwt-decode";
 const SellerCard = ({ gig }) => {
   const queryClient = useQueryClient();
   const toast = useToast();
+  const history = useHistory();
   const [data, setData] = useState(gig);
   const { accessToken } = useAuthStore()
 

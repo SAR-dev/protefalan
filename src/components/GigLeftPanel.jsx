@@ -217,7 +217,7 @@ const GigLeftPanel = ({ gig }) => {
       <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
         Compare Packages
       </Text>
-      {/* <PackageCompare packages={gig.packages} /> */}
+      <PackageCompare packages={gig.packages} />
     </Box>
     <Box my={10}>
       <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">

@@ -256,6 +256,17 @@ export function deleteGig(id) {
     });
 }
 
+export function deletePackage(id) {
+  return axios
+    .delete(`/package/${id}/update/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
 export function updateGig({id, data}) {
   return axios
     .put(`/gig/${id}/update/`, data, defaultConfig())

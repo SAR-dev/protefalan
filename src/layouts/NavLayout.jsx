@@ -12,10 +12,20 @@ import {
   HStack,
   Avatar,
   AvatarBadge,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { FiSearch } from "react-icons/fi";
+import { MdExitToApp } from "react-icons/md";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Footer from "./Footer";
 import { getMe } from "../api";
 import { useQuery } from "@tanstack/react-query";
@@ -23,10 +33,16 @@ import useAuthStore from "../store";
 
 const NavLayout = ({ children }) => {
   const { accessToken } = useAuthStore();
+  const history = useHistory();
   const { status, data, error, isFetching, isLoading } = useQuery(
     ["me", accessToken],
     () => getMe()
   );
+
+  const signout = () => {
+    localStorage.clear()
+    history.push("/signin");
+  }
 
   return (
     <Box w="100%" minH="100vh">
@@ -97,18 +113,20 @@ const NavLayout = ({ children }) => {
               Switch to Selling
             </ChakraLink>
             {data && (
-            <Avatar
-              as={Link}
-              to={`/profile/${data.username}`}
-              size="sm"
-              src={
-                !isLoading && data
-                  ? data.avatar
-                  : "https://i.ibb.co/VvC5rbC/image.png"
-              }
-            >
-              <AvatarBadge boxSize="1.25em" bg="green.500" />
-            </Avatar>
+              <Menu>
+                <MenuButton as={Avatar}
+                  cursor="pointer"
+                  size="sm"
+                  src={
+                    !isLoading && data
+                      ? data.avatar
+                      : "https://i.ibb.co/VvC5rbC/image.png"
+                  } />
+                <MenuList>
+                  <MenuItem as={Link} to={`/profile/${data.username}`}>Profile</MenuItem>
+                  <MenuItem onClick={signout}>Sign Out</MenuItem>
+                </MenuList>
+              </Menu>
             )}
           </HStack>
         </Flex>

@@ -98,9 +98,6 @@ const GigRightPanel = ({ extra_services, packages }) => {
             <Button w="100%" colorScheme="teal" mb={2}>
               Continue ($20)
             </Button>
-            <Button w="100%" variant="outline">
-              Contact Seller
-            </Button>
           </Box>
         </SimpleGrid>
       </Box>
