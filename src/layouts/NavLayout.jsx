@@ -54,10 +54,17 @@ const NavLayout = ({ children }) => {
         w="100%"
         alignItems="center"
       >
-        <Image
-          h={10}
-          src="https://1000logos.net/wp-content/uploads/2021/11/Fiverr-Logo.png"
-        />
+        <ChakraLink
+          as={Link}
+          to="/"
+          color="gray.600"
+          fontWeight="semibold"
+          _hover={{ color: "teal.500" }}
+          _focus={{ color: "teal.600" }}
+          _active={{ color: "teal.600" }}
+        >
+          Protefalan
+        </ChakraLink>
         <InputGroup ml={10} size="sm" rounded="md" w="300px">
           <InputLeftElement
             pointerEvents="none"
