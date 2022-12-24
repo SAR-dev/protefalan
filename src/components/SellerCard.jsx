@@ -9,6 +9,7 @@ import {
   Avatar,
   useToast,
   IconButton,
+  Spinner,
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
 import {
@@ -27,10 +28,13 @@ import jwt_decode from "jwt-decode";
 const SellerCard = ({ gig }) => {
   const queryClient = useQueryClient();
   const toast = useToast();
+  const [loading, setLoading] = useState(false)
+
   const [data, setData] = useState(gig);
   const { accessToken } = useAuthStore()
 
   const upvote = () => {
+    setLoading(true)
     if (!data.upvoted) {
       addUpvoteGig(data.id).then((res) => {
         if (res.error) {
@@ -42,6 +46,7 @@ const SellerCard = ({ gig }) => {
             duration: 9000,
             isClosable: true,
           });
+          setLoading(false)
         } else {
           toast({
             title: "Upvoted!",
@@ -53,6 +58,7 @@ const SellerCard = ({ gig }) => {
           });
           setData({ ...data, upvoted: true, downvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
           queryClient.invalidateQueries(["feed"]);
+          setLoading(false)
         }
       });
     } else {
@@ -66,6 +72,7 @@ const SellerCard = ({ gig }) => {
             duration: 9000,
             isClosable: true,
           });
+          setLoading(false)
         } else {
           toast({
             title: "Upvoted!",
@@ -77,12 +84,14 @@ const SellerCard = ({ gig }) => {
           });
           setData({ ...data, upvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
           queryClient.invalidateQueries(["feed"]);
+          setLoading(false)
         }
       });
     }
   };
 
   const downvote = () => {
+    setLoading(true)
     if (!data.downvoted) {
       addDownvoteGig(data.id).then((res) => {
         if (res.error) {
@@ -94,6 +103,7 @@ const SellerCard = ({ gig }) => {
             duration: 9000,
             isClosable: true,
           });
+          setLoading(false)
         } else {
           toast({
             title: "Downvoted!",
@@ -105,6 +115,7 @@ const SellerCard = ({ gig }) => {
           });
           setData({ ...data, upvoted: false, downvoted: true, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
           queryClient.invalidateQueries(["feed"]);
+          setLoading(false)
         }
       });
     } else {
@@ -118,6 +129,7 @@ const SellerCard = ({ gig }) => {
             duration: 9000,
             isClosable: true,
           });
+          setLoading(false)
         } else {
           toast({
             title: "Downvoted!",
@@ -129,6 +141,7 @@ const SellerCard = ({ gig }) => {
           });
           setData({ ...data, downvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
           queryClient.invalidateQueries(["feed"]);
+          setLoading(false)
         }
       });
     }
@@ -202,31 +215,35 @@ const SellerCard = ({ gig }) => {
             <Text color="gray.500" fontSize={20} fontWeight="semibold">
               {data.num_vote_down}
             </Text>
-            <Icon
-              cursor="pointer"
-              _hover={{ color: "gray.600" }}
-              as={data.downvoted ? MdThumbDown : MdOutlineThumbDownAlt}
-              w={5}
-              h={5}
-              color={data.downvoted ? "blue.500" : "gray.500"}
-              ml={1}
-              onClick={downvote}
-            />
+            {loading ? <Spinner size="sm" /> : (
+              <Icon
+                cursor="pointer"
+                _hover={{ color: "gray.600" }}
+                as={data.downvoted ? MdThumbDown : MdOutlineThumbDownAlt}
+                w={5}
+                h={5}
+                color={data.downvoted ? "blue.500" : "gray.500"}
+                ml={1}
+                onClick={downvote}
+              />
+            )}
           </Flex>
           <Flex ml={3} alignItems="center">
             <Text color="gray.500" fontSize={20} fontWeight="semibold">
               {data.num_vote_up}
             </Text>
-            <Icon
-              cursor="pointer"
-              _hover={{ color: "gray.600" }}
-              as={data.upvoted ? MdThumbUp : MdOutlineThumbUpAlt}
-              w={5}
-              h={5}
-              color={data.upvoted ? "blue.500" : "gray.500"}
-              ml={1}
-              onClick={upvote}
-            />
+            {loading ? <Spinner size="sm" /> : (
+              <Icon
+                cursor="pointer"
+                _hover={{ color: "gray.600" }}
+                as={data.upvoted ? MdThumbUp : MdOutlineThumbUpAlt}
+                w={5}
+                h={5}
+                color={data.upvoted ? "blue.500" : "gray.500"}
+                ml={1}
+                onClick={upvote}
+              />
+            )}
           </Flex>
         </Flex>
       </SimpleGrid>

@@ -28,37 +28,7 @@ function Home() {
       <NavLayout>
         <SimpleGrid columns={1} spacing={10} w="100%">
           <Flex w="100%">
-            <Flex
-              w="350px"
-              h="320px"
-              rounded="md"
-              className="moon-bg"
-              borderColor="gray.200"
-              borderWidth="1px"
-              alignItems="center"
-              textAlign="center"
-              color="white"
-              flexShrink="0"
-              p={10}
-            >
-              <SimpleGrid columns={1} spacing={5}>
-                <Text fontWeight="semibold" fontSize="xl">
-                  Hi Rafi,
-                </Text>
-                <Text>Get offers from sellers for your project</Text>
-                <Button
-                  colorScheme="teal"
-                  fontSize="md"
-                  w="100%"
-                  _hover={{ bg: "teal.500", color: "white" }}
-                  _focus={{ bg: "teal.500", color: "white" }}
-                  _active={{ bg: "teal.500", color: "white" }}
-                >
-                  Post a Request
-                </Button>
-              </SimpleGrid>
-            </Flex>
-            <Box w="100%" overflow="hidden" ml={10}>
+            <Box w="100%" overflow="hidden">
               <HomeAdCarousel />
             </Box>
           </Flex>
@@ -88,7 +58,7 @@ function Home() {
                   categoryId={e.id}
                   key={i}
                 />
-                {/* {(i % 3 === 0) && <HomeAdCarousel key={`ad${i}`} />} */}
+                {(i % 3 === 0) && <HomeAdCarousel key={`ad${i}`} />}
                 </>
               ))}
             </>
