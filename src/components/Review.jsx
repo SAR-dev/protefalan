@@ -15,14 +15,125 @@ import {
   HStack,
   Divider,
   Select,
+  useToast
 } from '@chakra-ui/react';
 import { FaStar, FaRegUserCircle, FaRegThumbsUp, FaRegThumbsDown } from 'react-icons/fa';
 import { parseFromNow } from "../helpers";
 import UpdateComment from './UpdateComment';
 import { BiMessageRoundedEdit } from 'react-icons/bi';
+import { addDownvoteComment, addUpvoteComment, removeDownvoteComment, removeUpvoteComment } from '../api';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Review = ({ review }) => {
+  const toast = useToast();
+  const queryClient = useQueryClient();
+
   const [updating, setUpdating] = useState(false);
+  const [data, setData] = useState(review);
+
+  const upvote = () => {
+    if (!data.upvoted) {
+      addUpvoteComment(data.id).then((res) => {
+        if (res.error) {
+          toast({
+            title: "Vote failed!",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Upvoted!",
+            description: "Comment was upvoted.",
+            status: "info",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+          setData({ ...data, upvoted: true, downvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
+          queryClient.invalidateQueries(["gig_reviews", data.gig.toString()])
+        }
+      });
+    } else {
+      removeUpvoteComment(data.id).then((res) => {
+        if (res.error) {
+          toast({
+            title: "Vote failed.",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Upvoted!",
+            description: "Upvote removed.",
+            status: "info",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+          setData({ ...data, upvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
+          queryClient.invalidateQueries(["gig_reviews", data.gig.toString()])
+        }
+      });
+    }
+  };
+
+  const downvote = () => {
+    if (!data.downvoted) {
+      addDownvoteComment(data.id).then((res) => {
+        if (res.error) {
+          toast({
+            title: "Vote failed.",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Downvoted!",
+            description: "Comment was downvoted.",
+            status: "info",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+          setData({ ...data, upvoted: false, downvoted: true, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
+          queryClient.invalidateQueries(["gig_reviews", data.gig.toString()])
+        }
+      });
+    } else {
+      removeDownvoteComment(data.id).then((res) => {
+        if (res.error) {
+          toast({
+            title: "Vote failed.",
+            description: res.error.detail,
+            status: "error",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Downvoted!",
+            description: "Downvote removed.",
+            status: "info",
+            position: "bottom-left",
+            duration: 9000,
+            isClosable: true,
+          });
+          setData({ ...data, downvoted: false, num_vote_up: res.num_vote_up, num_vote_down: res.num_vote_down });
+          queryClient.invalidateQueries(["gig_reviews", data.gig.toString()])
+        }
+      });
+    }
+  };
 
   return (
     <SimpleGrid columns={1} spacing={3}>

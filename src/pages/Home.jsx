@@ -74,7 +74,7 @@ function Home() {
                 key={`pc${i}`}
               />
             ))}
-          {data && (
+          {data && data.results && (
             <>
               {data.results.map((e, i) => (
                 <>

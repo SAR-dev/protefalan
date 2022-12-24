@@ -332,3 +332,47 @@ export function searchGig(keyword) {
       return { error: err.response.data };
     });
 }
+
+export function addUpvoteComment(id) {
+  return axios
+    .post(`/comment/${id}/vote/up/`, null, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function removeUpvoteComment(id) {
+  return axios
+    .delete(`/comment/${id}/vote/up/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function addDownvoteComment(id) {
+  return axios
+    .post(`/comment/${id}/vote/down/`, null, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function removeDownvoteComment(id) {
+  return axios
+    .delete(`/comment/${id}/vote/down/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}

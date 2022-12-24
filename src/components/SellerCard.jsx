@@ -27,7 +27,6 @@ import jwt_decode from "jwt-decode";
 const SellerCard = ({ gig }) => {
   const queryClient = useQueryClient();
   const toast = useToast();
-  const history = useHistory();
   const [data, setData] = useState(gig);
   const { accessToken } = useAuthStore()
 
