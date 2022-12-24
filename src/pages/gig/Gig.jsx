@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Flex, Box, Button, Icon, Text, SimpleGrid, Grid, GridItem, useToast } from '@chakra-ui/react';
+import { Flex, Box, Button, Icon, Text, SimpleGrid, Grid, GridItem, useToast, Textarea } from '@chakra-ui/react';
 import NavLayout from '../../layouts/NavLayout';
 import AuthLayout from '../../layouts/AuthLayout';
 import { FaSlideshare, FaShare, FaFacebook, FaWhatsapp } from 'react-icons/fa';
 import GigRightPanel from '../../components/GirRightPanel';
 import GigLeftPanel from '../../components/GigLeftPanel';
+import CreateComment from '../../components/CreateComment';
 import { useQuery } from '@tanstack/react-query';
 import { getGigDetails } from '../../api';
 import { useParams } from 'react-router-dom';
@@ -21,7 +22,13 @@ const Gig = () => {
 
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <AuthLayout>
+        <NavLayout>
+        <div>Loading...</div>
+        </NavLayout>
+      </AuthLayout>
+    )
   }
 
   if (isError) {
@@ -78,6 +85,7 @@ const Gig = () => {
           <Grid templateColumns="repeat(16, 1fr)" gap={16}>
             <GridItem colSpan={10}>
               <GigLeftPanel gig={data} />
+              <CreateComment gig={id} />
             </GridItem>
             <GridItem colSpan={6}>
               <GigRightPanel extra_services={data.extra_services} packages={data.packages} />

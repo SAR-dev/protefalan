@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Flex,
   Box,
@@ -34,6 +34,7 @@ import useAuthStore from "../store";
 const NavLayout = ({ children }) => {
   const { accessToken } = useAuthStore();
   const history = useHistory();
+  const [keyword, setKeyword] = useState("")
   const { status, data, error, isFetching, isLoading } = useQuery(
     ["me", accessToken],
     () => getMe()
@@ -42,6 +43,12 @@ const NavLayout = ({ children }) => {
   const signout = () => {
     localStorage.clear()
     history.push("/signin");
+  }
+
+  const search = () => { 
+    if(keyword.length >= 3){
+      history.push(`/search/${keyword}`)
+    }
   }
 
   return (
@@ -70,9 +77,13 @@ const NavLayout = ({ children }) => {
             pointerEvents="none"
             children={<Icon as={FiSearch} color="gray.300" />}
           />
-          <Input type="text" placeholder="Find Services..." />
+          <Input value={keyword} onChange={e => setKeyword(e.target.value)} type="text" placeholder="Find Services..." onKeyDown={e => {
+            if (e.key === "Enter") {
+              search()
+            }
+          }} />
           <InputRightElement w="75px">
-            <Button colorScheme="teal" roundedLeft="none" size="sm" w="75px">
+            <Button colorScheme="teal" roundedLeft="none" size="sm" w="75px" onClick={search}>
               Search
             </Button>
           </InputRightElement>

@@ -245,6 +245,17 @@ export function createGig(data) {
     });
 }
 
+export function createComment(data) {
+  return axios
+    .post(`/comment/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
 export function deleteGig(id) {
   return axios
     .delete(`/gig/${id}/update/`, defaultConfig())
@@ -292,6 +303,17 @@ export function updatePackage({id, data}) {
 export function createBulkPackages(data) {
   return axios
     .post(`/package/bulk/`, data, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function searchGig(keyword) {
+  return axios
+    .get(`/gig/search/${keyword}/`, defaultConfig())
     .then((res) => {
       return res.data;
     })
