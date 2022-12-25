@@ -1,21 +1,11 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Flex, Box, SimpleGrid } from "@chakra-ui/react";
 import NavLayout from "../layouts/NavLayout";
 import HomeAdCarousel from "../components/HomeAdCarousel";
 import SellerCardCarousel from "../components/SellerCardCarousel";
 import { getHomeFeed } from "../api";
-import { getRandomColor } from "../helpers";
 import { useQuery } from "@tanstack/react-query";
 import AuthLayout from "../layouts/AuthLayout";
+import Advertisement from "../components/Advertisement";
 
 function Home() {
   const { status, data, error, isFetching, isLoading } = useQuery(
@@ -48,17 +38,17 @@ function Home() {
             <>
               {data.results.map((e, i) => (
                 <>
-                <SellerCardCarousel
-                  header1="Most popular Gigs in"
-                  header2={e.name}
-                  header2Color={e.color}
-                  rows={1}
-                  details={e.label}
-                  gigs={e.gigs}
-                  categoryId={e.id}
-                  key={i}
-                />
-                {(i % 3 === 0) && <HomeAdCarousel key={`ad${i}`} />}
+                  <SellerCardCarousel
+                    header1="Most popular Gigs in"
+                    header2={e.name}
+                    header2Color={e.color}
+                    rows={1}
+                    details={e.label}
+                    gigs={e.gigs}
+                    categoryId={e.id}
+                    key={i}
+                  />
+                  {(i % 3 === 0) && <Advertisement index={i / 3} key={`ad${i}`} />}
                 </>
               ))}
             </>

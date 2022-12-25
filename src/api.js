@@ -376,3 +376,14 @@ export function removeDownvoteComment(id) {
       return { error: err.response.data };
     });
 }
+
+export function getAds(keyword) {
+  return axios
+    .get(`/advertisement/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
