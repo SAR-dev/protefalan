@@ -14,6 +14,8 @@ import {
   TableCaption,
   Avatar,
   VStack,
+  Button,
+  ButtonGroup,
 } from '@chakra-ui/react';
 import NavLayout from '../layouts/NavLayout';
 import { FiSearch } from 'react-icons/fi';
@@ -23,6 +25,7 @@ import OrderRow from '../components/OrderRow';
 import { getCreatedOrders, getReceivedOrders } from '../api';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
+import { MdCheck, MdClose } from 'react-icons/md';
 
 const Orders = () => {
   const { type } = useParams();
@@ -66,7 +69,7 @@ const Orders = () => {
               <Th>DUE ON</Th>
               <Th>PRICE</Th>
               <Th>NOTE</Th>
-              <Th isNumeric>STATUS</Th>
+              <Th>STATUS</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -131,11 +134,12 @@ const Orders = () => {
               <Th>DUE ON</Th>
               <Th>PRICE</Th>
               <Th>NOTE</Th>
-              <Th isNumeric>STATUS</Th>
+              <Th>STATUS</Th>
+              <Th isNumeric>ACTION</Th>
             </Tr>
           </Thead>
           <Tbody>
-            {createdOrders.map((el, i) => (
+            {receivedOrders.map((el, i) => (
               <Tr key={i}>
                 <Td>
                   <Flex alignItems="center" w="150px">
@@ -167,6 +171,27 @@ const Orders = () => {
                 </Td>
                 <Td>
                   {el.status.toUpperCase()}
+                </Td>
+                <Td>
+                  {el.status === 'pending' ? (
+                    <ButtonGroup size='sm' isAttached variant='outline'>
+                      <Button leftIcon={<MdCheck />}>
+                        Accept
+                      </Button>
+                      <Button leftIcon={<MdClose />}>
+                        Reject
+                      </Button>
+                    </ButtonGroup>
+                  ) : (
+                    <ButtonGroup size='sm' isAttached variant='outline'>
+                      <Button>
+                        Cancel
+                      </Button>
+                      <Button>
+                        Delayed
+                      </Button>
+                    </ButtonGroup>
+                  )}
                 </Td>
               </Tr>
             ))}

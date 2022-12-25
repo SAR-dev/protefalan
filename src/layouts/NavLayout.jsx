@@ -37,7 +37,11 @@ const NavLayout = ({ children }) => {
   const [keyword, setKeyword] = useState("")
   const { status, data, error, isFetching, isLoading } = useQuery(
     ["me", accessToken],
-    () => getMe()
+    () => getMe(), {
+      onError: () => {
+        signout()
+      }
+    }
   );
 
   const signout = () => {
