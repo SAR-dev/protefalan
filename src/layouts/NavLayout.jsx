@@ -121,15 +121,6 @@ const NavLayout = ({ children }) => {
             >
               Orders
             </ChakraLink>
-            <ChakraLink
-              color="teal.500"
-              fontWeight="semibold"
-              _hover={{ color: "teal.500" }}
-              _focus={{ color: "teal.600" }}
-              _active={{ color: "teal.600" }}
-            >
-              Switch to Selling
-            </ChakraLink>
             {data && (
               <Menu>
                 <MenuButton as={Avatar}
