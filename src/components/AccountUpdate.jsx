@@ -1,15 +1,18 @@
 import React, { useRef, useState } from "react"
-import { Avatar, AvatarBadge, Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, IconButton, Input, SimpleGrid, Text } from "@chakra-ui/react"
+import { Avatar, useToast, AvatarBadge, Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, IconButton, Input, SimpleGrid, Text } from "@chakra-ui/react"
 import { useForm } from "react-hook-form";
 import { MdUpload } from "react-icons/md";
 import { updateAccount, getMe } from "../api";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAuthStore from "../store";
 
 const AccountUpdate = () => {
     const { accessToken } = useAuthStore();
     const avatarRef = useRef(null)
     const [loading, setLoading] = useState(false)
+    const queryClient = useQueryClient()
+    const toast = useToast()
+    const [initialized, setInitialized] = useState(false)
 
     const {
         handleSubmit,
@@ -27,7 +30,9 @@ const AccountUpdate = () => {
                     setValue(key, res[key])
                 })
             }
-        }
+            setInitialized(true)
+        },
+        enabled: !initialized
     });
 
     function onSubmit(values) {
@@ -35,11 +40,28 @@ const AccountUpdate = () => {
         const formData = new FormData();
         Object.keys(values).forEach(key => formData.append(key, values[key]));
         updateAccount(formData).then(res => {
-            console.log(res)
             if (res.error) {
+                toast({
+                    title: "Error",
+                    description: res.error.detail,
+                    status: "error",
+                    position: "bottom-left",
+                    duration: 9000,
+                    isClosable: true,
+                });
                 setLoading(false)
             } else {
+                oast({
+                    title: "Updated",
+                    description: "Account updated.",
+                    status: "info",
+                    position: "bottom-left",
+                    duration: 9000,
+                    isClosable: true,
+                });
                 setLoading(false)
+                setInitialized(false)
+                queryClient.invalidateQueries(["me"])
             }
         })
     }
