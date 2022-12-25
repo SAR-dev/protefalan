@@ -41,6 +41,7 @@ import { BiReset } from 'react-icons/bi';
 import GigImageCarousel from './GigImageCarousel';
 import parse from 'html-react-parser';
 import { parseText, capitalizeFirstLetter } from '../helpers'
+import PlaceOrder from './PlaceOrder';
 
 const bools = ["prototype", "content_upload", "source_file", "consulatation", "deployment", "integration"]
 
@@ -90,8 +91,7 @@ const TableBooleanRow = ({title, values}) => (
   </SimpleGrid>
 )
 
-const PackageCompare = ({ packages }) => {
-
+const PackageCompare = ({ packages, requirements }) => {
   return (
     <Box borderWidth="1px" borderColor="gray.200" rounded="md">
       <SimpleGrid
@@ -129,7 +129,9 @@ const PackageCompare = ({ packages }) => {
         {packages.map((el, i) => (
           <Box p={5} borderRightWidth={packages.length - 1 !== i && "1px"} borderRightColor={packages.length - 1 !== i && "gray.200"} key={i}>
             <Text fontSize="xl" textAlign="center">{`$ ${el.price}`}</Text>
-            <Button colorScheme="teal" w="100%" mt={2}>Select</Button>
+            <Box w="100%" mt={2}>
+              <PlaceOrder label="Select" packageName={el.title} price={el.price} requirements={requirements} packageId={el.id} />
+            </Box>
           </Box>
         ))}
       </SimpleGrid> 

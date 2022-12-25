@@ -16,10 +16,11 @@ import { FaCheck } from 'react-icons/fa';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { BiReset } from 'react-icons/bi';
 import { parseText, capitalizeFirstLetter } from '../helpers'
+import PlaceOrder from './PlaceOrder';
 
 const bools = ["prototype", "content_upload", "source_file", "consulatation", "deployment", "integration"]
 
-const GigRightPanel = ({ extra_services, packages }) => {
+const GigRightPanel = ({ requirements, extra_services, packages }) => {
   const [active, setActive] = useState(packages[0]);
 
   return (
@@ -94,10 +95,8 @@ const GigRightPanel = ({ extra_services, packages }) => {
                 </ListItem>
               ))}
           </List>
-          <Box>
-            <Button w="100%" colorScheme="teal" mb={2}>
-              Continue ($20)
-            </Button>
+          <Box mb={2}>
+            <PlaceOrder label={`Continue ($${active.price})`} packageName={active.title} price={active.price}  requirements={requirements} packageId={active.id} />
           </Box>
         </SimpleGrid>
       </Box>

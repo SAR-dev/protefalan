@@ -377,9 +377,20 @@ export function removeDownvoteComment(id) {
     });
 }
 
-export function getAds(keyword) {
+export function getAds() {
   return axios
     .get(`/advertisement/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function submitOrder(data) {
+  return axios
+    .post(`/order/`, data, defaultConfig())
     .then((res) => {
       return res.data;
     })

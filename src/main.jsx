@@ -7,6 +7,7 @@ import { light } from "./theme";
 import "./css/styles.css";
 import "./css/chatscope.css";
 import "./css/braft.css";
+import "./css/datepicker.css";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();

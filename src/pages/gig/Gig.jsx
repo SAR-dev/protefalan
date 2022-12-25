@@ -88,7 +88,7 @@ const Gig = () => {
               <CreateComment gig={id} />
             </GridItem>
             <GridItem colSpan={6}>
-              <GigRightPanel extra_services={data.extra_services} packages={data.packages} />
+              <GigRightPanel requirements={data.requirements} extra_services={data.extra_services} packages={data.packages} />
             </GridItem>
           </Grid>
           <Box bg="#F5F5F5" p={10} rounded="md">

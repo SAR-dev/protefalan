@@ -1,46 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Flex,
   Box,
   Button,
   Icon,
-  IconButton,
-  Image,
   Text,
   SimpleGrid,
-  Grid,
-  GridItem,
   Avatar,
   Heading,
   HStack,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Textarea,
   Spinner,
-  useToast
+  useToast,
 } from '@chakra-ui/react';
 import { Link as ChakraLink } from '@chakra-ui/react';
-import {
-  FaStar,
-  FaStarHalfAlt,
-  FaRegStar,
-  FaUser,
-  FaFacebook,
-  FaGithub,
-  FaTwitter,
-  FaGoogle,
-  FaHeart,
-} from 'react-icons/fa';
-import { MdPlace, MdDateRange, MdClose, MdPeople, MdCastForEducation } from 'react-icons/md';
-import { RiPlayListAddFill } from 'react-icons/ri';
+import { FaStar, FaStarHalfAlt, FaRegStar, FaFacebook, FaGithub, FaTwitter, FaHeart } from 'react-icons/fa';
+import { MdPlace, MdDateRange, MdPeople, MdCastForEducation } from 'react-icons/md';
 import { SlBadge } from "react-icons/sl"
-import GetQuote from './GetQuote';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getProfile, follow, unfollow } from '../api';
 import { parseText } from '../helpers';

@@ -190,7 +190,7 @@ const GigUpdate = () => {
         updatePackage({ id: basic.id, data: basic })
         updatePackage({ id: standard.id, data: standard })
         updatePackage({ id: premium.id, data: premium })
-        history.push(`/gig/${gigId}`)
+        history.push(`/gig/${id}`)
       }
     })
   }

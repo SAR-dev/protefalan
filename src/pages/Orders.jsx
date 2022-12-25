@@ -45,7 +45,7 @@ const Orders = () => {
           />
           <Input type="text" placeholder="Search orders..." />
         </InputGroup>
-      </Flex>
+      {/* </Flex>
       <Flex
         alignItems="center"
         borderBottomWidth="1px"
@@ -85,7 +85,7 @@ const Orders = () => {
             </Flex>
           </ChakraLink>
         ))}
-      </Flex>
+      </Flex> */}
       <Box borderWidth="1px" borderColor="gray.100" rounded="md">
         <Table variant="simple">
           <TableCaption

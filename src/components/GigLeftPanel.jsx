@@ -149,7 +149,7 @@ const GigLeftPanel = ({ gig }) => {
           <Text fontWeight="semibold" color="gray.700" fontSize="xl">
             {`${gig.author.first_name} ${gig.author.last_name}`}
           </Text>
-          <Text color="gray.700">{gig.author.profile.quote}</Text>
+          <Text color="gray.700">{gig.author.profile.quote && gig.author.profile.quote}</Text>
           <Flex alignItems="center">
             <HStack spacing={1}>
               {[...Array(Math.floor(getFullStar(gig.author.average_rating.rating__avg)))].map(
@@ -217,7 +217,7 @@ const GigLeftPanel = ({ gig }) => {
       <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
         Compare Packages
       </Text>
-      <PackageCompare packages={gig.packages} />
+      <PackageCompare packages={gig.packages} requirements={gig.requirements} />
     </Box>
     <Box my={10}>
       <Text fontSize="xl" fontWeight="bold" color="gray.700" mb={5} pb={5} borderBottomWidth="1px" borderBottomColor="gray.200">
