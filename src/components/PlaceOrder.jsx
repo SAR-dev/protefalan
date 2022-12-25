@@ -151,10 +151,10 @@ const PlaceOrder = ({ label, packageName, price, requirements, packageId }) => {
           </DrawerBody>
 
           <DrawerFooter>
-            <Button loading={loading} variant='outline' mr={3} onClick={onClose}>
+            <Button isLoading={loading} variant='outline' mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button loading={loading} colorScheme='blue' onClick={submit}>Send Proposal</Button>
+            <Button isLoading={loading} colorScheme='blue' onClick={submit}>Send Proposal</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

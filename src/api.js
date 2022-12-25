@@ -398,3 +398,25 @@ export function submitOrder(data) {
       return { error: err.response.data };
     });
 }
+
+export function getCreatedOrders() {
+  return axios
+    .get(`/order/created/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function getReceivedOrders() {
+  return axios
+    .get(`/order/received/`, defaultConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}

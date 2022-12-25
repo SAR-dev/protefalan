@@ -17,75 +17,68 @@ import { FiSearch } from 'react-icons/fi';
 import { useParams, Link } from 'react-router-dom';
 import { Link as ChakraLink } from '@chakra-ui/react';
 import OrderRow from '../components/OrderRow';
-// import { getOrders } from '../api';
+import { getCreatedOrders, getReceivedOrders } from '../api';
 import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 
 const Orders = () => {
   const { type } = useParams();
-  // const { status, data, error, isFetching, isLoading } = useQuery(["orders"], () => getOrders())
+  const [createdOrders, setCreatedOrders] = useState([])
+  const [receivedOrders, setReceivedOrders] = useState([])
 
-  const types = [
-    { name: 'ACTIVE', url: 'active' },
-    { name: 'LATE', url: 'late' },
-    { name: 'COMPLETED', url: 'completed' },
-    { name: 'CANCELLED', url: 'cancelled' },
-    { name: 'STARRED', url: 'starred' },
-  ];
+  useQuery(["created_orders"], () => getCreatedOrders(), {
+    onSuccess: (res) => {
+      setCreatedOrders(res)
+    }
+  })
+
+  useQuery(["received_orders"], () => getReceivedOrders(), {
+    onSuccess: (res) => {
+      setReceivedOrders(res)
+    }
+  })
+
 
   return (
     <NavLayout>
-      <Flex alignItems="center" mb={10}>
-        <Text fontSize="2xl" color="gray.700">
-          Manage Orders
-        </Text>
-        <InputGroup w="350px" ml="auto">
-          <InputLeftElement
-            pointerEvents="none"
-            children={<FiSearch color="gray.300" />}
-          />
-          <Input type="text" placeholder="Search orders..." />
-        </InputGroup>
-      </Flex>
-      {/* <Flex
-        alignItems="center"
-        borderBottomWidth="1px"
-        borderBottomColor="gray.200"
-        pb={5}
-        mb={5}
-      >
-        {types.map((el, i) => (
-          <ChakraLink
-            as={Link}
-            to={`/orders/${el.url}`}
-            bg="transparent"
+      <Box borderWidth="1px" borderColor="gray.100" rounded="md" mb={5}>
+        <Table variant="simple">
+          <TableCaption
+            placement="top"
+            mb={3}
+            textAlign="start"
+            fontSize="lg"
             fontWeight="semibold"
-            letterSpacing="1.2px"
-            mr={10}
-            color={el.url === type ? 'gray.700' : 'gray.300'}
-            _hover={{ color: 'gray.700' }}
-            _focus={{ color: 'gray.700' }}
-            _active={{ color: 'gray.700' }}
-            d="flex"
-            alignItems="center"
-            key={i}
+            color="gray.700"
+            borderBottomWidth="1px"
+            borderBottomColor="gray.100"
           >
-            {el.name}
-            <Flex
-              w="25px"
-              h="25px"
-              rounded="full"
-              bg={el.url === type ? 'teal.500' : 'gray.300'}
-              color="white"
-              justifyContent="center"
-              alignItems="center"
-              fontSize="sm"
-              ml={2}
-            >
-              51
-            </Flex>
-          </ChakraLink>
-        ))}
-      </Flex> */}
+            Placed Orders
+          </TableCaption>
+          <Thead>
+            <Tr>
+              <Th></Th>
+              <Th>BUYER</Th>
+              <Th>GIG</Th>
+              <Th>DUE ON</Th>
+              <Th>TOTAL</Th>
+              <Th>NOTE</Th>
+              <Th isNumeric>STATUS</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {createdOrders.map((el, i) => (
+              <Tr key={i}>
+
+              </Tr>
+            ))}
+            {/* {data.map((el, i) => (
+              <OrderRow el={el} key={i} />
+            ))} */}
+          </Tbody>
+        </Table>
+      </Box>
+
       <Box borderWidth="1px" borderColor="gray.100" rounded="md">
         <Table variant="simple">
           <TableCaption
@@ -98,7 +91,7 @@ const Orders = () => {
             borderBottomWidth="1px"
             borderBottomColor="gray.100"
           >
-            Active Orders
+            Recieved Orders
           </TableCaption>
           <Thead>
             <Tr>
