@@ -22,6 +22,7 @@ import { getLocalAccessToken } from './helpers';
 import useAuthStore from './store';
 import GigUpdate from './pages/gig/GigUpdate';
 import Search from './pages/Search';
+import UpdateProfile from './pages/profile/UpdateProfile';
 
 const App = () => {
   const {setAccessToken} = useAuthStore()
@@ -33,6 +34,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/profile/update" exact component={UpdateProfile} />
           <Route path="/profile/:username" exact component={Profile} />
           <Route path="/signup" exact component={Signup} />
           <Route path="/signin" exact component={Signin} />

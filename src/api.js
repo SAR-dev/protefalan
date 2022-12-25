@@ -420,3 +420,14 @@ export function getReceivedOrders() {
       return { error: err.response.data };
     });
 }
+
+export function updateAccount(data) {
+  return axios
+    .put(`/account/update/`, data, formdataConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
