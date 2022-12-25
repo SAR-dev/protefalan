@@ -45,8 +45,8 @@ const Orders = () => {
           />
           <Input type="text" placeholder="Search orders..." />
         </InputGroup>
-      {/* </Flex>
-      <Flex
+      </Flex>
+      {/* <Flex
         alignItems="center"
         borderBottomWidth="1px"
         borderBottomColor="gray.200"
