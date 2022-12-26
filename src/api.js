@@ -26,7 +26,8 @@ const formdataConfig = () => {
   const unAuthConfig = {
     baseURL: `${import.meta.env.VITE_API_URL}/api`,
     headers: {
-      "Authorization": `Bearer ${getLocalAccessToken()}`
+      "Authorization": `Bearer ${getLocalAccessToken()}`,
+      "Content-Type": "multipart/form-data"
     },
   };
   return unAuthConfig;
@@ -289,7 +290,7 @@ export function deletePackage(id) {
     });
 }
 
-export function updateGig({id, data}) {
+export function updateGig({ id, data }) {
   return axios
     .put(`/gig/${id}/update/`, data, defaultConfig())
     .then((res) => {
@@ -300,7 +301,7 @@ export function updateGig({id, data}) {
     });
 }
 
-export function updatePackage({id, data}) {
+export function updatePackage({ id, data }) {
   return axios
     .put(`/package/${id}/update/`, data, defaultConfig())
     .then((res) => {
@@ -424,6 +425,28 @@ export function getReceivedOrders() {
 export function updateAccount(data) {
   return axios
     .put(`/account/update/`, data, formdataConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function getOwnProfile() {
+  return axios
+    .get(`/profile/me/`, formdataConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function postUpdateProfile(data) {
+  return axios
+    .put(`/profile/me/update/`, data, defaultConfig())
     .then((res) => {
       return res.data;
     })

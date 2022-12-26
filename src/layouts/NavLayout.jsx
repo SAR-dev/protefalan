@@ -137,6 +137,7 @@ const NavLayout = ({ children }) => {
                   } />
                 <MenuList>
                   <MenuItem as={Link} to={`/profile/${data.username}`}>Profile</MenuItem>
+                  <MenuItem as={Link} to={`/profile/update`}>Update Profile</MenuItem>
                   <MenuItem onClick={signout}>Sign Out</MenuItem>
                 </MenuList>
               </Menu>

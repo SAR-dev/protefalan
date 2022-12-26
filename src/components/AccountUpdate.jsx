@@ -13,11 +13,13 @@ const AccountUpdate = () => {
     const queryClient = useQueryClient()
     const toast = useToast()
     const [initialized, setInitialized] = useState(false)
+    const [avatarSrc, setAvatarSrc] = useState("")
 
     const {
         handleSubmit,
         register,
         setValue,
+        getValues,
         formState: { errors },
     } = useForm()
 
@@ -51,7 +53,7 @@ const AccountUpdate = () => {
                 });
                 setLoading(false)
             } else {
-                oast({
+                toast({
                     title: "Updated",
                     description: "Account updated.",
                     status: "info",
@@ -61,6 +63,7 @@ const AccountUpdate = () => {
                 });
                 setLoading(false)
                 setInitialized(false)
+                setAvatarSrc("")
                 queryClient.invalidateQueries(["me"])
             }
         })
@@ -74,6 +77,7 @@ const AccountUpdate = () => {
         const files = e.target.files
         if (files.length > 0) {
             setValue('avatar', files[0]);
+            setAvatarSrc(URL.createObjectURL(files[0]))
         }
     }
 
@@ -92,7 +96,7 @@ const AccountUpdate = () => {
     return (
         <Flex maxW={1100} mx="auto">
             <Box mr={10}>
-                <Avatar size="2xl" name="Sayed Rafi">
+                <Avatar size="2xl" src={avatarSrc.length === 0 ? getValues("avatar") : avatarSrc} name="Sayed Rafi">
                     <AvatarBadge as={IconButton} icon={<MdUpload />} colorScheme="green" onClick={handleClick} />
                 </Avatar>
             </Box>
