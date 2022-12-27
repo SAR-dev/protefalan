@@ -21,11 +21,11 @@ import { MdPhone, MdEmail, MdLocationOn } from 'react-icons/md';
 import { BsPerson } from 'react-icons/bs';
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai';
 import { FaGithub, FaDiscord, FaFacebook } from 'react-icons/fa';
-import UnAuthLayout from '../../layouts/UnAuthLayout';
+import GlobalLayout from '../../layouts/GlobalLayout';
 
 export default function UContact() {
   return (
-    <UnAuthLayout>
+    <GlobalLayout>
       <Container
         bg="#9DC4FB"
         maxW="full"
@@ -96,6 +96,6 @@ export default function UContact() {
           </Box>
         </Flex>
       </Container>
-    </UnAuthLayout>
+    </GlobalLayout>
   );
 }

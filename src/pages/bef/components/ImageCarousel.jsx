@@ -16,25 +16,25 @@ const ImageCarousel = ({ h = '320px', items = 1 }) => {
       id: 1,
       title: 'Holiday Success Starts Here',
       desc: 'Head to our Holiday Hub for a head start this season.',
-      image: 'https://i.imgur.com/ltgVgMe.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
     {
       id: 2,
       title: 'Introducung Subscriptions',
       desc: 'High-quality services on-repeat, hassle-free, every time.',
-      image: 'https://i.imgur.com/8M7iy14.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
     {
       id: 3,
       title: 'Reach More Customers Online',
       desc: 'Engage online audiences with social media marketing techniques.',
-      image: 'https://i.imgur.com/qeAQrjp.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
     {
       id: 4,
       title: 'Meet Digital Marketing Goals',
       desc: 'See your social ads bring traffic and results.',
-      image: 'https://i.imgur.com/3KOaJWM.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
   ];
 

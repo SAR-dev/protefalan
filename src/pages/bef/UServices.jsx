@@ -10,7 +10,7 @@ import {
   SimpleGrid,
   Container,
 } from '@chakra-ui/react';
-import UnAuthLayout from '../../layouts/UnAuthLayout';
+import GlobalLayout from '../../layouts/GlobalLayout';
 import HomeAdCarousel from '../../components/HomeAdCarousel';
 import ImageCarousel from './components/ImageCarousel';
 import PopupVideoPlayer from './components/PopupVideoPlayer';
@@ -27,31 +27,31 @@ function UServices() {
     {
       title: '',
       desc: '',
-      image: 'https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
     {
       title: '',
       desc: '',
-      image: 'https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
     {
       title: '',
       desc: '',
-      image: 'https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
     {
       title: '',
       desc: '',
-      image: 'https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
     {
       title: '',
       desc: '',
-      image: 'https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png',
+      image: 'https://i.ibb.co/1X6zLkV/image.png',
     },
   ];
   return (
-    <UnAuthLayout>
+    <GlobalLayout>
       <SimpleGrid columns={1} spacing={24} w="100%">
         <Container maxW="1600px" p={10}>
           <ImageCarousel h="70vh" />
@@ -69,7 +69,7 @@ function UServices() {
           <ImageCardGallery title="Digital Solutions" />
         </Container>
       </SimpleGrid>
-    </UnAuthLayout>
+    </GlobalLayout>
   );
 }
 

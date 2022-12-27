@@ -10,7 +10,7 @@ import {
   SimpleGrid,
   Container,
 } from '@chakra-ui/react';
-import UnAuthLayout from '../../layouts/UnAuthLayout';
+import GlobalLayout from '../../layouts/GlobalLayout';
 import HomeAdCarousel from '../../components/HomeAdCarousel';
 import ImageCarousel from './components/ImageCarousel';
 import PopupVideoPlayer from './components/PopupVideoPlayer';
@@ -23,7 +23,7 @@ import TestimonialCarousel from './components/TestimonialCarousel';
 
 function UProjects() {
   return (
-    <UnAuthLayout>
+    <GlobalLayout>
       <SimpleGrid columns={1} spacing={24} w="100%">
       <Container maxW="1600px" p={10}>
           <ImageCarousel h="70vh" />
@@ -36,7 +36,7 @@ function UProjects() {
             color="white"
             bg2="pink.500"
             color2="white"
-            image="https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png"
+            image="https://i.ibb.co/1X6zLkV/image.png"
             redirect="/u/projects"
           />
         </Container>
@@ -47,7 +47,7 @@ function UProjects() {
             subtitle="Make an incredible logo in minutes"
             bg2="pink.500"
             color2="white"
-            image="https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png"
+            image="https://i.ibb.co/1X6zLkV/image.png"
             redirect="/u/projects"
             flip={true}
           />
@@ -60,7 +60,7 @@ function UProjects() {
             color="white"
             bg2="pink.500"
             color2="white"
-            image="https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png"
+            image="https://i.ibb.co/1X6zLkV/image.png"
             redirect="/u/projects"
           />
         </Container>
@@ -71,7 +71,7 @@ function UProjects() {
             subtitle="Make an incredible logo in minutes"
             bg2="pink.500"
             color2="white"
-            image="https://i.ibb.co/Kb6kKV6/photo-1499951360447-b19be8fe80f5.png"
+            image="https://i.ibb.co/1X6zLkV/image.png"
             redirect="/u/projects"
             flip={true}
           />
@@ -84,7 +84,7 @@ function UProjects() {
           />
         </Container>
       </SimpleGrid>
-    </UnAuthLayout>
+    </GlobalLayout>
   );
 }
 

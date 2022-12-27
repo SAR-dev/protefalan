@@ -25,8 +25,8 @@ const PopupVideoPlayer = ({ h = '320px' }) => {
   const data = {
     title: 'Company Introduction',
     thumbnail:
-      'https://ppchubbub.com/wp-content/uploads/2017/02/Screen-Shot-2017-02-08-at-21.23.34.png',
-    video: 'https://www.youtube.com/watch?v=7G4rT4EX2qU',
+      'https://i.ibb.co/9ghsvGQ/image.png',
+    video: 'https://www.youtube.com/watch?v=qUsm3PCoGIE',
   };
   return (
     <>

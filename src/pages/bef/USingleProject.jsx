@@ -10,7 +10,7 @@ import {
   SimpleGrid,
   Container,
 } from '@chakra-ui/react';
-import UnAuthLayout from '../../layouts/UnAuthLayout';
+import GlobalLayout from '../../layouts/GlobalLayout';
 import HomeAdCarousel from '../../components/HomeAdCarousel';
 import ImageCarousel from './components/ImageCarousel';
 import PopupVideoPlayer from './components/PopupVideoPlayer';
@@ -26,7 +26,7 @@ import ProjectInfo from './components/ProjectInfo';
 
 function USingleProject() {
   return (
-    <UnAuthLayout>
+    <GlobalLayout>
       <SimpleGrid columns={1} spacing={24} w="100%">
         <Container maxW="5xl" p={10}>
           <ImageCarousel h="70vh" />
@@ -37,7 +37,7 @@ function USingleProject() {
           />
         </Container>
       </SimpleGrid>
-    </UnAuthLayout>
+    </GlobalLayout>
   );
 }
 
