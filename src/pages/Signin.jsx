@@ -18,8 +18,8 @@ import { useState } from "react";
 import { signIn } from "../api";
 import { setLocalAccessToken } from "../helpers";
 import useAuthStore from "../store";
-import UnAuthLayout from "../layouts/UnAuthLayout";
-import GlobalLayout from "../layouts/GlobalLayout";
+import UnAuthLayout from "./../layouts/UnAuthLayout";
+import GlobalLayout from "./../layouts/GlobalLayout";
 import { Link } from 'react-router-dom';
 
 const avatars = [
