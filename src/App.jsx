@@ -23,7 +23,7 @@ import useAuthStore from './store';
 import GigUpdate from './pages/gig/GigUpdate';
 import Search from './pages/Search';
 import UpdateProfile from './pages/profile/UpdateProfile';
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 
 const App = () => {
   const { setAccessToken } = useAuthStore()
@@ -31,12 +31,15 @@ const App = () => {
   useEffect(() => {
     const token = getLocalAccessToken()
     if(token){
-    if (Date.now() >= jwt_decode(token).iat * 1000) {
-      removeLocalAccessToken()
-      removeLocalRefreshToken()
-    } else {
-      setAccessToken(getLocalAccessToken())
-    }}
+      setAccessToken(token)
+    }
+    // if(token){
+    // if (Date.now() >= jwt_decode(token).iat * 1000) {
+    //   removeLocalAccessToken()
+    //   removeLocalRefreshToken()
+    // } else {
+    //   setAccessToken(getLocalAccessToken())
+    // }}
   }, [])
 
   return (
