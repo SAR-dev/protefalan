@@ -1,5 +1,5 @@
 import { SimpleGrid, Container } from '@chakra-ui/react';
-import GlobalLayout from '../../layouts/GlobalLayout';
+import GlobalLayout from './../../layouts/GLobalLayout';
 import PopupVideoPlayer from './components/PopupVideoPlayer';
 import CTAwithTitleSubtitle from './components/CTAwithTitleSubtitle';
 import ImageCardCarousel from './components/ImageCardCarousel';

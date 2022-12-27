@@ -1,16 +1,5 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
-import {
-  Container,
-  SimpleGrid,
-  Image,
-  Flex,
-  Heading,
-  Text,
-  Stack,
-  StackDivider,
-  Button,
-  Box,
-} from '@chakra-ui/react';
+import { useState, useCallback } from 'react';
+import { Heading, Text, Box } from '@chakra-ui/react';
 import Gallery from 'react-photo-gallery';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 

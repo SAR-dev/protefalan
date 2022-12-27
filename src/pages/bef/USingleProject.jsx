@@ -1,27 +1,6 @@
-import React, { useState } from 'react';
-import {
-  Flex,
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-  Container,
-} from '@chakra-ui/react';
-import GlobalLayout from '../../layouts/GlobalLayout';
-import HomeAdCarousel from '../../components/HomeAdCarousel';
+import { SimpleGrid, Container } from '@chakra-ui/react';
+import GlobalLayout from './../../layouts/GLobalLayout';
 import ImageCarousel from './components/ImageCarousel';
-import PopupVideoPlayer from './components/PopupVideoPlayer';
-import CTAwithTitleSubtitle from './components/CTAwithTitleSubtitle';
-import ImageCardCarousel from './components/ImageCardCarousel';
-import TextImageRowCard from './components/TextImageRowCard';
-import Associations from './components/Associations';
-import TeamMembers from './components/TeamMembers';
-import TestimonialCarousel from './components/TestimonialCarousel';
-import TextRowCard from './components/TextRowCard';
-import CourseInfo from './components/CourseInfo';
 import ProjectInfo from './components/ProjectInfo';
 
 function USingleProject() {

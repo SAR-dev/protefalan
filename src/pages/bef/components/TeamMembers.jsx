@@ -1,24 +1,6 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Flex,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-} from '@chakra-ui/react';
+import { Box, Flex, Icon, Image, Text, SimpleGrid } from '@chakra-ui/react';
 import { Link as ChakraLink } from '@chakra-ui/react';
-import ItemsCarousel from 'react-items-carousel';
-import { Link } from 'react-router-dom';
-import {
-  FaFacebook,
-  FaGithub,
-  FaInstagram,
-  FaLinkedin,
-  FaTwitter,
-  FaYoutube,
-} from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from 'react-icons/fa';
 
 const TeamMembers = ({ heading, color }) => {
   const data = [

@@ -1,13 +1,4 @@
-import React from 'react';
-import {
-  Box,
-  Button,
-  IconButton,
-  Image,
-  Text,
-  Flex,
-  SimpleGrid,
-} from '@chakra-ui/react';
+import { Box, Button, Text, Flex, SimpleGrid } from '@chakra-ui/react';
 
 const TextRowCard = ({
   h = '50vh',

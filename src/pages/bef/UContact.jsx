@@ -2,14 +2,9 @@ import {
   Container,
   Flex,
   Box,
-  Heading,
   Text,
-  IconButton,
   Button,
   VStack,
-  HStack,
-  Wrap,
-  WrapItem,
   FormControl,
   FormLabel,
   Input,
@@ -17,11 +12,9 @@ import {
   InputLeftElement,
   Textarea,
 } from '@chakra-ui/react';
-import { MdPhone, MdEmail, MdLocationOn } from 'react-icons/md';
 import { BsPerson } from 'react-icons/bs';
-import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai';
-import { FaGithub, FaDiscord, FaFacebook } from 'react-icons/fa';
-import GlobalLayout from '../../layouts/GlobalLayout';
+import { AiOutlinePhone } from 'react-icons/ai';
+import GlobalLayout from './../../layouts/GLobalLayout';
 
 export default function UContact() {
   return (

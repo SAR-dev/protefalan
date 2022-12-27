@@ -143,7 +143,7 @@ const GlobalLayout = ({ children }) => {
                     </HStack>
                 </Flex>
             </Flex>
-            <Box w="100%" maxW="1600px" p={10} mx="auto">
+            <Box w="100%" maxW="1600px" py={10} mx="auto">
                 {children}
             </Box>
             <Footer />

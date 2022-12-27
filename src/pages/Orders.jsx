@@ -2,9 +2,6 @@ import {
   Flex,
   Box,
   Text,
-  Input,
-  InputGroup,
-  InputLeftElement,
   Table,
   Thead,
   Tbody,
@@ -13,15 +10,11 @@ import {
   Td,
   TableCaption,
   Avatar,
-  VStack,
   Button,
   ButtonGroup,
 } from '@chakra-ui/react';
 import NavLayout from '../layouts/NavLayout';
-import { FiSearch } from 'react-icons/fi';
-import { useParams, Link } from 'react-router-dom';
-import { Link as ChakraLink } from '@chakra-ui/react';
-import OrderRow from '../components/OrderRow';
+import { useParams } from 'react-router-dom';
 import { getCreatedOrders, getReceivedOrders } from '../api';
 import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';

@@ -1,17 +1,7 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  Flex,
-  SimpleGrid,
-} from '@chakra-ui/react';
+import { useState } from 'react';
+import { Box, Icon, IconButton, Image, Text, Flex } from '@chakra-ui/react';
 import ItemsCarousel from 'react-items-carousel';
-import { Link } from 'react-router-dom';
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';
-import { CgQuote} from 'react-icons/cg';
 
 const TestimonialCarousel = ({ h = '320px', items = 1, heading }) => {
   const data = [

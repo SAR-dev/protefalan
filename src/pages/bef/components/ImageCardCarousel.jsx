@@ -1,12 +1,5 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-} from '@chakra-ui/react';
+import { useState } from 'react';
+import { Box, Icon, IconButton, Image, Text } from '@chakra-ui/react';
 import ItemsCarousel from 'react-items-carousel';
 import { Link } from 'react-router-dom';
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';

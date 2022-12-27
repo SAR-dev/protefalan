@@ -1,23 +1,4 @@
-import React, { useState } from 'react';
-import {
-  Flex,
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Container,
-} from '@chakra-ui/react';
+import { Flex, Button, Text, Container } from '@chakra-ui/react';
 
 const CTAwithTitleSubtitle = ({
   h = '50vh',

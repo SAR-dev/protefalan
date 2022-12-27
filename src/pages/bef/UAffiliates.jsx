@@ -1,6 +1,6 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
-import GlobalLayout from '../../layouts/GlobalLayout';
+import GlobalLayout from './../../layouts/GLobalLayout';
 
 export default function UAffiliates() {
   return (

@@ -1,16 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import {
-  Container,
-  SimpleGrid,
-  Image,
-  Flex,
-  Heading,
-  Text,
-  Stack,
-  StackDivider,
-  Button,
-  Box,
-} from '@chakra-ui/react';
+import { useRef, useState, useEffect } from 'react';
+import { SimpleGrid, Flex, Heading, Text, Stack, Button, Box } from '@chakra-ui/react';
 import ImageCarousel from './ImageCarousel';
 
 const CourseInfo = ({ title, subtitle, details }) => {

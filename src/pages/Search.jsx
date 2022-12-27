@@ -1,19 +1,7 @@
-import React, { useState } from "react";
-import {
-    Flex,
-    Box,
-    Button,
-    Icon,
-    IconButton,
-    Image,
-    Text,
-    SimpleGrid,
-} from "@chakra-ui/react";
+import { Text, SimpleGrid } from "@chakra-ui/react";
 import NavLayout from "../layouts/NavLayout";
-import HomeAdCarousel from "../components/HomeAdCarousel";
 import SellerCardCarousel from "../components/SellerCardCarousel";
-import { getHomeFeed, searchGig } from "../api";
-import { getRandomColor } from "../helpers";
+import { searchGig } from "../api";
 import { useQuery } from "@tanstack/react-query";
 import AuthLayout from "../layouts/AuthLayout";
 import { useParams } from "react-router-dom";
@@ -60,6 +48,6 @@ function Search() {
             </NavLayout>
         </AuthLayout>
     )
-};
+}
 
 export default Search;

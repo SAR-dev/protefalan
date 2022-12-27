@@ -1,13 +1,4 @@
-import React from 'react';
-import {
-  Box,
-  Button,
-  IconButton,
-  Image,
-  Text,
-  Flex,
-  SimpleGrid,
-} from '@chakra-ui/react';
+import { Box, Button, Image, Text, Flex, SimpleGrid } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 const TextImageRowCard = ({

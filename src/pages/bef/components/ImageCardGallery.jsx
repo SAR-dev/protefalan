@@ -1,14 +1,4 @@
-import React, { useState } from 'react';
-import {
-  Box,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-} from '@chakra-ui/react';
-import ItemsCarousel from 'react-items-carousel';
-import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';
+import { Box, Image, Text, SimpleGrid } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
 const ImageCardGallery = ({ h = '250px', title, redirect }) => {

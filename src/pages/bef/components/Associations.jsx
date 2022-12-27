@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container, Image, SimpleGrid, Text, Box, Flex } from '@chakra-ui/react';
+import { Image, Text, Box, Flex } from '@chakra-ui/react';
 
 const Associations = ({ title }) => {
   const data = [
