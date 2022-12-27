@@ -20,6 +20,7 @@ import { parseError } from "../helpers";
 import useAuthStore from "../store";
 import UnAuthLayout from "../layouts/UnAuthLayout";
 import { Link } from 'react-router-dom';
+import GlobalLayout from "./../layouts/GlobalLayout";
 
 const avatars = [
   {
@@ -84,8 +85,9 @@ function Signup() {
 
   return (
     <UnAuthLayout>
+      <GlobalLayout>
       <Box position={"relative"}>
-        <Container as={SimpleGrid} maxW="7xl" columns={2} spacing={32} py={32}>
+        <Container as={SimpleGrid} maxW="7xl" columns={2} spacing={32} py={24}>
           <Stack spacing={20}>
             <Heading lineHeight={1.1} fontSize="6xl">
               Senior web designers{" "}
@@ -296,6 +298,7 @@ function Signup() {
           style={{ filter: "blur(70px)" }}
         />
       </Box>
+      </GlobalLayout>
     </UnAuthLayout>
   );
 }

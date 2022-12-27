@@ -6,7 +6,6 @@ const UnAuthLayout = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log(getLocalAccessToken());
     if (getLocalAccessToken()) {
       history.goBack();
     }
