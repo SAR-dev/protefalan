@@ -19,7 +19,7 @@ import { signIn } from "../api";
 import { setLocalAccessToken } from "../helpers";
 import useAuthStore from "../store";
 import UnAuthLayout from "./../layouts/UnAuthLayout";
-import GlobalLayout from "./../layouts/GlobalLayout";
+import AllLayout from "./../layouts/AllLayout";
 import { Link } from 'react-router-dom';
 
 const avatars = [
@@ -77,7 +77,7 @@ function Signin() {
 
   return (
     <UnAuthLayout>
-      <GlobalLayout>
+      <AllLayout>
       <Box position={"relative"}>
         <Container as={SimpleGrid} maxW="7xl" columns={2} spacing={32} py={24}>
           <Stack spacing={20}>
@@ -244,7 +244,7 @@ function Signin() {
           style={{ filter: "blur(70px)" }}
         />
       </Box>
-      </GlobalLayout>
+      </AllLayout>
     </UnAuthLayout>
   );
 }

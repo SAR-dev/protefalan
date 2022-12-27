@@ -1,11 +1,11 @@
 import { SimpleGrid, Container } from '@chakra-ui/react';
 import ImageCarousel from './components/ImageCarousel';
 import CourseInfo from './components/CourseInfo';
-import GlobalLayout from './../../layouts/GLobalLayout';
+import AllLayout from './../../layouts/AllLayout';
 
 function USingleCourse() {
   return (
-    <GlobalLayout>
+    <AllLayout>
       <SimpleGrid columns={1} spacing={24} w="100%">
         <Container maxW="5xl" p={10}>
           <ImageCarousel h="70vh" />
@@ -16,7 +16,7 @@ function USingleCourse() {
           />
         </Container>
       </SimpleGrid>
-    </GlobalLayout>
+    </AllLayout>
   );
 }
 

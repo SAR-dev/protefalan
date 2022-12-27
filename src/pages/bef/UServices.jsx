@@ -1,7 +1,7 @@
 import { SimpleGrid, Container } from '@chakra-ui/react';
 import ImageCarousel from './components/ImageCarousel';
 import ImageCardGallery from './components/ImageCardGallery';
-import GlobalLayout from './../../layouts/GLobalLayout';
+import AllLayout from './../../layouts/AllLayout';
 
 function UServices() {
   const data = [
@@ -32,7 +32,7 @@ function UServices() {
     },
   ];
   return (
-    <GlobalLayout>
+    <AllLayout>
       <SimpleGrid columns={1} spacing={24} w="100%">
         <Container maxW="1600px" p={10}>
           <ImageCarousel h="70vh" />
@@ -50,7 +50,7 @@ function UServices() {
           <ImageCardGallery title="Digital Solutions" />
         </Container>
       </SimpleGrid>
-    </GlobalLayout>
+    </AllLayout>
   );
 }
 

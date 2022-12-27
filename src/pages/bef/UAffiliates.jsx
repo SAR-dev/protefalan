@@ -1,10 +1,10 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
 import { InfoIcon } from '@chakra-ui/icons';
-import GlobalLayout from './../../layouts/GLobalLayout';
+import AllLayout from './../../layouts/AllLayout';
 
 export default function UAffiliates() {
   return (
-    <GlobalLayout>
+    <AllLayout>
       <Box textAlign="center" maxW={'4xl'} m={'auto'} py={24}>
         <InfoIcon boxSize={'50px'} color={'blue.500'} />
         <Heading as="h2" size="xl" mt={6} mb={2}>
@@ -16,6 +16,6 @@ export default function UAffiliates() {
           sed diam voluptua.
         </Text>
       </Box>
-    </GlobalLayout>
+    </AllLayout>
   );
 }

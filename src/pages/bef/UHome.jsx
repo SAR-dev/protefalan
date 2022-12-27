@@ -1,5 +1,5 @@
 import { SimpleGrid, Container } from '@chakra-ui/react';
-import GlobalLayout from './../../layouts/GLobalLayout';
+import AllLayout from './../../layouts/AllLayout';
 import PopupVideoPlayer from './components/PopupVideoPlayer';
 import CTAwithTitleSubtitle from './components/CTAwithTitleSubtitle';
 import ImageCardCarousel from './components/ImageCardCarousel';
@@ -9,7 +9,7 @@ import TestimonialCarousel from './components/TestimonialCarousel';
 
 function UHome() {
   return (
-    <GlobalLayout>
+    <AllLayout>
       <SimpleGrid columns={1} spacing={24} w="100%">
         <Container maxW="1600px" p={10}>
           <PopupVideoPlayer h="70vh" />
@@ -57,7 +57,7 @@ function UHome() {
           />
         </Container>
       </SimpleGrid>
-    </GlobalLayout>
+    </AllLayout>
   );
 }
 

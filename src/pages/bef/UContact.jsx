@@ -14,11 +14,11 @@ import {
 } from '@chakra-ui/react';
 import { BsPerson } from 'react-icons/bs';
 import { AiOutlinePhone } from 'react-icons/ai';
-import GlobalLayout from './../../layouts/GLobalLayout';
+import AllLayout from './../../layouts/AllLayout';
 
 export default function UContact() {
   return (
-    <GlobalLayout>
+    <AllLayout>
       <Container
         bg="#9DC4FB"
         maxW="full"
@@ -89,6 +89,6 @@ export default function UContact() {
           </Box>
         </Flex>
       </Container>
-    </GlobalLayout>
+    </AllLayout>
   );
 }

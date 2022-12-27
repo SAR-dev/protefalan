@@ -1,12 +1,12 @@
 import { SimpleGrid, Container } from '@chakra-ui/react';
-import GlobalLayout from './../../layouts/GLobalLayout';
+import AllLayout from './../../layouts/AllLayout';
 import ImageCarousel from './components/ImageCarousel';
 import CTAwithTitleSubtitle from './components/CTAwithTitleSubtitle';
 import TextImageRowCard from './components/TextImageRowCard';
 
 function UProjects() {
   return (
-    <GlobalLayout>
+    <AllLayout>
       <SimpleGrid columns={1} spacing={24} w="100%">
       <Container maxW="1600px" p={10}>
           <ImageCarousel h="70vh" />
@@ -67,7 +67,7 @@ function UProjects() {
           />
         </Container>
       </SimpleGrid>
-    </GlobalLayout>
+    </AllLayout>
   );
 }
 

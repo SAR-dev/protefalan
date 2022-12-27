@@ -28,7 +28,7 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import { Link, useHistory } from "react-router-dom";
 import Footer from "./Footer";
 
-const GlobalLayout = ({ children }) => {
+const AllLayout = ({ children }) => {
     return (
         <Box w="100%" minH="100vh">
             <Flex
@@ -151,4 +151,4 @@ const GlobalLayout = ({ children }) => {
     );
 };
 
-export default GlobalLayout;
+export default AllLayout;
