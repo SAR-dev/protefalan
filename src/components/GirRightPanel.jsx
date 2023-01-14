@@ -23,6 +23,7 @@ const bools = ["prototype", "content_upload", "source_file", "consulatation", "d
 const GigRightPanel = ({ requirements, extra_services, packages }) => {
   const [active, setActive] = useState(packages[0]);
 
+  if(packages.length > 0){
   return (
     <Box d="inline">
       <Box
@@ -102,6 +103,9 @@ const GigRightPanel = ({ requirements, extra_services, packages }) => {
       </Box>
     </Box>
   );
+} else {
+  return <></>
+}
 };
 
 export default GigRightPanel;
