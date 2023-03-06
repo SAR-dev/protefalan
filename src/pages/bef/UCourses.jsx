@@ -9,9 +9,6 @@ function UCourses() {
     <AllLayout>
       <SimpleGrid columns={1} spacing={24} w="100%">
         <Container maxW="1600px" p={10}>
-          <ImageCarousel h="70vh" />
-        </Container>
-        <Container maxW="1600px" p={10}>
           <CTAwithTitleSubtitle
             title="Our Courses"
             subtitle="Upgrade to a curated experience packed with tools and benefits, dedicated to businesses. Upgrade to a curated experience packed with tools and benefits, dedicated to businesses"

@@ -74,7 +74,8 @@
   transform: rotateX(180deg);
 }
 
-.flip-card-front, .flip-card-back {
+.flip-card-front,
+.flip-card-back {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -82,8 +83,7 @@
   backface-visibility: hidden;
 }
 
-.flip-card-front {
-}
+.flip-card-front {}
 
 .flip-card-back {
   transform: rotateX(180deg);
@@ -186,3 +186,20 @@
 /* .empty-icons, .filled-icons {
   display: contents;
 } */
+
+img.background {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  -webkit-filter: blur(10px);
+  /* Safari 6.0 - 9.0 */
+  filter: blur(10px);
+  object-fit: cover;
+}
+
+.react-photo-gallery--gallery img {
+  object-fit: cover;
+}

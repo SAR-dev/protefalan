@@ -42,13 +42,8 @@ const AllLayout = ({ children }) => {
                 <ChakraLink
                     as={Link}
                     to="/"
-                    color="gray.600"
-                    fontWeight="semibold"
-                    _hover={{ color: "teal.500" }}
-                    _focus={{ color: "teal.600" }}
-                    _active={{ color: "teal.600" }}
                 >
-                    Protefalan
+                    <img src="https://i.ibb.co/jT7zj8D/final-file-1.png" style={{height: 40}} />
                 </ChakraLink>
                 <Flex ml="auto" alignItems="center">
                     <HStack spacing={7}>

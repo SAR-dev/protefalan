@@ -3,38 +3,13 @@ import { Box, Icon, IconButton, Image } from '@chakra-ui/react';
 import ItemsCarousel from 'react-items-carousel';
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from 'react-icons/ai';
 
-const ImageCarousel = ({ h = '320px', items = 1 }) => {
-  const data = [
-    {
-      id: 1,
-      title: 'Holiday Success Starts Here',
-      desc: 'Head to our Holiday Hub for a head start this season.',
-      image: 'https://i.ibb.co/1X6zLkV/image.png',
-    },
-    {
-      id: 2,
-      title: 'Introducung Subscriptions',
-      desc: 'High-quality services on-repeat, hassle-free, every time.',
-      image: 'https://i.ibb.co/1X6zLkV/image.png',
-    },
-    {
-      id: 3,
-      title: 'Reach More Customers Online',
-      desc: 'Engage online audiences with social media marketing techniques.',
-      image: 'https://i.ibb.co/1X6zLkV/image.png',
-    },
-    {
-      id: 4,
-      title: 'Meet Digital Marketing Goals',
-      desc: 'See your social ads bring traffic and results.',
-      image: 'https://i.ibb.co/1X6zLkV/image.png',
-    },
-  ];
-
+const ImageCarousel = ({ h = '320px', images = [], items = 1, objectFit="contain" }) => {
+  const [data, setData] = useState(images)
   const [activeItemIndex, setActiveItemIndex] = useState(0);
 
   return (
     <Box h={h} w="100%" overflow="hidden" role="group">
+      {images.length !== 0 && (
       <ItemsCarousel
         requestToChangeActive={setActiveItemIndex}
         activeItemIndex={activeItemIndex}
@@ -61,17 +36,22 @@ const ImageCarousel = ({ h = '320px', items = 1 }) => {
         }
       >
         {data.map((el, i) => (
-          <Box w="100%" pos="relative" key={i}>
+          <Box w="100%" pos="relative" rounded="md" key={i}>
+            <Image
+              className="background"
+              src={el}
+            />
             <Image
               h={h}
               w="100%"
               rounded="md"
-              objectFit="cover"
-              src={el.image}
+              objectFit={objectFit}
+              src={el}
             />
           </Box>
         ))}
       </ItemsCarousel>
+      )}
     </Box>
   );
 };

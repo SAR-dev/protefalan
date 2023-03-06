@@ -1,4 +1,4 @@
-import { Flex, Button, Text, Container } from '@chakra-ui/react';
+import { Flex, Button, Text, Container, Box } from '@chakra-ui/react';
 
 const CTAwithTitleSubtitle = ({
   h = '50vh',
@@ -8,7 +8,9 @@ const CTAwithTitleSubtitle = ({
   title,
   subtitle,
   details,
-  redirect
+  moreDetails,
+  redirect,
+  maxW="3xl"
 }) => {
   return (
     <Flex
@@ -20,12 +22,13 @@ const CTAwithTitleSubtitle = ({
       color={color}
       rounded="md"
     >
-      <Container maxW="3xl">
+      <Container maxW={maxW}>
         <Text fontSize="5xl" fontWeight="bold" mb={5}>
           {title}
         </Text>
         <Text fontSize="lg">{subtitle}</Text>
         {details && <Text fontSize="lg" mt={3}>{details}</Text>}
+        {moreDetails && <Text fontSize="lg" mt={3}>{moreDetails}</Text>}
         {redirect && <Button colorScheme="blue" mt={5}>Create Account</Button>}
       </Container>
     </Flex>

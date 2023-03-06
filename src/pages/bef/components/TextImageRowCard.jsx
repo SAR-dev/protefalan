@@ -8,6 +8,7 @@ const TextImageRowCard = ({
   color2,
   title,
   subtitle,
+  description = "",
   image,
   flip = false,
   button = false,
@@ -26,17 +27,13 @@ const TextImageRowCard = ({
             {subtitle}
           </Text>
           <Text my={5}>
-            A team of Fiverr Business Success Managers is here to help match you
-            with the best talent for your team - no need for endless guessing
-            and interviews. A team of Fiverr Business Success Managers is here
-            to help match you with the best talent for your team - no need for
-            endless guessing and interviews.
+            {description}
           </Text>
           {button && (
             <Button
               colorScheme="blue"
               as={redirect && Link}
-              to={redirect && `${redirect}/1`}
+              to={redirect && `${redirect}`}
             >
               View Project
             </Button>

@@ -3,49 +3,24 @@ import { Heading, Text, Box } from '@chakra-ui/react';
 import Gallery from 'react-photo-gallery';
 import Carousel, { Modal, ModalGateway } from 'react-images';
 
-const CourseInfo = ({ title, subtitle, details }) => {
-  const photos = [
-    {
-      src: 'https://source.unsplash.com/2ShvY8Lf6l0/800x599',
-      width: 4,
+function generatePhotosArray(photoUrls) {
+  const photos = [];
+
+  photoUrls.forEach((url) => {
+    const photo = {
+      src: url,
+      width: 3,
       height: 3,
-    },
-    {
-      src: 'https://source.unsplash.com/Dm-qxdynoEc/800x799',
-      width: 1,
-      height: 1,
-    },
-    {
-      src: 'https://source.unsplash.com/qDkso9nvCg0/600x799',
-      width: 3,
-      height: 4,
-    },
-    {
-      src: 'https://source.unsplash.com/iecJiKe_RNg/600x799',
-      width: 3,
-      height: 4,
-    },
-    {
-      src: 'https://source.unsplash.com/epcsn8Ed8kY/600x799',
-      width: 3,
-      height: 4,
-    },
-    {
-      src: 'https://source.unsplash.com/NQSWvyVRIJk/800x599',
-      width: 4,
-      height: 3,
-    },
-    {
-      src: 'https://source.unsplash.com/zh7GEuORbUw/600x799',
-      width: 3,
-      height: 4,
-    },
-    {
-      src: 'https://source.unsplash.com/PpOHJezOalU/800x599',
-      width: 4,
-      height: 3,
-    },
-  ];
+    };
+
+    photos.push(photo);
+  });
+
+  return photos;
+}
+
+
+const CourseInfo = ({ title, subtitle, details, photos = [] }) => {
 
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
@@ -99,13 +74,13 @@ const CourseInfo = ({ title, subtitle, details }) => {
 
   return (
     <>
-      <Box py={10} mb={16}>
+      <Box pb={10} mb={16}>
         <Heading mb={5}>{title}</Heading>
         <Text fontSize="lg">{subtitle}</Text>
         <Text fontSize="lg" my={5}>
           {details}
         </Text>
-        <Gallery photos={photos} onClick={openLightbox} />
+        <Gallery photos={generatePhotosArray(photos)} onClick={openLightbox} />
         <Box mt={10}>
           <Heading mb={5}>Events & Timeline</Heading>
           <Box w="100%" bg="gray.200" rounded="md" p={5} pos={'relative'}>
@@ -141,9 +116,7 @@ const CourseInfo = ({ title, subtitle, details }) => {
             <Carousel
               currentIndex={currentImage}
               views={photos.map(x => ({
-                ...x,
-                srcset: x.srcSet,
-                caption: x.title,
+                src: x
               }))}
             />
           </Modal>
