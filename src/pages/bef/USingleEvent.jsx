@@ -32,7 +32,6 @@ function USingleEvent() {
         mx={"auto"}
         my={5}
       >
-        <Text mb={5} fontSize="2xl" fontWeight={600}>Explore other events too</Text>
         <EventList />
       </Box>
     </AllLayout>

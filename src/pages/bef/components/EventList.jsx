@@ -38,17 +38,30 @@ function EventList() {
         )
     }
 
+    if (data.error || isError) {
+        return (
+            <div></div>
+        )
+    }
+
     return (
-        <SimpleGrid columns={4} spacing={3}>
-            {data.results.map((el, i) => (
-                <Box border="1px solid #ccc" rounded="md" _hover={{ bg: "gray.100" }} p={3} as={Link} to={`/u/events/${el.slug}`} key={i}>
-                    <Image pointerEvents="none" w="100%" rounded="md" src={el.image} />
-                    <Text my={2} fontWeight={600}>{el.title}</Text>
-                    <Text fontSize="xs">{formatDate(el.event_start_date)} - {formatDate(el.event_end_date)} : {formatTime(el.event_time_from)} - {formatTime(el.event_time_to)}</Text>
-                    <Text fontSize="xs">Dhaka</Text>
-                </Box>
-            ))}
-        </SimpleGrid>
+        <>
+            {data && data.results && (
+                <>
+                    <Text mb={5} fontSize="2xl" fontWeight={600}>Explore other events too</Text>
+                    <SimpleGrid columns={4} spacing={3}>
+                        {data.results.map((el, i) => (
+                            <Box border="1px solid #ccc" rounded="md" _hover={{ bg: "gray.100" }} p={3} as={Link} to={`/u/events/${el.slug}`} key={i}>
+                                <Image pointerEvents="none" w="100%" rounded="md" src={el.image} />
+                                <Text my={2} fontWeight={600}>{el.title}</Text>
+                                <Text fontSize="xs">{formatDate(el.event_start_date)} - {formatDate(el.event_end_date)} : {formatTime(el.event_time_from)} - {formatTime(el.event_time_to)}</Text>
+                                <Text fontSize="xs">{el.location}</Text>
+                            </Box>
+                        ))}
+                    </SimpleGrid>
+                </>
+            )}
+        </>
     )
 }
 

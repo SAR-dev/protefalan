@@ -18,7 +18,7 @@ function UEvents() {
     )
   }
 
-  if(isError) {
+  if(data.error || isError) {
     return(
       <AllLayout>
       <Box textAlign="center" maxW={'4xl'} m={'auto'} py={24}>
@@ -27,9 +27,7 @@ function UEvents() {
           Coming Soon!
         </Heading>
         <Text color={'gray.500'}>
-          Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-          nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
-          sed diam voluptua.
+          There are no events currently. We will come back soon. Stau tuned.
         </Text>
       </Box>
     </AllLayout>
@@ -49,7 +47,6 @@ function UEvents() {
         mx={"auto"}
         my={5}
       >
-        <Text mb={5} fontSize="2xl" fontWeight={600}>Explore other events too</Text>
         <EventList />
       </Box>
     </AllLayout>

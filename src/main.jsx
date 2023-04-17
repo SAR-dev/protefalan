@@ -9,13 +9,21 @@ import "./css/chatscope.css";
 import "./css/braft.css";
 import "./css/datepicker.css";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { extendTheme } from '@chakra-ui/react'
 
 const queryClient = new QueryClient();
+
+const theme = extendTheme({
+  fonts: {
+    heading: `'Inter', sans-serif`,
+    body: `'Inter', sans-serif`,
+  },
+})
 
 ReactDOM.render(
   <StrictMode>
     <ColorModeScript />
-    <ChakraProvider theme={light}>
+    <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <App />
         <ReactQueryDevtools initialIsOpen={false} />
