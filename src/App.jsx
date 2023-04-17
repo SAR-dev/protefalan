@@ -14,6 +14,7 @@ import UProjects from './pages/bef/UProjects';
 import UCourses from './pages/bef/UCourses';
 import USingleCourse from './pages/bef/USingleCourse';
 import UContact from './pages/bef/UContact';
+import UEvents from './pages/bef/UEvents';
 import USingleProject from './pages/bef/USingleProject';
 import UAffiliates from './pages/bef/UAffiliates';
 import ChatMessages from './pages/ChatMessages';
@@ -23,6 +24,7 @@ import useAuthStore from './store';
 import GigUpdate from './pages/gig/GigUpdate';
 import Search from './pages/Search';
 import UpdateProfile from './pages/profile/UpdateProfile';
+import USingleEvent from './pages/bef/USingleEvent';
 // import jwt_decode from "jwt-decode";
 
 const App = () => {
@@ -61,6 +63,8 @@ const App = () => {
         <Route path="/u/services" exact component={UServices} />
         <Route path="/u/projects" exact component={UProjects} />
         <Route path="/u/courses" exact component={UCourses} />
+        <Route path="/u/events" exact component={UEvents} />
+        <Route path="/u/events/:slug" exact component={USingleEvent} />
         <Route path="/u/contact" exact component={UContact} />
         <Route path="/u/affiliates" exact component={UAffiliates} />
         <Route path="/u/courses/:slug" exact component={USingleCourse} />

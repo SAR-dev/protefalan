@@ -1,23 +1,5 @@
-import React from 'react';
-import {
-  Flex,
-  Box,
-  Button,
-  Icon,
-  IconButton,
-  Image,
-  Text,
-  SimpleGrid,
-  Grid,
-  GridItem,
-  Avatar,
-  Heading,
-  HStack,
-  Divider,
-} from '@chakra-ui/react';
+import { SimpleGrid, Grid, GridItem } from '@chakra-ui/react';
 import NavLayout from '../layouts/NavLayout';
-import { FaStar, FaUser } from 'react-icons/fa';
-import { MdPlace, MdDateRange } from 'react-icons/md';
 import ProfileBioData from '../components/ProfileBiodata';
 import ProfileGigs from '../components/ProfileGigs';
 import ProfileReviews from '../components/ProfileReviews';

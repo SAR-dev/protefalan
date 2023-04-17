@@ -43,7 +43,7 @@ const AllLayout = ({ children }) => {
                     as={Link}
                     to="/"
                 >
-                    <img src="https://i.ibb.co/jT7zj8D/final-file-1.png" style={{height: 40}} />
+                    <img src="https://i.ibb.co/jT7zj8D/final-file-1.png" style={{ height: 40 }} />
                 </ChakraLink>
                 <Flex ml="auto" alignItems="center">
                     <HStack spacing={7}>
@@ -123,6 +123,17 @@ const AllLayout = ({ children }) => {
                             _active={{ color: "teal.600" }}
                         >
                             Affiliates
+                        </ChakraLink>
+                        <ChakraLink
+                            as={Link}
+                            to="/u/events"
+                            color="gray.600"
+                            fontWeight="semibold"
+                            _hover={{ color: "teal.500" }}
+                            _focus={{ color: "teal.600" }}
+                            _active={{ color: "teal.600" }}
+                        >
+                            Events
                         </ChakraLink>
                         <ChakraLink
                             as={Link}

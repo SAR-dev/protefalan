@@ -454,3 +454,36 @@ export function postUpdateProfile(data) {
       return { error: err.response.data };
     });
 }
+
+export function getLatestEvent() {
+  return axios
+    .get(`/event/latest/`, unauthConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function getSingleEvent(slug) {
+  return axios
+    .get(`/event/${slug}/`, unauthConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
+
+export function getEvents() {
+  return axios
+    .get(`/event/list/`, unauthConfig())
+    .then((res) => {
+      return res.data;
+    })
+    .catch((err) => {
+      return { error: err.response.data };
+    });
+}
